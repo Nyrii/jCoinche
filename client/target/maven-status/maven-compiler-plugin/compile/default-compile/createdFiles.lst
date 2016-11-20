@@ -1,0 +1,16 @@
+com/jcoincheclient/protobuf/AddressBookProtos$AddressBook$1.class
+com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneNumber$1.class
+com/jcoincheclient/protobuf/AddressBookProtos$PersonOrBuilder.class
+com/jcoincheclient/protobuf/AddressBookProtos$AddressBook$Builder.class
+com/jcoincheclient/protobuf/AddressBookProtos$1.class
+com/jcoincheclient/protobuf/AddressBookProtos.class
+com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneType.class
+com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneType$1.class
+com/jcoincheclient/protobuf/AddressBookProtos$Person$1.class
+com/jcoincheclient/protobuf/AddressBookProtos$AddressBookOrBuilder.class
+com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneNumber.class
+com/jcoincheclient/protobuf/AddressBookProtos$AddressBook.class
+com/jcoincheclient/protobuf/AddressBookProtos$Person$Builder.class
+com/jcoincheclient/protobuf/AddressBookProtos$Person.class
+com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneNumber$Builder.class
+com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneNumberOrBuilder.class
