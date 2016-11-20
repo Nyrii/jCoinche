@@ -11,43 +11,24 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-import static com.sun.tools.classfile.Opcode.get;
-
 /**
  * Created by Saursinet on 16/11/2016.
  */
 public class SecureChatServerHandler extends SimpleChannelInboundHandler<String> {
 
-    static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    static final ChannelGroup clientSocket = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     static ArrayList nameClient = new ArrayList();
 
-    private void addElem(String id, String name) {
-        for (int i = 0; i < nameClient.size(); i++) {
-            if (id.contains((String) nameClient.get(i))) {
-                nameClient.set(i, name);
-            }
-        }
-    }
-
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
-        // Once session is secured, send a greeting and register the channel to the global channel
-        // list so the channel received the messages from others.
         ctx.pipeline().get(SslHandler.class).handshakeFuture().addListener(
                 new GenericFutureListener<Future<Channel>>() {
                     @Override
                     public void operationComplete(Future<Channel> future) throws Exception {
-                        ctx.writeAndFlush(
-                                "Welcome to " + InetAddress.getLocalHost().getHostName() + " secure chat service!\n");
-                        ctx.writeAndFlush(
-                                "Your session is protected by " +
-                                        ctx.pipeline().get(SslHandler.class).engine().getSession().getCipherSuite() +
-                                        " cipher suite.\n");
-
-                        channels.add(ctx.channel());
-                        System.out.println(ctx.toString());
-                        String [] tokens = ctx.toString().split(" ");
+                        ctx.writeAndFlush("Welcome to jCoinche game hosted by " + InetAddress.getLocalHost().getHostName() + "!\n");
+                        clientSocket.add(ctx.channel());
+                        String[] tokens = ctx.toString().split(" ");
                         boolean isId = false;
                         for (String t : tokens) {
                             if (isId) {
@@ -65,26 +46,21 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        // Send the received message to all channels but the current one.
-        for (Channel c: channels) {
+        for (Channel c: clientSocket) {
             if (c != ctx.channel()) {
                 c.writeAndFlush("[" + ctx.channel().remoteAddress() + "] " + msg + '\n');
             } else {
-                if (msg.toLowerCase().contains("name:".toLowerCase())) {
-                    addElem(ctx.toString(), msg);
-                }
-                c.writeAndFlush("[you] " + msg + '\n');
+                if (!AnswerToClient.interprete(this, nameClient, ctx, msg))
+                    c.writeAndFlush("[you] " + msg + '\n');
             }
         }
 
-        System.out.println("toto");
         for (int i = 0; i < nameClient.size(); i++) {
             System.out.println(nameClient.get(i));
         }
-        System.out.println("tutu");
+        System.out.println("");
 
-        // Close the connection if the client has sent 'bye'.
-        if ("bye".equals(msg.toLowerCase())) {
+        if ("quit".equals(msg.toLowerCase())) {
             ctx.close();
         }
     }
@@ -93,5 +69,9 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
+    }
+
+    public void setNameClient(ArrayList nameClient) {
+        this.nameClient = nameClient;
     }
 }

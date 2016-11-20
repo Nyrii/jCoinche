@@ -16,20 +16,18 @@ public class Server {
 
     public static void main(String[] args) throws Exception {
         SelfSignedCertificate ssc = new SelfSignedCertificate();
-        SslContext sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey())
-                .build();
+        SslContext sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
 
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        EventLoopGroup gameGroup = new NioEventLoopGroup(1);
         try {
             ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup)
+            b.group(gameGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new chatClientInitializer(sslCtx));
-
             b.bind(PORT).sync().channel().closeFuture().sync();
         } finally {
-            bossGroup.shutdownGracefully();
+            gameGroup.shutdownGracefully();
         }
     }
 
