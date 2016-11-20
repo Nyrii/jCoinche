@@ -21,19 +21,19 @@ import java.net.ConnectException;
 
 public class Connection {
 
-    private String _host = null;
-    private String _port = null;
-    SslContext _secureSocket = null;
-    EventLoopGroup _group = null;
-    Bootstrap _bootstrap = null;
-    Channel _channel = null;
+    static String HOST = null;
+    static String PORT = null;
+    private SslContext _secureSocket = null;
+    private EventLoopGroup _group = null;
+    private Bootstrap _bootstrap = null;
+    private Channel _channel = null;
 
     public String get_host() {
-        return _host;
+        return HOST;
     }
 
     public String get_port() {
-        return _port;
+        return PORT;
     }
 
     public Bootstrap get_bootstrap() {
@@ -53,11 +53,11 @@ public class Connection {
     }
 
     public void set_host(String host) {
-        this._host = host;
+        this.HOST = host;
     }
 
     public void set_port(String port) {
-        this._port = port;
+        this.PORT = port;
     }
 
     public void set_bootstrap(Bootstrap _bootstrap) {
@@ -94,7 +94,7 @@ public class Connection {
             e.printStackTrace();
             throw new ConnectException("Could not get the port.");
         }
-        if (host == null || port == null) {
+        if (host == null || port == null || host.isEmpty() || port.isEmpty()) {
             throw new ConnectException("Invalid port or/and host.");
         }
         set_host(host);
@@ -115,7 +115,7 @@ public class Connection {
 
         // Start the connection attempt.
         try {
-            _channel = _bootstrap.connect(System.getProperty("host", _host), Integer.parseInt(System.getProperty("port", _port))).sync().channel();
+            _channel = _bootstrap.connect(System.getProperty("host", HOST), Integer.parseInt(System.getProperty("port", PORT))).sync().channel();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

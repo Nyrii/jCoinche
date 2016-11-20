@@ -1,3 +1,6 @@
+package com.jcoincheserver.app;
+
+import com.jcoincheserver.protobuf.Player.Person;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -45,25 +48,39 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
     }
 
     @Override
-    public void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        for (Channel c: clientSocket) {
-            if (c != ctx.channel()) {
-                c.writeAndFlush("[" + ctx.channel().remoteAddress() + "] " + msg + '\n');
-            } else {
-                if (!AnswerToClient.interprete(this, nameClient, ctx, msg))
-                    c.writeAndFlush("[you] " + msg + '\n');
-            }
-        }
-
-        for (int i = 0; i < nameClient.size(); i++) {
-            System.out.println(nameClient.get(i));
-        }
-        System.out.println("");
-
-        if ("quit".equals(msg.toLowerCase())) {
-            ctx.close();
-        }
+    public void channelReadComplete(ChannelHandlerContext ctx) {
+        ctx.flush();
     }
+
+    @Override
+    public void channelRead0(ChannelHandlerContext arg0, String i) throws Exception {
+        // TODO Auto-generated method stub
+//        byte[] bFile = i.toByteArray();
+        System.out.println("MDR");
+        System.out.println(i);
+
+    }
+
+//    @Override
+//    public void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+//        for (Channel c: clientSocket) {
+//            if (c != ctx.channel()) {
+//                c.writeAndFlush("[" + ctx.channel().remoteAddress() + "] " + msg + '\n');
+//            } else {
+//                if (!AnswerToClient.interprete(this, nameClient, ctx, msg))
+//                    c.writeAndFlush("[you] " + msg + '\n');
+//            }
+//        }
+//
+//        for (int i = 0; i < nameClient.size(); i++) {
+//            System.out.println(nameClient.get(i));
+//        }
+//        System.out.println("");
+//
+//        if ("quit".equals(msg.toLowerCase())) {
+//            ctx.close();
+//        }
+//    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
