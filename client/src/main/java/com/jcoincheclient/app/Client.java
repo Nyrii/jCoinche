@@ -1,5 +1,6 @@
 package com.jcoincheclient.app;
 
+import com.jcoincheclient.protobuf.Player.Person;
 import io.netty.channel.ChannelFuture;
 
 import java.io.BufferedReader;
@@ -13,27 +14,8 @@ import java.net.ConnectException;
 
 
 public class Client {
-    static final String HOST = System.getProperty("host", "10.10.250.98");
-    static final int PORT = Integer.parseInt(System.getProperty("port", "8992"));
-
     public static void main(String[] args) throws InterruptedException {
-//        Player.Person.Builder person = Player.Person.newBuilder();
-//        System.out.println("Enter name: ");
-//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-//        try {
-//            String mdr = reader.readLine();
-//            System.out.println(mdr);
-//            person.setName(mdr);
-//            System.out.println(person.getName());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
-
-
         Connection connection = new Connection();
-
         try {
             connection.requestHostAndPort();
             System.out.println("Waiting for the server's answer...");
@@ -45,16 +27,31 @@ public class Client {
         }
 
 
-
-
-
-
+        Person person = Person.newBuilder().setName("Coucou").build();
+        connection.get_channel().writeAndFlush(person);
+        System.out.println("bonjour");
         try {
             // Read commands from the stdin.
             ChannelFuture lastWriteFuture = null;
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+            String line = null;
             for (;;) {
-                String line = null;
+                try {
+                    line = in.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (line != null) {
+//                    Player lol = person.setName(line).build();
+                    lastWriteFuture = connection.get_channel().writeAndFlush(person);
+//                    person.build().writeTo(connection.get_channel());
+                    break;
+                }
+            }
+            System.out.println("name = " + person.getName());
+
+            for (;;) {
+                line = null;
                 try {
                     line = in.readLine();
                 } catch (IOException e) {
@@ -65,18 +62,18 @@ public class Client {
                 }
 
                 // Sends the received line to the server.
-                lastWriteFuture = connection.get_channel().writeAndFlush(line + "\n");
+                lastWriteFuture = connection.get_channel().writeAndFlush(line + "\r\n");
 
                 // If user typed the 'bye' command, wait until the server closes
                 // the connection.
-                if ("bye".equals(line.toLowerCase())) {
-                    try {
-                        connection.get_channel().closeFuture().sync();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                }
+//                if ("bye".equals(line.toLowerCase())) {
+//                    try {
+//                        connection.get_channel().closeFuture().sync();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    break;
+//                }
             }
 
             // Wait until all messages are flushed before closing the channel.

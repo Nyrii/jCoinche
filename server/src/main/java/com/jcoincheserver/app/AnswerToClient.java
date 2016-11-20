@@ -1,3 +1,5 @@
+package com.jcoincheserver.app;
+
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.ArrayList;
