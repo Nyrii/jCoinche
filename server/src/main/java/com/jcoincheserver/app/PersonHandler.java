@@ -1,6 +1,6 @@
 package com.jcoincheserver.app;
 
-import com.jcoincheserver.protobuf.Player.Person;
+import com.jcoincheserver.protobuff.Player.Person;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
