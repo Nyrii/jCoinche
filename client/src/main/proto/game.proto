@@ -14,6 +14,30 @@ option csharp_namespace = "Google.Protobuf.jcoincheclient.protobuf";
 
 // [START messages]
 message Answer {
-    string name = 1;
-    int32 id = 2;
+    string request = 1;
+    enum Type {
+        PLAYER = 0;
+        BIDDING = 1;
+        GAME = 2;
+    }
+
+    // Identifies which field is filled in.
+    Type type = 2;
+
+    // One of the following will be filled in.
+    Player player = 3;
+    Bidding bidding = 4;
+    GameProgress game = 5;
+}
+
+message Player {
+    string test = 1;
+}
+
+message Bidding {
+    string test = 1;
+}
+
+message GameProgress {
+    string test = 1;
 }
