@@ -14,7 +14,8 @@ option csharp_namespace = "Google.Protobuf.jcoincheserver.protobuf";
 
 // [START messages]
 message Answer {
-    string name = 1;
+    string request = 1;
+    int32 code = 2;
     enum Type {
         PLAYER = 0;
         BIDDING = 1;
@@ -22,22 +23,53 @@ message Answer {
     }
 
     // Identifies which field is filled in.
-    Type type = 2;
+    Type type = 3;
 
     // One of the following will be filled in.
-    Player player = 3;
-    Bidding bid = 4;
-    GameProcess game = 5;
+    Player player = 4;
+    Bidding bidding = 5;
+    GameProgress game = 6;
 }
 
 message Player {
-    string test = 1;
+    string name = 1;
 }
 
 message Bidding {
-    string test = 1;
+    bool bid = 1;
+    int32 amount = 2;
+    enum Options {
+        HEARTS = 0;
+        SPADES = 1;
+        CLUBS = 2;
+        DIAMONDS = 3;
+        TA = 4;
+        SA = 5;
+    }
+    Options option = 3;
+    bool coinche = 4;
+    bool surcoinche = 5;
 }
 
-message GameProcess {
-    string test = 1;
+message GameProgress {
+    string command = 1;
+    enum CardType {
+        HEARTS = 0;
+        SPADES = 1;
+        CLUBS = 2;
+        DIAMONDS = 3;
+    }
+    enum CardValue {
+        SEVEN = 0;
+        EIGHT = 1;
+        NINE = 2;
+        TEN = 3;
+        JACK = 4;
+        QUEEN = 5;
+        KING = 6;
+        AS = 7;
+    }
+    CardType cardType = 2;
+    CardValue cardValue = 3;
+    string argument = 4;
 }

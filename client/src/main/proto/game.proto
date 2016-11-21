@@ -15,7 +15,7 @@ option csharp_namespace = "Google.Protobuf.jcoincheclient.protobuf";
 // [START messages]
 message Answer {
     string request = 1;
-    int code = 2;
+    int32 code = 2;
     enum Type {
         PLAYER = 0;
         BIDDING = 1;
