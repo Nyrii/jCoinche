@@ -1,29 +1,33 @@
 package com.jcoincheserver.app;
 
-import com.jcoincheserver.protobuff.Player.Person;
-import io.netty.channel.Channel;
+import com.jcoincheserver.protobuf.Game.Answer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.handler.ssl.SslHandler;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
-import io.netty.util.concurrent.GlobalEventExecutor;
-
-import java.net.InetAddress;
-import java.util.ArrayList;
 
 /**
  * Created by noboud_n on 20/11/2016.
  */
-public class PersonHandler extends SimpleChannelInboundHandler<Person>{
+public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
 
     @Override
-    public void channelRead0(ChannelHandlerContext arg0, Person i) throws Exception {
-//        byte[] bFile = i.toByteArray();
-        System.out.println("Par ici frere");
-        System.out.println(i);
+    public void channelRead0(ChannelHandlerContext arg0, Answer answer) throws Exception {
+        switch (answer.getType()) {
+
+            case PLAYER:
+                System.out.println(answer.getPlayer().getTest());
+                break;
+
+            case BIDDING:
+                System.out.println(answer.getBid().getTest());
+                // do the processing
+                break;
+
+            case GAME:
+                System.out.println(answer.getGame().getTest());
+                // do the processing
+                break;
+
+        }
     }
 
     @Override

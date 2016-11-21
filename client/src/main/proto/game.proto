@@ -1,0 +1,43 @@
+// [START declaration]
+syntax = "proto3";
+package protobuf;
+// [END declaration]
+
+// [START java_declaration]
+option java_package = "com.jcoincheclient.protobuf";
+option java_outer_classname = "Game";
+// [END java_declaration]
+
+// [START csharp_declaration]
+option csharp_namespace = "Google.Protobuf.jcoincheclient.protobuf";
+// [END csharp_declaration]
+
+// [START messages]
+message Answer {
+    string request = 1;
+    enum Type {
+        PLAYER = 0;
+        BIDDING = 1;
+        GAME = 2;
+    }
+
+    // Identifies which field is filled in.
+    Type type = 2;
+
+    // One of the following will be filled in.
+    Player player = 3;
+    Bidding bidding = 4;
+    GameProgress game = 5;
+}
+
+message Player {
+    string test = 1;
+}
+
+message Bidding {
+    string test = 1;
+}
+
+message GameProgress {
+    string test = 1;
+}

@@ -1,12 +1,15 @@
 package com.jcoincheclient.app;
 
-import com.jcoincheclient.protobuf.Player.Person;
+import com.jcoincheclient.protobuf.Game.GameProgress;
+import com.jcoincheclient.protobuf.Game.Answer;
 import io.netty.channel.ChannelFuture;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
+
+import static com.jcoincheclient.protobuf.Game.Answer.Type.GAME;
 
 /**
  * Created by noboud_n on 16/11/2016.
@@ -27,9 +30,15 @@ public class Client {
         }
 
 
-        Person person = Person.newBuilder().setName("Coucou").build();
+        Answer person = Answer.newBuilder()
+                            .setRequest("Coucou")
+                            .setType(GAME)
+                            .setGame(GameProgress.newBuilder().setTest("Un test ma gueule"))
+                        .build();
+        System.out.println(person.getGame().getTest());
         connection.get_channel().writeAndFlush(person);
-        System.out.println("bonjour");
+
+
         try {
             // Read commands from the stdin.
             ChannelFuture lastWriteFuture = null;
@@ -48,7 +57,6 @@ public class Client {
                     break;
                 }
             }
-            System.out.println("name = " + person.getName());
 
             for (;;) {
                 line = null;
