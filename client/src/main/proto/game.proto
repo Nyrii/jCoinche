@@ -20,6 +20,7 @@ message Answer {
         PLAYER = 0;
         BIDDING = 1;
         GAME = 2;
+        STANDBY = 3;
     }
 
     // Identifies which field is filled in.

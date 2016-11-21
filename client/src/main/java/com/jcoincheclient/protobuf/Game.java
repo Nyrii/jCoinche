@@ -243,6 +243,10 @@ public final class Game {
        * <code>GAME = 2;</code>
        */
       GAME(2),
+      /**
+       * <code>STANDBY = 3;</code>
+       */
+      STANDBY(3),
       UNRECOGNIZED(-1),
       ;
 
@@ -258,6 +262,10 @@ public final class Game {
        * <code>GAME = 2;</code>
        */
       public static final int GAME_VALUE = 2;
+      /**
+       * <code>STANDBY = 3;</code>
+       */
+      public static final int STANDBY_VALUE = 3;
 
 
       public final int getNumber() {
@@ -281,6 +289,7 @@ public final class Game {
           case 0: return PLAYER;
           case 1: return BIDDING;
           case 2: return GAME;
+          case 3: return STANDBY;
           default: return null;
         }
       }
@@ -3936,28 +3945,29 @@ public final class Game {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\ngame.proto\022\010protobuf\"\343\001\n\006Answer\022\017\n\007req" +
+      "\n\ngame.proto\022\010protobuf\"\360\001\n\006Answer\022\017\n\007req" +
       "uest\030\001 \001(\t\022\014\n\004code\030\002 \001(\005\022#\n\004type\030\003 \001(\0162\025" +
       ".protobuf.Answer.Type\022 \n\006player\030\004 \001(\0132\020." +
       "protobuf.Player\022\"\n\007bidding\030\005 \001(\0132\021.proto" +
       "buf.Bidding\022$\n\004game\030\006 \001(\0132\026.protobuf.Gam" +
-      "eProgress\")\n\004Type\022\n\n\006PLAYER\020\000\022\013\n\007BIDDING" +
-      "\020\001\022\010\n\004GAME\020\002\"\026\n\006Player\022\014\n\004name\030\001 \001(\t\"\302\001\n" +
-      "\007Bidding\022\013\n\003bid\030\001 \001(\010\022\016\n\006amount\030\002 \001(\005\022)\n" +
-      "\006option\030\003 \001(\0162\031.protobuf.Bidding.Options" +
-      "\022\017\n\007coinche\030\004 \001(\010\022\022\n\nsurcoinche\030\005 \001(\010\"J\n",
-      "\007Options\022\n\n\006HEARTS\020\000\022\n\n\006SPADES\020\001\022\t\n\005CLUB" +
-      "S\020\002\022\014\n\010DIAMONDS\020\003\022\006\n\002TA\020\004\022\006\n\002SA\020\005\"\263\002\n\014Ga" +
-      "meProgress\022\017\n\007command\030\001 \001(\t\0221\n\010cardType\030" +
-      "\002 \001(\0162\037.protobuf.GameProgress.CardType\0223" +
-      "\n\tcardValue\030\003 \001(\0162 .protobuf.GameProgres" +
-      "s.CardValue\022\020\n\010argument\030\004 \001(\t\";\n\010CardTyp" +
-      "e\022\n\n\006HEARTS\020\000\022\n\n\006SPADES\020\001\022\t\n\005CLUBS\020\002\022\014\n\010" +
-      "DIAMONDS\020\003\"[\n\tCardValue\022\t\n\005SEVEN\020\000\022\t\n\005EI" +
-      "GHT\020\001\022\010\n\004NINE\020\002\022\007\n\003TEN\020\003\022\010\n\004JACK\020\004\022\t\n\005QU" +
-      "EEN\020\005\022\010\n\004KING\020\006\022\006\n\002AS\020\007BM\n\033com.jcoinchec",
-      "lient.protobufB\004Game\252\002\'Google.Protobuf.j" +
-      "coincheclient.protobufb\006proto3"
+      "eProgress\"6\n\004Type\022\n\n\006PLAYER\020\000\022\013\n\007BIDDING" +
+      "\020\001\022\010\n\004GAME\020\002\022\013\n\007STANDBY\020\003\"\026\n\006Player\022\014\n\004n" +
+      "ame\030\001 \001(\t\"\302\001\n\007Bidding\022\013\n\003bid\030\001 \001(\010\022\016\n\006am" +
+      "ount\030\002 \001(\005\022)\n\006option\030\003 \001(\0162\031.protobuf.Bi" +
+      "dding.Options\022\017\n\007coinche\030\004 \001(\010\022\022\n\nsurcoi",
+      "nche\030\005 \001(\010\"J\n\007Options\022\n\n\006HEARTS\020\000\022\n\n\006SPA" +
+      "DES\020\001\022\t\n\005CLUBS\020\002\022\014\n\010DIAMONDS\020\003\022\006\n\002TA\020\004\022\006" +
+      "\n\002SA\020\005\"\263\002\n\014GameProgress\022\017\n\007command\030\001 \001(\t" +
+      "\0221\n\010cardType\030\002 \001(\0162\037.protobuf.GameProgre" +
+      "ss.CardType\0223\n\tcardValue\030\003 \001(\0162 .protobu" +
+      "f.GameProgress.CardValue\022\020\n\010argument\030\004 \001" +
+      "(\t\";\n\010CardType\022\n\n\006HEARTS\020\000\022\n\n\006SPADES\020\001\022\t" +
+      "\n\005CLUBS\020\002\022\014\n\010DIAMONDS\020\003\"[\n\tCardValue\022\t\n\005" +
+      "SEVEN\020\000\022\t\n\005EIGHT\020\001\022\010\n\004NINE\020\002\022\007\n\003TEN\020\003\022\010\n" +
+      "\004JACK\020\004\022\t\n\005QUEEN\020\005\022\010\n\004KING\020\006\022\006\n\002AS\020\007BM\n\033",
+      "com.jcoincheclient.protobufB\004Game\252\002\'Goog" +
+      "le.Protobuf.jcoincheclient.protobufb\006pro" +
+      "to3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

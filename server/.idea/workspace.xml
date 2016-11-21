@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4dcb6e4-c6b6-4cdf-b5b7-55294e0eb0cb" name="Default" comment="pus">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/Player.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/Client.java" afterPath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/Client.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/ClientHandler.java" afterPath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/ClientHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/Connection.java" afterPath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/Connection.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/protobuf/Game.java" afterPath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/protobuf/Game.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/proto/game.proto" afterPath="$PROJECT_DIR$/../client/src/main/proto/game.proto" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="1f4468f5-cefa-4aa6-866f-16a09abc3025" name="New changelist" comment="" />
@@ -795,7 +793,7 @@
       <workItem from="1479715845485" duration="45000" />
       <workItem from="1479715999611" duration="4137000" />
       <workItem from="1479726738085" duration="1185000" />
-      <workItem from="1479730136425" duration="3910000" />
+      <workItem from="1479730136425" duration="4488000" />
     </task>
     <task id="LOCAL-00001" summary="Push serveur and take identity of players">
       <created>1479335959405</created>
@@ -836,7 +834,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35749000" />
+    <option name="totallyTimeSpent" value="36327000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1101" extended-state="6" />
