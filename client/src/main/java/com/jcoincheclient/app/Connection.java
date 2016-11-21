@@ -24,9 +24,9 @@ public class Connection {
     static String HOST = null;
     static String PORT = null;
     private SslContext _secureSocket = null;
-    private EventLoopGroup _group = null;
+    private static EventLoopGroup _group = null;
     private Bootstrap _bootstrap = null;
-    private Channel _channel = null;
+    private static Channel _channel = null;
 
     public String get_host() {
         return HOST;
@@ -40,11 +40,11 @@ public class Connection {
         return _bootstrap;
     }
 
-    public Channel get_channel() {
+    public static Channel get_channel() {
         return _channel;
     }
 
-    public EventLoopGroup get_group() {
+    public static EventLoopGroup get_group() {
         return _group;
     }
 
