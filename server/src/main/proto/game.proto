@@ -20,6 +20,7 @@ message Answer {
         PLAYER = 0;
         BIDDING = 1;
         GAME = 2;
+        STANDBY = 3;
     }
 
     // Identifies which field is filled in.
@@ -51,8 +52,7 @@ message Bidding {
     bool surcoinche = 5;
 }
 
-message GameProgress {
-    string command = 1;
+message Card {
     enum CardType {
         HEARTS = 0;
         SPADES = 1;
@@ -69,7 +69,17 @@ message GameProgress {
         KING = 6;
         AS = 7;
     }
-    CardType cardType = 2;
-    CardValue cardValue = 3;
-    string argument = 4;
+    CardType cardType = 1;
+    CardValue cardValue = 2;
+}
+
+message GameProgress {
+    string command = 1;
+    string argument = 2;
+    Card card = 3;
+}
+
+message DistributionCard {
+    string partner = 1;
+    repeated Card card = 2;
 }

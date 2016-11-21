@@ -81,7 +81,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
             case PLAYER:
                 System.out.println("player: ");
                 System.out.println(answer.getPlayer());
-                arg0.writeAndFlush(AnswerToClient.setName(this, nameClient, arg0, answer.getPlayer().getName()));
+                arg0.writeAndFlush(AnswerToClient.setName(this, nameClient, arg0, answer.getPlayer().getName().substring(0, answer.getPlayer().getName().length() - 2)));
                 break;
 
             case BIDDING:

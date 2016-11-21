@@ -7,9 +7,7 @@ import org.apache.maven.shared.utils.StringUtils;
 
 import java.util.ArrayList;
 
-import static com.jcoincheserver.protobuf.Game.Answer.Type.BIDDING;
-import static com.jcoincheserver.protobuf.Game.Answer.Type.GAME;
-import static com.jcoincheserver.protobuf.Game.Answer.Type.PLAYER;
+import static com.jcoincheserver.protobuf.Game.Answer.Type.*;
 
 /**
  * Created by Saursinet on 20/11/2016.
@@ -58,6 +56,7 @@ public class AnswerToClient {
     }
 
     public static Game.Answer setName(PersonHandler answerClient, ArrayList nameClient, ChannelHandlerContext ctx, String msg) {
+        System.out.println("[" + msg + "]");
         if (nameAlreadyInUse(nameClient, ctx.toString(), msg)) {
             Game.Answer answer = Game.Answer.newBuilder()
                     .setRequest("nickname is already in use")
@@ -69,7 +68,7 @@ public class AnswerToClient {
             Game.Answer answer = Game.Answer.newBuilder()
                     .setRequest("Nickname changed")
                     .setCode(200)
-                    .setType(PLAYER)
+                    .setType(STANDBY)
                     .build();
             answerClient.setNameClient(nameClient);
             return answer;
