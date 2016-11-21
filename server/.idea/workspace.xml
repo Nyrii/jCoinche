@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4dcb6e4-c6b6-4cdf-b5b7-55294e0eb0cb" name="Default" comment="add class to interpret command from client">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../client/src/main/proto/game.proto" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/proto/game.proto" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/protobuf/AddressBookProtos.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/protobuf/Player.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../client/src/main/proto/adressBook.proto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../client/src/main/proto/player.proto" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" />
+    </list>
+    <list id="1f4468f5-cefa-4aa6-866f-16a09abc3025" name="New changelist" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/../client/target/classes/com/jcoincheclient/app/Client.class" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../client/target/classes/com/jcoincheclient/app/ClientHandler.class" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../client/target/classes/com/jcoincheclient/app/ClientInitializer.class" afterPath="" />
@@ -37,41 +33,7 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/../client/target/classes/com/jcoincheclient/protobuf/Player.class" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../client/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../client/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/protobuff/AddressBookProtos.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/proto/adressBook.proto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/proto/player.proto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/app/AnswerToClient$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/app/AnswerToClient$Function.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/app/AnswerToClient.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/app/SecureChatServerHandler$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/app/SecureChatServerHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/app/Server.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/app/chatClientInitializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$AddressBook$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$AddressBook$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$AddressBook.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$AddressBookOrBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$Person$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$Person$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$Person$PhoneNumber$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$Person$PhoneNumber$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$Person$PhoneNumber.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$Person$PhoneNumberOrBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$Person$PhoneType$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$Person$PhoneType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$Person.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos$PersonOrBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/jcoincheserver/protobuff/AddressBookProtos.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/Client.java" afterPath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/Client.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/ClientHandler.java" afterPath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/ClientHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/ClientInitializer.java" afterPath="$PROJECT_DIR$/../client/src/main/java/com/jcoincheclient/app/ClientInitializer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/PersonHandler.java" afterPath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/PersonHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/SecureChatServerHandler.java" afterPath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/SecureChatServerHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/chatClientInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/chatClientInitializer.java" />
     </list>
     <ignored path="jcoinche-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -79,6 +41,7 @@
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,8 +70,8 @@
       <file leaf-file-name="chatClientInitializer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/chatClientInitializer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="240">
+              <caret line="16" column="3" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -820,6 +783,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b4dcb6e4-c6b6-4cdf-b5b7-55294e0eb0cb" name="Default" comment="" />
+      <changelist id="1f4468f5-cefa-4aa6-866f-16a09abc3025" name="New changelist" comment="" />
       <created>1479313252628</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -831,7 +795,7 @@
       <workItem from="1479680613553" duration="63000" />
       <workItem from="1479680685697" duration="192000" />
       <workItem from="1479715845485" duration="45000" />
-      <workItem from="1479715999611" duration="523000" />
+      <workItem from="1479715999611" duration="630000" />
     </task>
     <task id="LOCAL-00001" summary="Push serveur and take identity of players">
       <created>1479335959405</created>
@@ -861,11 +825,18 @@
       <option name="project" value="LOCAL" />
       <updated>1479679892564</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Created a game.proto and modified the depending code, tests incoming">
+      <created>1479716606310</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1479716606310</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27040000" />
+    <option name="totallyTimeSpent" value="27147000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1101" extended-state="6" />
@@ -937,7 +908,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Push serveur and take identity of players" />
     <MESSAGE value="add class to interpret command from client" />
-    <option name="LAST_COMMIT_MESSAGE" value="add class to interpret command from client" />
+    <MESSAGE value="Created a game.proto and modified the depending code, tests incoming" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created a game.proto and modified the depending code, tests incoming" />
+    <option name="PRESELECT_EXISTING_CHANGELIST" value="false" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1287,8 +1260,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/chatClientInitializer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="240">
+          <caret line="16" column="3" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
