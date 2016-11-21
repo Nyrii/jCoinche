@@ -14,10 +14,11 @@ import static com.jcoincheclient.protobuf.Game.Answer.Type.PLAYER;
  */
 public class Player {
 
-    public static void sendError(String error) {
+    public void sendError(String error) {
         Game.Answer answer = Game.Answer.newBuilder()
                 .setRequest(error)
                 .setCode(-1)
+                .setType(PLAYER)
                 .build();
         Connection.get_channel().writeAndFlush(answer);
         try {
@@ -27,7 +28,7 @@ public class Player {
         }
     }
 
-    public static void askInformations() throws Exception {
+    public void askInformations() throws Exception {
         try {
             ChannelFuture lastWriteFuture = null;
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -39,6 +40,8 @@ public class Player {
                     line = in.readLine();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    sendError("QUIT");
+                    throw new Exception("System error : Could not get the input.");
                 }
 
                 if (line != null && !line.isEmpty() && line.trim().length() > 0) {

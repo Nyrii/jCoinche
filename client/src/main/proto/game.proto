@@ -39,6 +39,11 @@ message Player {
 message Bidding {
     bool bid = 1;
     int32 amount = 2;
+    enum Contract {
+        AMOUNT = 0;
+        CAPOT = 1;
+        GENERALE = 2;
+    }
     enum Options {
         HEARTS = 0;
         SPADES = 1;
@@ -47,13 +52,13 @@ message Bidding {
         TA = 4;
         SA = 5;
     }
-    Options option = 3;
-    bool coinche = 4;
-    bool surcoinche = 5;
+    Contract contract = 3;
+    Options option = 4;
+    bool coinche = 5;
+    bool surcoinche = 6;
 }
 
-message GameProgress {
-    string command = 1;
+message Card {
     enum CardType {
         HEARTS = 0;
         SPADES = 1;
@@ -70,7 +75,17 @@ message GameProgress {
         KING = 6;
         AS = 7;
     }
-    CardType cardType = 2;
-    CardValue cardValue = 3;
-    string argument = 4;
+    CardType cardType = 1;
+    CardValue cardValue = 2;
+}
+
+message GameProgress {
+    string command = 1;
+    string argument = 2;
+    Card card = 3;
+}
+
+message DistributionCard {
+    string partner = 1;
+    repeated Card card = 2;
 }

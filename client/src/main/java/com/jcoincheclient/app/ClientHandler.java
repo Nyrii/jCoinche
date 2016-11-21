@@ -32,7 +32,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<Answer> {
 
         @Override
         public void channelRead0(ChannelHandlerContext arg0, Answer answer) throws Exception {
-//            System.out.println(answer);
+            Player player = new Player();
+
             if (answer.getCode() != -1 && answer.getCode() != 0 && answer.getCode() != 200) {
                 System.err.println(answer.getCode() + " " + answer.getRequest());
             } else if (answer.getCode() == 200) {
@@ -43,7 +44,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Answer> {
                 switch (answer.getType()) {
 
                     case PLAYER:
-                        Player.askInformations();
+                        player.askInformations();
                         break;
 
                     case BIDDING:

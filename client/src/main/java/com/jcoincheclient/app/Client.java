@@ -29,12 +29,11 @@ public class Client {
             System.exit(84);
         }
 
-
-        Answer person = Answer.newBuilder()
-                            .setRequest("Coucou")
-                            .setType(GAME)
-                        .build();
-        connection.get_channel().writeAndFlush(person);
+//        Answer person = Answer.newBuilder()
+//                            .setRequest("Coucou")
+//                            .setType(GAME)
+//                        .build();
+//        connection.get_channel().writeAndFlush(person);
 
 
 //        try {
