@@ -99,6 +99,8 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
 
         }
         play = AnswerToClient.partyCanBegin(nameClient);
+        if (play)
+            CardManager.initCardList();
     }
 
     @Override
