@@ -1,41 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3e0f9de1-fa9f-424b-abeb-62d294c13201" name="Default" comment="Class player pushed.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/src/main/java/com/jcoincheclient/protobuf/AddressBookProtos.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/src/main/java/com/jcoincheclient/protobuf/Player.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/src/main/java/com/jcoincheserver/protobuff/Player.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$AddressBook$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$AddressBook$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$AddressBook.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$AddressBookOrBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$Person$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$Person$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneNumber$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneNumber$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneNumber.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneNumberOrBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneType$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$Person$PhoneType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$Person.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos$PersonOrBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/AddressBookProtos.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/Player$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/Player$Person$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/Player$Person$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/Player$Person.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/Player$PersonOrBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheclient/protobuf/Player.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheserver/app/PersonHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheserver/protobuff/Player$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheserver/protobuff/Player$Person$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheserver/protobuff/Player$Person$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheserver/protobuff/Player$Person.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheserver/protobuff/Player$PersonOrBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/target/classes/com/jcoincheserver/protobuff/Player.class" afterPath="" />
-    </list>
+    <list default="true" id="3e0f9de1-fa9f-424b-abeb-62d294c13201" name="Default" comment="Class player pushed." />
     <ignored path="jcoinche-client.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -701,7 +667,7 @@
       <workItem from="1479680144351" duration="401000" />
       <workItem from="1479680573164" duration="31000" />
       <workItem from="1479680617012" duration="59000" />
-      <workItem from="1479680688572" duration="611000" />
+      <workItem from="1479680688572" duration="687000" />
     </task>
     <task id="LOCAL-00001" summary="Modified pom.xml">
       <created>1479313062708</created>
@@ -728,7 +694,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25110000" />
+    <option name="totallyTimeSpent" value="25186000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1101" extended-state="6" />
