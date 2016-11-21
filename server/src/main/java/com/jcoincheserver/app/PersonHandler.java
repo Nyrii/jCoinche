@@ -1,6 +1,6 @@
 package com.jcoincheserver.app;
 
-import com.jcoincheserver.protobuff.Player.Person;
+import com.jcoincheserver.protobuf.Game.Answer;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -17,10 +17,10 @@ import java.util.ArrayList;
 /**
  * Created by noboud_n on 20/11/2016.
  */
-public class PersonHandler extends SimpleChannelInboundHandler<Person>{
+public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
 
     @Override
-    public void channelRead0(ChannelHandlerContext arg0, Person i) throws Exception {
+    public void channelRead0(ChannelHandlerContext arg0, Answer i) throws Exception {
 //        byte[] bFile = i.toByteArray();
         System.out.println("Par ici frere");
         System.out.println(i);

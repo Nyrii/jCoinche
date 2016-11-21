@@ -4,16 +4,16 @@ package protobuf;
 // [END declaration]
 
 // [START java_declaration]
-option java_package = "com.jcoincheserver.protobuff";
-option java_outer_classname = "Player";
+option java_package = "com.jcoincheserver.protobuf";
+option java_outer_classname = "Game";
 // [END java_declaration]
 
 // [START csharp_declaration]
-option csharp_namespace = "Google.Protobuf.jcoincheserver.protobuff";
+option csharp_namespace = "Google.Protobuf.jcoincheserver.protobuf";
 // [END csharp_declaration]
 
 // [START messages]
-message Person {
+message Answer {
     string name = 1;
     int32 id = 2;
 }

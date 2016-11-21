@@ -1,6 +1,6 @@
 package com.jcoincheclient.app;
 
-import com.jcoincheclient.protobuf.Player.Person;
+import com.jcoincheclient.protobuf.Game.Answer;
 import io.netty.channel.ChannelFuture;
 
 import java.io.BufferedReader;
@@ -27,7 +27,7 @@ public class Client {
         }
 
 
-        Person person = Person.newBuilder().setName("Coucou").build();
+        Answer person = Answer.newBuilder().setName("Coucou").build();
         connection.get_channel().writeAndFlush(person);
         System.out.println("bonjour");
         try {

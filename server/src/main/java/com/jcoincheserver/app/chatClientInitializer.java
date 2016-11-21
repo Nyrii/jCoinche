@@ -1,6 +1,6 @@
 package com.jcoincheserver.app;
 
-import com.jcoincheserver.protobuff.Player.Person;
+import com.jcoincheserver.protobuf.Game.Answer;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -31,7 +31,7 @@ public class chatClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(sslc.newHandler(ch.alloc()));
 
         pipeline.addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
-        pipeline.addLast("protobufDecoder", new ProtobufDecoder(Person.getDefaultInstance()));
+        pipeline.addLast("protobufDecoder", new ProtobufDecoder(Answer.getDefaultInstance()));
         pipeline.addLast("frameEncoder", new ProtobufVarint32LengthFieldPrepender());
         pipeline.addLast("protobufEncoder", new ProtobufEncoder());
 

@@ -1,6 +1,6 @@
 package com.jcoincheclient.app;
 
-import com.jcoincheclient.protobuf.Player.Person;
+import com.jcoincheclient.protobuf.Game.Answer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -11,7 +11,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 /**
  * Handles a client-side channel.
  */
-public class ClientHandler extends SimpleChannelInboundHandler<Person> {
+public class ClientHandler extends SimpleChannelInboundHandler<Answer> {
 
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
@@ -20,7 +20,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Person> {
         }
 
         @Override
-        public void channelRead0(ChannelHandlerContext arg0, Person i) throws Exception {
+        public void channelRead0(ChannelHandlerContext arg0, Answer i) throws Exception {
             System.out.println(i);
         }
 }
