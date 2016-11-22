@@ -102,30 +102,28 @@ public class Bidding {
                 sendError("QUIT");
                 throw new Exception("System error : Could not get the input.");
             }
-            if (line != null && line.isEmpty()) {
-                Answer.Builder answer = Answer.newBuilder();
-//                answer.setBidding(Game.Answer.newBuilder().getBidding().(line + "\r\n").build()); ???? set le contrat
+            if (line != null && !line.isEmpty()) {
+                Game.Answer.Builder answer = Game.Answer.newBuilder();
+                Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
 
-                if (line.toUpperCase().equals("CAPOT") || line.toUpperCase().equals("GENERALE")) {
+                bidding.setBid(true);
 
+
+                if (line.toUpperCase().equals("CAPOT")) {
+                    bidding.setContract(Game.Bidding.Contract.CAPOT);
+                } else if (line.toUpperCase().equals("GENERALE")) {
+                    bidding.setContract(Game.Bidding.Contract.GENERALE);
                 } else {
                     try {
                         Integer amount = Integer.parseInt(line);
-
+                        bidding.setAmount(amount);
+                        bidding.setContract(Game.Bidding.Contract.AMOUNT);
                     } catch (NumberFormatException e) {
                         return false;
                     }
                 }
-            }
-
-            switch (line) {
-
-                case "y":
-                    break;
-
-                case "n":
-                    break;
-
+                System.out.println("Coucou");
+                System.out.println(bidding);
             }
 //                }
 //
