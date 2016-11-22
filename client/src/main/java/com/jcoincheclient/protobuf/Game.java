@@ -2221,6 +2221,11 @@ public final class Game {
      * <code>optional bool surcoinche = 6;</code>
      */
     boolean getSurcoinche();
+
+    /**
+     * <code>optional bool pass = 7;</code>
+     */
+    boolean getPass();
   }
   /**
    * Protobuf type {@code protobuf.Bidding}
@@ -2240,6 +2245,7 @@ public final class Game {
       option_ = 0;
       coinche_ = false;
       surcoinche_ = false;
+      pass_ = false;
     }
 
     @java.lang.Override
@@ -2297,6 +2303,11 @@ public final class Game {
             case 48: {
 
               surcoinche_ = input.readBool();
+              break;
+            }
+            case 56: {
+
+              pass_ = input.readBool();
               break;
             }
           }
@@ -2649,6 +2660,15 @@ public final class Game {
       return surcoinche_;
     }
 
+    public static final int PASS_FIELD_NUMBER = 7;
+    private boolean pass_;
+    /**
+     * <code>optional bool pass = 7;</code>
+     */
+    public boolean getPass() {
+      return pass_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2678,6 +2698,9 @@ public final class Game {
       }
       if (surcoinche_ != false) {
         output.writeBool(6, surcoinche_);
+      }
+      if (pass_ != false) {
+        output.writeBool(7, pass_);
       }
     }
 
@@ -2710,6 +2733,10 @@ public final class Game {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(6, surcoinche_);
       }
+      if (pass_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, pass_);
+      }
       memoizedSize = size;
       return size;
     }
@@ -2736,6 +2763,8 @@ public final class Game {
           == other.getCoinche());
       result = result && (getSurcoinche()
           == other.getSurcoinche());
+      result = result && (getPass()
+          == other.getPass());
       return result;
     }
 
@@ -2761,6 +2790,9 @@ public final class Game {
       hash = (37 * hash) + SURCOINCHE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getSurcoinche());
+      hash = (37 * hash) + PASS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getPass());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2891,6 +2923,8 @@ public final class Game {
 
         surcoinche_ = false;
 
+        pass_ = false;
+
         return this;
       }
 
@@ -2919,6 +2953,7 @@ public final class Game {
         result.option_ = option_;
         result.coinche_ = coinche_;
         result.surcoinche_ = surcoinche_;
+        result.pass_ = pass_;
         onBuilt();
         return result;
       }
@@ -2977,6 +3012,9 @@ public final class Game {
         }
         if (other.getSurcoinche() != false) {
           setSurcoinche(other.getSurcoinche());
+        }
+        if (other.getPass() != false) {
+          setPass(other.getPass());
         }
         onChanged();
         return this;
@@ -3192,6 +3230,32 @@ public final class Game {
       public Builder clearSurcoinche() {
         
         surcoinche_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean pass_ ;
+      /**
+       * <code>optional bool pass = 7;</code>
+       */
+      public boolean getPass() {
+        return pass_;
+      }
+      /**
+       * <code>optional bool pass = 7;</code>
+       */
+      public Builder setPass(boolean value) {
+        
+        pass_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool pass = 7;</code>
+       */
+      public Builder clearPass() {
+        
+        pass_ = false;
         onChanged();
         return this;
       }
@@ -5836,29 +5900,29 @@ public final class Game {
       "eProgress\022)\n\005cards\030\007 \001(\0132\032.protobuf.Dist" +
       "ributionCard\"@\n\004Type\022\010\n\004NONE\020\000\022\n\n\006PLAYER" +
       "\020\001\022\013\n\007BIDDING\020\002\022\010\n\004GAME\020\003\022\013\n\007STANDBY\020\004\"\026" +
-      "\n\006Player\022\014\n\004name\030\001 \001(\t\"\311\002\n\007Bidding\022\013\n\003bi" +
+      "\n\006Player\022\014\n\004name\030\001 \001(\t\"\327\002\n\007Bidding\022\013\n\003bi" +
       "d\030\001 \001(\010\022\016\n\006amount\030\002 \001(\005\022,\n\010contract\030\003 \001(",
       "\0162\032.protobuf.Bidding.Contract\022)\n\006option\030" +
       "\004 \001(\0162\031.protobuf.Bidding.Options\022\017\n\007coin" +
-      "che\030\005 \001(\010\022\022\n\nsurcoinche\030\006 \001(\010\"D\n\010Contrac" +
-      "t\022\023\n\017UNKNOWNCONTRACT\020\000\022\n\n\006AMOUNT\020\001\022\t\n\005CA" +
-      "POT\020\002\022\014\n\010GENERALE\020\003\"]\n\007Options\022\021\n\rUNKNOW" +
-      "NOPTION\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLU" +
-      "BS\020\003\022\014\n\010DIAMONDS\020\004\022\006\n\002TA\020\005\022\006\n\002SA\020\006\"\243\002\n\004C" +
-      "ard\022)\n\010cardType\030\001 \001(\0162\027.protobuf.Card.Ca" +
-      "rdType\022+\n\tcardValue\030\002 \001(\0162\030.protobuf.Car" +
-      "d.CardValue\"P\n\010CardType\022\023\n\017UNKNOWNCARDTY",
-      "PE\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020\003\022" +
-      "\014\n\010DIAMONDS\020\004\"q\n\tCardValue\022\024\n\020UNKNOWNCAR" +
-      "DVALUE\020\000\022\t\n\005SEVEN\020\001\022\t\n\005EIGHT\020\002\022\010\n\004NINE\020\003" +
-      "\022\007\n\003TEN\020\004\022\010\n\004JACK\020\005\022\t\n\005QUEEN\020\006\022\010\n\004KING\020\007" +
-      "\022\006\n\002AS\020\010\"O\n\014GameProgress\022\017\n\007command\030\001 \001(" +
-      "\t\022\020\n\010argument\030\002 \001(\t\022\034\n\004card\030\003 \001(\0132\016.prot" +
-      "obuf.Card\"A\n\020DistributionCard\022\017\n\007partner" +
-      "\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.protobuf.CardBM\n\033" +
-      "com.jcoincheclient.protobufB\004Game\252\002\'Goog" +
-      "le.Protobuf.jcoincheclient.protobufb\006pro",
-      "to3"
+      "che\030\005 \001(\010\022\022\n\nsurcoinche\030\006 \001(\010\022\014\n\004pass\030\007 " +
+      "\001(\010\"D\n\010Contract\022\023\n\017UNKNOWNCONTRACT\020\000\022\n\n\006" +
+      "AMOUNT\020\001\022\t\n\005CAPOT\020\002\022\014\n\010GENERALE\020\003\"]\n\007Opt" +
+      "ions\022\021\n\rUNKNOWNOPTION\020\000\022\n\n\006HEARTS\020\001\022\n\n\006S" +
+      "PADES\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\022\006\n\002TA\020\005" +
+      "\022\006\n\002SA\020\006\"\243\002\n\004Card\022)\n\010cardType\030\001 \001(\0162\027.pr" +
+      "otobuf.Card.CardType\022+\n\tcardValue\030\002 \001(\0162" +
+      "\030.protobuf.Card.CardValue\"P\n\010CardType\022\023\n",
+      "\017UNKNOWNCARDTYPE\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES" +
+      "\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\"q\n\tCardValue" +
+      "\022\024\n\020UNKNOWNCARDVALUE\020\000\022\t\n\005SEVEN\020\001\022\t\n\005EIG" +
+      "HT\020\002\022\010\n\004NINE\020\003\022\007\n\003TEN\020\004\022\010\n\004JACK\020\005\022\t\n\005QUE" +
+      "EN\020\006\022\010\n\004KING\020\007\022\006\n\002AS\020\010\"O\n\014GameProgress\022\017" +
+      "\n\007command\030\001 \001(\t\022\020\n\010argument\030\002 \001(\t\022\034\n\004car" +
+      "d\030\003 \001(\0132\016.protobuf.Card\"A\n\020DistributionC" +
+      "ard\022\017\n\007partner\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.pro" +
+      "tobuf.CardBM\n\033com.jcoincheclient.protobu" +
+      "fB\004Game\252\002\'Google.Protobuf.jcoincheclient",
+      ".protobufb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5889,7 +5953,7 @@ public final class Game {
     internal_static_protobuf_Bidding_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_Bidding_descriptor,
-        new java.lang.String[] { "Bid", "Amount", "Contract", "Option", "Coinche", "Surcoinche", });
+        new java.lang.String[] { "Bid", "Amount", "Contract", "Option", "Coinche", "Surcoinche", "Pass", });
     internal_static_protobuf_Card_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_protobuf_Card_fieldAccessorTable = new

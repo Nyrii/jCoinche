@@ -60,6 +60,7 @@ message Bidding {
     Options option = 4;
     bool coinche = 5;
     bool surcoinche = 6;
+    bool pass = 7;
 }
 
 message Card {

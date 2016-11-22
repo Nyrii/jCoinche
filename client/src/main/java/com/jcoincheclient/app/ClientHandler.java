@@ -1,19 +1,8 @@
 package com.jcoincheclient.app;
 
-import com.jcoincheclient.protobuf.Game;
 import com.jcoincheclient.protobuf.Game.Answer;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
-import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import static com.jcoincheclient.protobuf.Game.Answer.Type.GAME;
-//import static com.jcoincheclient.protobuf.Game.Answer.Type.STANDBY;
-
 
 /**
  * Created by noboud_n on 16/11/2016.
@@ -45,13 +34,13 @@ public class ClientHandler extends SimpleChannelInboundHandler<Answer> {
                 switch (answer.getType()) {
 
                     case PLAYER:
-                        player.askInformations();
-//                        bidding.bid();
+//                        player.askInformations();
+                        bidding.biddingProcess(answer);
                         break;
 
                     case BIDDING:
-                        System.out.println(answer.getBidding());
-                        // do the processing
+                        // missing
+                        bidding.biddingProcess(answer);
                         break;
 
                     case GAME:
