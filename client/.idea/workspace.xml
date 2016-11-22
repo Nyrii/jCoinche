@@ -7,7 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e0f9de1-fa9f-424b-abeb-62d294c13201" name="Default" comment="Client : modified a test for server">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/AnswerToClient.java" afterPath="$PROJECT_DIR$/../server/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/AnswerToClient.java" />
     </list>
     <ignored path="jcoinche-client.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -711,7 +713,7 @@
       <workItem from="1479811457556" duration="447000" />
       <workItem from="1479812540370" duration="1094000" />
       <workItem from="1479818345432" duration="862000" />
-      <workItem from="1479840807914" duration="17000" />
+      <workItem from="1479840807914" duration="529000" />
     </task>
     <task id="LOCAL-00001" summary="Modified pom.xml">
       <created>1479313062708</created>
@@ -752,7 +754,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44192000" />
+    <option name="totallyTimeSpent" value="44704000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1097" extended-state="6" />

@@ -44,27 +44,24 @@ public class AnswerToClient {
 
     public static Game.Answer setName(GameManager answerClient, ArrayList nameClient, ChannelHandlerContext ctx, String msg) {
         if (nameAlreadyInUse(nameClient, ctx.toString(), msg)) {
-            Game.Answer answer = Game.Answer.newBuilder()
+            return Game.Answer.newBuilder()
                     .setRequest("nickname is already in use")
                     .setCode(403)
                     .setType(PLAYER)
                     .build();
-            return answer;
         } else if (addName(nameClient, ctx.toString(), msg)) {
-            Game.Answer answer = Game.Answer.newBuilder()
+            answerClient.setNameClient(nameClient);
+            return Game.Answer.newBuilder()
                     .setRequest("Nickname changed")
                     .setCode(200)
                     .setType(STANDBY)
                     .build();
-            answerClient.setNameClient(nameClient);
-            return answer;
         } else {
-            Game.Answer answer = Game.Answer.newBuilder()
+            return Game.Answer.newBuilder()
                     .setRequest("nickname contains invalid characters or is too short.")
                     .setCode(402)
                     .setType(PLAYER)
                     .build();
-            return answer;
         }
     };
 
