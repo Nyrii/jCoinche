@@ -1,14 +1,14 @@
 package eu.epitech.jcoinche.jcoincheclient.game;
 
-import com.jcoincheclient.protobuf.Game;
 import eu.epitech.jcoinche.jcoincheclient.network.Connection;
+import eu.epitech.jcoinche.jcoincheclient.protobuf.Game;
 import io.netty.channel.ChannelFuture;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.jcoincheclient.protobuf.Game.Answer.Type.PLAYER;
+import static eu.epitech.jcoinche.jcoincheclient.protobuf.Game.Answer.Type.PLAYER;
 
 /**
  * Created by noboud_n on 21/11/2016.

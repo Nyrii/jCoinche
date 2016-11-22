@@ -1,14 +1,13 @@
 package eu.epitech.jcoinche.jcoincheclient.game;
 
-import com.jcoincheclient.protobuf.Game;
-import com.jcoincheclient.protobuf.Game.Answer;
 import eu.epitech.jcoinche.jcoincheclient.network.Connection;
+import eu.epitech.jcoinche.jcoincheclient.protobuf.Game;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.jcoincheclient.protobuf.Game.Answer.Type.BIDDING;
+import static eu.epitech.jcoinche.jcoincheclient.protobuf.Game.Answer.Type.BIDDING;
 
 /**
  * Created by noboud_n on 21/11/2016.
@@ -29,7 +28,7 @@ public class Bidding {
         }
     }
 
-    public void biddingProcess(Answer answer) throws Exception {
+    public void biddingProcess(Game.Answer answer) throws Exception {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             String line = null;
@@ -74,7 +73,7 @@ public class Bidding {
     }
 
 
-    public boolean bid(Answer answer) throws Exception {
+    public boolean bid(Game.Answer answer) throws Exception {
         try {
             Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
             Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
@@ -169,7 +168,7 @@ public class Bidding {
         return true;
     }
 
-    public boolean otherOptions(Answer answer) throws Exception {
+    public boolean otherOptions(Game.Answer answer) throws Exception {
         Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
         Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

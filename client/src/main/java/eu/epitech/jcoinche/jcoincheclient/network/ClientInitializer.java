@@ -1,6 +1,6 @@
 package eu.epitech.jcoinche.jcoincheclient.network;
 
-import com.jcoincheclient.protobuf.Game.Answer;
+import eu.epitech.jcoinche.jcoincheclient.protobuf.Game;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -33,7 +33,7 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
 
         // On top of the SSL handler, add the text line codec.
         pipeline.addLast ("frameDecoder", new ProtobufVarint32FrameDecoder ());
-        pipeline.addLast ("protobufDecoder", new ProtobufDecoder(Answer.getDefaultInstance()));
+        pipeline.addLast ("protobufDecoder", new ProtobufDecoder(Game.Answer.getDefaultInstance()));
         pipeline.addLast ("frameEncoder", new ProtobufVarint32LengthFieldPrepender ());
         pipeline.addLast ("protobufEncoder", new ProtobufEncoder ());
 

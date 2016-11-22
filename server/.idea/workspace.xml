@@ -2,18 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4dcb6e4-c6b6-4cdf-b5b7-55294e0eb0cb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/AnswerToClient.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/GameManager.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/AnswerToClient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/GameManager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/protobuf/Game.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/CardManager.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/CardManager.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/PersonHandler.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/PersonHandler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/Server.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/server/Server.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/chatClientInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/server/ServerInitializer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/proto/game.proto" afterPath="$PROJECT_DIR$/src/main/proto/game.proto" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/eu/epitech/jcoinche/jcoincheclient/app/Client.java" afterPath="$PROJECT_DIR$/../client/src/main/java/eu/epitech/jcoinche/jcoincheclient/app/Client.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/eu/epitech/jcoinche/jcoincheclient/game/Bidding.java" afterPath="$PROJECT_DIR$/../client/src/main/java/eu/epitech/jcoinche/jcoincheclient/game/Bidding.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/eu/epitech/jcoinche/jcoincheclient/game/Player.java" afterPath="$PROJECT_DIR$/../client/src/main/java/eu/epitech/jcoinche/jcoincheclient/game/Player.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/eu/epitech/jcoinche/jcoincheclient/network/ClientHandler.java" afterPath="$PROJECT_DIR$/../client/src/main/java/eu/epitech/jcoinche/jcoincheclient/network/ClientHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../client/src/main/java/eu/epitech/jcoinche/jcoincheclient/network/ClientInitializer.java" afterPath="$PROJECT_DIR$/../client/src/main/java/eu/epitech/jcoinche/jcoincheclient/network/ClientInitializer.java" />
     </list>
     <list id="1f4468f5-cefa-4aa6-866f-16a09abc3025" name="New changelist" comment="" />
     <ignored path="jcoinche-server.iws" />
@@ -42,7 +36,7 @@
           <file leaf-file-name="PersonHandler.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/PersonHandler.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1080">
+                <state relative-caret-position="931">
                   <caret line="74" column="65" selection-start-line="74" selection-start-column="65" selection-end-line="74" selection-end-column="65" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -54,7 +48,7 @@
           <file leaf-file-name="GameManager.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/GameManager.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
+                <state relative-caret-position="900">
                   <caret line="69" column="14" selection-start-line="69" selection-start-column="14" selection-end-line="69" selection-end-column="14" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -78,7 +72,7 @@
           <file leaf-file-name="ServerInitializer.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/server/ServerInitializer.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="405">
+                <state relative-caret-position="255">
                   <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -92,7 +86,7 @@
           <file leaf-file-name="CardManager.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/CardManager.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
+                <state relative-caret-position="30">
                   <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -118,7 +112,7 @@
           <file leaf-file-name="AnswerToClient.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/AnswerToClient.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1531">
+                <state relative-caret-position="15">
                   <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
                   <folding />
                 </state>
@@ -214,7 +208,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1920" />
-    <option name="height" value="1099" />
+    <option name="height" value="1108" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -241,7 +235,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -257,38 +252,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jcoinche-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jcoinche-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -366,44 +329,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="protobuf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jcoinche-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jcoincheserver" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="game" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -856,6 +788,7 @@
       <workItem from="1479818341647" duration="687000" />
       <workItem from="1479824909485" duration="11000" />
       <workItem from="1479825146020" duration="6764000" />
+      <workItem from="1479841044330" duration="149000" />
     </task>
     <task id="LOCAL-00001" summary="Push serveur and take identity of players">
       <created>1479335959405</created>
@@ -910,7 +843,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53735000" />
+    <option name="totallyTimeSpent" value="53884000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -922,32 +855,32 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="1099" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="23" width="1920" height="1108" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960325" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282365" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.5063898" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32576504" sideWeight="0.49361023" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960325" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32619774" sideWeight="0.49361023" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282365" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960325" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1029,14 +962,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/SecureChatServerHandler.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/PersonHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -1050,14 +976,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/proto/player.proto" />
     <entry file="file://$PROJECT_DIR$/src/main/proto/adressBook.proto" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/SecureChatServerHandler.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/PersonHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -1071,14 +990,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/proto/player.proto" />
     <entry file="file://$PROJECT_DIR$/src/main/proto/adressBook.proto" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/SecureChatServerHandler.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/PersonHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -1092,14 +1004,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/proto/player.proto" />
     <entry file="file://$PROJECT_DIR$/src/main/proto/adressBook.proto" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/SecureChatServerHandler.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/PersonHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -1120,14 +1025,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="23" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/SecureChatServerHandler.java" />
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
@@ -1144,14 +1042,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="23" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/SecureChatServerHandler.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/Main.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/jCoincheServer.java" />
@@ -1189,22 +1080,8 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/app/SecureChatServerHandler.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/protobuf/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="37" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheserver/protobuf/Game.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/app/chatClientInitializer.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/server/Server.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1213,14 +1090,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/protobuf/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/protobuf/Game.java" />
     <entry file="file://$PROJECT_DIR$/src/main/proto/game.proto">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -1231,7 +1101,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/AnswerToClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1531">
+        <state relative-caret-position="15">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding />
         </state>
@@ -1239,7 +1109,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/server/ServerInitializer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
+        <state relative-caret-position="255">
           <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1251,7 +1121,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/GameManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
+        <state relative-caret-position="900">
           <caret line="69" column="14" selection-start-line="69" selection-start-column="14" selection-end-line="69" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1263,7 +1133,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/CardManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="30">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1273,7 +1143,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/PersonHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
+        <state relative-caret-position="931">
           <caret line="74" column="65" selection-start-line="74" selection-start-column="65" selection-end-line="74" selection-end-column="65" />
           <folding>
             <element signature="imports" expanded="true" />

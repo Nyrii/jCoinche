@@ -1,6 +1,6 @@
 package eu.epitech.jcoinche.jcoincheclient.network;
 
-import com.jcoincheclient.protobuf.Game.Answer;
+import eu.epitech.jcoinche.jcoincheclient.protobuf.Game;
 import eu.epitech.jcoinche.jcoincheclient.game.Bidding;
 import eu.epitech.jcoinche.jcoincheclient.game.Player;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,7 +13,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 /**
  * Handles a client-side channel.
  */
-public class ClientHandler extends SimpleChannelInboundHandler<Answer> {
+public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
 
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
@@ -22,7 +22,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Answer> {
         }
 
         @Override
-        public void channelRead0(ChannelHandlerContext arg0, Answer answer) throws Exception {
+        public void channelRead0(ChannelHandlerContext arg0, Game.Answer answer) throws Exception {
             Player player = new Player();
             Bidding bidding = new Bidding();
 
@@ -36,8 +36,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<Answer> {
                 switch (answer.getType()) {
 
                     case PLAYER:
-//                        player.askInformations();
-                        bidding.biddingProcess(answer);
+                        player.askInformations();
+//                        bidding.biddingProcess(answer);
                         break;
 
                     case BIDDING:
