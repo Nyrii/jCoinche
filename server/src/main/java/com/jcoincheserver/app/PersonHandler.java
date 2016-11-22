@@ -19,13 +19,7 @@ import java.util.ArrayList;
  */
 public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
 
-    static final ChannelGroup clientSocket = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-
-    static ArrayList nameClient = new ArrayList();
-
-    boolean play = false;
-
-    private int turn = 0;
+    static ArrayList gameRunning = new ArrayList();
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
@@ -41,21 +35,38 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
                                 .setCode(200)
                                 .build();
                         ctx.writeAndFlush(person);
-                        clientSocket.add(ctx.channel());
-                        String[] tokens = ctx.toString().split(" ");
-                        boolean isId = false;
-                        for (String t : tokens) {
-                            if (isId) {
-                                System.out.println("token is " + t);
-                                nameClient.add(t);
-                                isId = false;
-                            }
-                            if (t.toLowerCase().contains("id")) {
-                                isId = true;
-                            }
-                        }
+                        addPersonToGames(ctx);
                     }
                 });
+    }
+
+    private void addPersonToGames(ChannelHandlerContext ctx) {
+        if (gameRunning.size() == 0)
+            gameRunning.add(new GameManager());
+        String[] tokens = ctx.toString().split(" ");
+        boolean isId = false;
+        boolean putInGame = false;
+        String tmp = "";
+        for (String t : tokens) {
+            if (isId) {
+                tmp = t;
+                isId = false;
+            }
+            if (t.toLowerCase().contains("id")) {
+                isId = true;
+            }
+        }
+        for (int i = 0; i < gameRunning.size(); ++i) {
+            if (!((GameManager) gameRunning.get(i)).isFullGame()) {
+                ((GameManager) gameRunning.get(i)).addClient(tmp, ctx);
+                putInGame = true;
+            }
+        }
+        if (!putInGame) {
+            GameManager gm = new GameManager();
+            gm.addClient(tmp, ctx);
+            gameRunning.add(gm);
+        }
     }
 
     @Override
@@ -66,34 +77,30 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
     @Override
     public void channelRead0(ChannelHandlerContext arg0, Answer answer) throws Exception {
         if (answer.getCode() == -1) {
-            System.out.println(getNameFromSocket(arg0) + " just quit the game");
-            sendMessageToAllClient(arg0, getNameFromSocket(arg0) + " just quit the game");
+            GameManager gm;
+            if ((gm = getGameFromChannel(arg0)) != null)
+                 gm.sendMessageToAllPersonInGame(arg0, " just quit the game");
+            System.out.println(arg0.channel().remoteAddress() + " just quit the game");
             arg0.close();
             return ;
         }
-
-        for (int i = 0; i < nameClient.size(); i++) {
-            System.out.println(nameClient.get(i));
-        }
-        System.out.println("");
-
         System.out.println(answer.getAllFields());
         switch (answer.getType()) {
 
             case PLAYER:
                 System.out.println("player: ");
                 System.out.println(answer.getPlayer());
-                arg0.writeAndFlush(AnswerToClient.setName(this, nameClient, arg0, answer.getPlayer().getName().substring(0, answer.getPlayer().getName().length() - 2)));
-                play = AnswerToClient.partyCanBegin(nameClient);
-                if (play && CardManager.initCardList())
-                    CardManager.giveCardToAllPlayers(clientSocket);
+                arg0.writeAndFlush(getGameFromChannel(arg0).setName(arg0, answer.getPlayer().getName().substring(0, answer.getPlayer().getName().length() - 2)));
+                getGameFromChannel(arg0).setPlay(getGameFromChannel(arg0).partyCanBegin());
+                if (getGameFromChannel(arg0).getPlay())
+                    getGameFromChannel(arg0).giveCardToAllPlayers();
                 break;
 
             case BIDDING:
                 System.out.println("biding: ");
                 System.out.println(answer.getBidding());
-                if (play)
-                    arg0.writeAndFlush(AnswerToClient.interpreteBidding(this, nameClient, arg0, answer.getBidding()));
+                if (getGameFromChannel(arg0).getPlay())
+                    arg0.writeAndFlush(getGameFromChannel(arg0).interpreteBidding(arg0, answer.getBidding()));
                 break;
 
             case GAME:
@@ -111,28 +118,12 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
         ctx.close();
     }
 
-    private void sendMessageToAllClient(ChannelHandlerContext arg0, String msg) {
-        for (Channel c: clientSocket) {
-            if (c != arg0.channel()) {
-                c.writeAndFlush("[" + arg0.channel().remoteAddress() + "] " + msg + "\r\n");
-            } else {
-                c.writeAndFlush("[you] " + msg + "\r\n");
-            }
+    private GameManager getGameFromChannel(ChannelHandlerContext ctx) {
+        for (Object gm : gameRunning) {
+            if (((GameManager) gm).isInGame(ctx))
+                return ((GameManager) gm);
         }
-    }
-
-    public void setNameClient(ArrayList nameClient) {
-        this.nameClient = nameClient;
-    }
-
-    private String getNameFromSocket(ChannelHandlerContext ctx) {
-        int i = 0;
-        for (Channel tmp : clientSocket) {
-            if (ctx.channel() == tmp)
-                break ;
-            ++i;
-        }
-        return ((String) nameClient.get(i));
+        return null;
     }
 
 }

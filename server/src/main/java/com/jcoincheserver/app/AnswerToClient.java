@@ -38,7 +38,7 @@ public class AnswerToClient {
 
     private static boolean nameAlreadyInUse(ArrayList nameClient, String id, String name) {
         for (int i = 0; i < nameClient.size(); i++) {
-            if (name.equals((String) nameClient.get(i)))
+            if (name.toLowerCase().equals(((String) nameClient.get(i)).toLowerCase()))
                 return true;
         }
         return false;
@@ -55,7 +55,7 @@ public class AnswerToClient {
         return true;
     }
 
-    public static Game.Answer setName(PersonHandler answerClient, ArrayList nameClient, ChannelHandlerContext ctx, String msg) {
+    public static Game.Answer setName(GameManager answerClient, ArrayList nameClient, ChannelHandlerContext ctx, String msg) {
         if (nameAlreadyInUse(nameClient, ctx.toString(), msg)) {
             Game.Answer answer = Game.Answer.newBuilder()
                     .setRequest("nickname is already in use")
@@ -81,7 +81,7 @@ public class AnswerToClient {
         }
     };
 
-    public static Game.Answer interpreteBidding(PersonHandler answerClient, ArrayList nameClient, ChannelHandlerContext ctx, Game.Bidding bidding) {
+    public static Game.Answer interpreteBidding(ArrayList nameClient, ChannelHandlerContext ctx, Game.Bidding bidding) {
         if (cmd.size() == 0)
             initCmdAndFunctionsList();
 

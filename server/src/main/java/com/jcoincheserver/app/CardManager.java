@@ -13,9 +13,7 @@ import java.util.Random;
 public class CardManager {
     static ArrayList cardList = new ArrayList();
 
-    public static boolean initCardList() {
-        if (cardList.size() != 0)
-            return false;
+    public CardManager() {
         ArrayList typeCardList = new ArrayList();
         ArrayList valueCardList = new ArrayList();
 
@@ -40,7 +38,6 @@ public class CardManager {
                 cardList.add(card);
             }
         }
-        return true;
     }
 
     public static void giveCardToAllPlayers(ChannelGroup clients) {
@@ -61,7 +58,7 @@ public class CardManager {
                     .setCards(cards)
                     .setType(Game.Answer.Type.BIDDING)
                     .setCode(200)
-                    .setRequest("Here is your cards!")
+                    .setRequest("Cards have been distributed!")
                     .build();
             c.writeAndFlush(answer);
         }
