@@ -56,7 +56,6 @@ public class AnswerToClient {
     }
 
     public static Game.Answer setName(PersonHandler answerClient, ArrayList nameClient, ChannelHandlerContext ctx, String msg) {
-        System.out.println("[" + msg + "]");
         if (nameAlreadyInUse(nameClient, ctx.toString(), msg)) {
             Game.Answer answer = Game.Answer.newBuilder()
                     .setRequest("nickname is already in use")

@@ -99,8 +99,9 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
 
         }
         play = AnswerToClient.partyCanBegin(nameClient);
-        if (play)
-            CardManager.initCardList();
+//        if (play)
+        if (CardManager.initCardList())
+            CardManager.giveCardToAllPlayers(clientSocket);
     }
 
     @Override

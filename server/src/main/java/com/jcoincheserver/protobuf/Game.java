@@ -232,40 +232,48 @@ public final class Game {
     public enum Type
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>PLAYER = 0;</code>
+       * <code>NONE = 0;</code>
        */
-      PLAYER(0),
+      NONE(0),
       /**
-       * <code>BIDDING = 1;</code>
+       * <code>PLAYER = 1;</code>
        */
-      BIDDING(1),
+      PLAYER(1),
       /**
-       * <code>GAME = 2;</code>
+       * <code>BIDDING = 2;</code>
        */
-      GAME(2),
+      BIDDING(2),
       /**
-       * <code>STANDBY = 3;</code>
+       * <code>GAME = 3;</code>
        */
-      STANDBY(3),
+      GAME(3),
+      /**
+       * <code>STANDBY = 4;</code>
+       */
+      STANDBY(4),
       UNRECOGNIZED(-1),
       ;
 
       /**
-       * <code>PLAYER = 0;</code>
+       * <code>NONE = 0;</code>
        */
-      public static final int PLAYER_VALUE = 0;
+      public static final int NONE_VALUE = 0;
       /**
-       * <code>BIDDING = 1;</code>
+       * <code>PLAYER = 1;</code>
        */
-      public static final int BIDDING_VALUE = 1;
+      public static final int PLAYER_VALUE = 1;
       /**
-       * <code>GAME = 2;</code>
+       * <code>BIDDING = 2;</code>
        */
-      public static final int GAME_VALUE = 2;
+      public static final int BIDDING_VALUE = 2;
       /**
-       * <code>STANDBY = 3;</code>
+       * <code>GAME = 3;</code>
        */
-      public static final int STANDBY_VALUE = 3;
+      public static final int GAME_VALUE = 3;
+      /**
+       * <code>STANDBY = 4;</code>
+       */
+      public static final int STANDBY_VALUE = 4;
 
 
       public final int getNumber() {
@@ -286,10 +294,11 @@ public final class Game {
 
       public static Type forNumber(int value) {
         switch (value) {
-          case 0: return PLAYER;
-          case 1: return BIDDING;
-          case 2: return GAME;
-          case 3: return STANDBY;
+          case 0: return NONE;
+          case 1: return PLAYER;
+          case 2: return BIDDING;
+          case 3: return GAME;
+          case 4: return STANDBY;
           default: return null;
         }
       }
@@ -502,7 +511,7 @@ public final class Game {
       if (code_ != 0) {
         output.writeInt32(2, code_);
       }
-      if (type_ != com.jcoincheserver.protobuf.Game.Answer.Type.PLAYER.getNumber()) {
+      if (type_ != com.jcoincheserver.protobuf.Game.Answer.Type.NONE.getNumber()) {
         output.writeEnum(3, type_);
       }
       if (player_ != null) {
@@ -528,7 +537,7 @@ public final class Game {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, code_);
       }
-      if (type_ != com.jcoincheserver.protobuf.Game.Answer.Type.PLAYER.getNumber()) {
+      if (type_ != com.jcoincheserver.protobuf.Game.Answer.Type.NONE.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, type_);
       }
@@ -1992,21 +2001,30 @@ public final class Game {
     int getAmount();
 
     /**
-     * <code>optional .protobuf.Bidding.Options option = 3;</code>
+     * <code>optional .protobuf.Bidding.Contract contract = 3;</code>
+     */
+    int getContractValue();
+    /**
+     * <code>optional .protobuf.Bidding.Contract contract = 3;</code>
+     */
+    com.jcoincheserver.protobuf.Game.Bidding.Contract getContract();
+
+    /**
+     * <code>optional .protobuf.Bidding.Options option = 4;</code>
      */
     int getOptionValue();
     /**
-     * <code>optional .protobuf.Bidding.Options option = 3;</code>
+     * <code>optional .protobuf.Bidding.Options option = 4;</code>
      */
     com.jcoincheserver.protobuf.Game.Bidding.Options getOption();
 
     /**
-     * <code>optional bool coinche = 4;</code>
+     * <code>optional bool coinche = 5;</code>
      */
     boolean getCoinche();
 
     /**
-     * <code>optional bool surcoinche = 5;</code>
+     * <code>optional bool surcoinche = 6;</code>
      */
     boolean getSurcoinche();
   }
@@ -2024,6 +2042,7 @@ public final class Game {
     private Bidding() {
       bid_ = false;
       amount_ = 0;
+      contract_ = 0;
       option_ = 0;
       coinche_ = false;
       surcoinche_ = false;
@@ -2067,15 +2086,21 @@ public final class Game {
             case 24: {
               int rawValue = input.readEnum();
 
-              option_ = rawValue;
+              contract_ = rawValue;
               break;
             }
             case 32: {
+              int rawValue = input.readEnum();
+
+              option_ = rawValue;
+              break;
+            }
+            case 40: {
 
               coinche_ = input.readBool();
               break;
             }
-            case 40: {
+            case 48: {
 
               surcoinche_ = input.readBool();
               break;
@@ -2104,61 +2129,185 @@ public final class Game {
     }
 
     /**
+     * Protobuf enum {@code protobuf.Bidding.Contract}
+     */
+    public enum Contract
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>UNKNOWNCONTRACT = 0;</code>
+       */
+      UNKNOWNCONTRACT(0),
+      /**
+       * <code>AMOUNT = 1;</code>
+       */
+      AMOUNT(1),
+      /**
+       * <code>CAPOT = 2;</code>
+       */
+      CAPOT(2),
+      /**
+       * <code>GENERALE = 3;</code>
+       */
+      GENERALE(3),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>UNKNOWNCONTRACT = 0;</code>
+       */
+      public static final int UNKNOWNCONTRACT_VALUE = 0;
+      /**
+       * <code>AMOUNT = 1;</code>
+       */
+      public static final int AMOUNT_VALUE = 1;
+      /**
+       * <code>CAPOT = 2;</code>
+       */
+      public static final int CAPOT_VALUE = 2;
+      /**
+       * <code>GENERALE = 3;</code>
+       */
+      public static final int GENERALE_VALUE = 3;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Contract valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static Contract forNumber(int value) {
+        switch (value) {
+          case 0: return UNKNOWNCONTRACT;
+          case 1: return AMOUNT;
+          case 2: return CAPOT;
+          case 3: return GENERALE;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Contract>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Contract> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Contract>() {
+              public Contract findValueByNumber(int number) {
+                return Contract.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.jcoincheserver.protobuf.Game.Bidding.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Contract[] VALUES = values();
+
+      public static Contract valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Contract(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:protobuf.Bidding.Contract)
+    }
+
+    /**
      * Protobuf enum {@code protobuf.Bidding.Options}
      */
     public enum Options
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>HEARTS = 0;</code>
+       * <code>UNKNOWNOPTION = 0;</code>
        */
-      HEARTS(0),
+      UNKNOWNOPTION(0),
       /**
-       * <code>SPADES = 1;</code>
+       * <code>HEARTS = 1;</code>
        */
-      SPADES(1),
+      HEARTS(1),
       /**
-       * <code>CLUBS = 2;</code>
+       * <code>SPADES = 2;</code>
        */
-      CLUBS(2),
+      SPADES(2),
       /**
-       * <code>DIAMONDS = 3;</code>
+       * <code>CLUBS = 3;</code>
        */
-      DIAMONDS(3),
+      CLUBS(3),
       /**
-       * <code>TA = 4;</code>
+       * <code>DIAMONDS = 4;</code>
        */
-      TA(4),
+      DIAMONDS(4),
       /**
-       * <code>SA = 5;</code>
+       * <code>TA = 5;</code>
        */
-      SA(5),
+      TA(5),
+      /**
+       * <code>SA = 6;</code>
+       */
+      SA(6),
       UNRECOGNIZED(-1),
       ;
 
       /**
-       * <code>HEARTS = 0;</code>
+       * <code>UNKNOWNOPTION = 0;</code>
        */
-      public static final int HEARTS_VALUE = 0;
+      public static final int UNKNOWNOPTION_VALUE = 0;
       /**
-       * <code>SPADES = 1;</code>
+       * <code>HEARTS = 1;</code>
        */
-      public static final int SPADES_VALUE = 1;
+      public static final int HEARTS_VALUE = 1;
       /**
-       * <code>CLUBS = 2;</code>
+       * <code>SPADES = 2;</code>
        */
-      public static final int CLUBS_VALUE = 2;
+      public static final int SPADES_VALUE = 2;
       /**
-       * <code>DIAMONDS = 3;</code>
+       * <code>CLUBS = 3;</code>
        */
-      public static final int DIAMONDS_VALUE = 3;
+      public static final int CLUBS_VALUE = 3;
       /**
-       * <code>TA = 4;</code>
+       * <code>DIAMONDS = 4;</code>
        */
-      public static final int TA_VALUE = 4;
+      public static final int DIAMONDS_VALUE = 4;
       /**
-       * <code>SA = 5;</code>
+       * <code>TA = 5;</code>
        */
-      public static final int SA_VALUE = 5;
+      public static final int TA_VALUE = 5;
+      /**
+       * <code>SA = 6;</code>
+       */
+      public static final int SA_VALUE = 6;
 
 
       public final int getNumber() {
@@ -2179,12 +2328,13 @@ public final class Game {
 
       public static Options forNumber(int value) {
         switch (value) {
-          case 0: return HEARTS;
-          case 1: return SPADES;
-          case 2: return CLUBS;
-          case 3: return DIAMONDS;
-          case 4: return TA;
-          case 5: return SA;
+          case 0: return UNKNOWNOPTION;
+          case 1: return HEARTS;
+          case 2: return SPADES;
+          case 3: return CLUBS;
+          case 4: return DIAMONDS;
+          case 5: return TA;
+          case 6: return SA;
           default: return null;
         }
       }
@@ -2211,7 +2361,7 @@ public final class Game {
       }
       public static final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptor() {
-        return com.jcoincheserver.protobuf.Game.Bidding.getDescriptor().getEnumTypes().get(0);
+        return com.jcoincheserver.protobuf.Game.Bidding.getDescriptor().getEnumTypes().get(1);
       }
 
       private static final Options[] VALUES = values();
@@ -2255,35 +2405,51 @@ public final class Game {
       return amount_;
     }
 
-    public static final int OPTION_FIELD_NUMBER = 3;
+    public static final int CONTRACT_FIELD_NUMBER = 3;
+    private int contract_;
+    /**
+     * <code>optional .protobuf.Bidding.Contract contract = 3;</code>
+     */
+    public int getContractValue() {
+      return contract_;
+    }
+    /**
+     * <code>optional .protobuf.Bidding.Contract contract = 3;</code>
+     */
+    public com.jcoincheserver.protobuf.Game.Bidding.Contract getContract() {
+      com.jcoincheserver.protobuf.Game.Bidding.Contract result = com.jcoincheserver.protobuf.Game.Bidding.Contract.valueOf(contract_);
+      return result == null ? com.jcoincheserver.protobuf.Game.Bidding.Contract.UNRECOGNIZED : result;
+    }
+
+    public static final int OPTION_FIELD_NUMBER = 4;
     private int option_;
     /**
-     * <code>optional .protobuf.Bidding.Options option = 3;</code>
+     * <code>optional .protobuf.Bidding.Options option = 4;</code>
      */
     public int getOptionValue() {
       return option_;
     }
     /**
-     * <code>optional .protobuf.Bidding.Options option = 3;</code>
+     * <code>optional .protobuf.Bidding.Options option = 4;</code>
      */
     public com.jcoincheserver.protobuf.Game.Bidding.Options getOption() {
       com.jcoincheserver.protobuf.Game.Bidding.Options result = com.jcoincheserver.protobuf.Game.Bidding.Options.valueOf(option_);
       return result == null ? com.jcoincheserver.protobuf.Game.Bidding.Options.UNRECOGNIZED : result;
     }
 
-    public static final int COINCHE_FIELD_NUMBER = 4;
+    public static final int COINCHE_FIELD_NUMBER = 5;
     private boolean coinche_;
     /**
-     * <code>optional bool coinche = 4;</code>
+     * <code>optional bool coinche = 5;</code>
      */
     public boolean getCoinche() {
       return coinche_;
     }
 
-    public static final int SURCOINCHE_FIELD_NUMBER = 5;
+    public static final int SURCOINCHE_FIELD_NUMBER = 6;
     private boolean surcoinche_;
     /**
-     * <code>optional bool surcoinche = 5;</code>
+     * <code>optional bool surcoinche = 6;</code>
      */
     public boolean getSurcoinche() {
       return surcoinche_;
@@ -2307,14 +2473,17 @@ public final class Game {
       if (amount_ != 0) {
         output.writeInt32(2, amount_);
       }
-      if (option_ != com.jcoincheserver.protobuf.Game.Bidding.Options.HEARTS.getNumber()) {
-        output.writeEnum(3, option_);
+      if (contract_ != com.jcoincheserver.protobuf.Game.Bidding.Contract.UNKNOWNCONTRACT.getNumber()) {
+        output.writeEnum(3, contract_);
+      }
+      if (option_ != com.jcoincheserver.protobuf.Game.Bidding.Options.UNKNOWNOPTION.getNumber()) {
+        output.writeEnum(4, option_);
       }
       if (coinche_ != false) {
-        output.writeBool(4, coinche_);
+        output.writeBool(5, coinche_);
       }
       if (surcoinche_ != false) {
-        output.writeBool(5, surcoinche_);
+        output.writeBool(6, surcoinche_);
       }
     }
 
@@ -2331,17 +2500,21 @@ public final class Game {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, amount_);
       }
-      if (option_ != com.jcoincheserver.protobuf.Game.Bidding.Options.HEARTS.getNumber()) {
+      if (contract_ != com.jcoincheserver.protobuf.Game.Bidding.Contract.UNKNOWNCONTRACT.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(3, option_);
+          .computeEnumSize(3, contract_);
+      }
+      if (option_ != com.jcoincheserver.protobuf.Game.Bidding.Options.UNKNOWNOPTION.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, option_);
       }
       if (coinche_ != false) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, coinche_);
+          .computeBoolSize(5, coinche_);
       }
       if (surcoinche_ != false) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(5, surcoinche_);
+          .computeBoolSize(6, surcoinche_);
       }
       memoizedSize = size;
       return size;
@@ -2363,6 +2536,7 @@ public final class Game {
           == other.getBid());
       result = result && (getAmount()
           == other.getAmount());
+      result = result && contract_ == other.contract_;
       result = result && option_ == other.option_;
       result = result && (getCoinche()
           == other.getCoinche());
@@ -2383,6 +2557,8 @@ public final class Game {
           getBid());
       hash = (37 * hash) + AMOUNT_FIELD_NUMBER;
       hash = (53 * hash) + getAmount();
+      hash = (37 * hash) + CONTRACT_FIELD_NUMBER;
+      hash = (53 * hash) + contract_;
       hash = (37 * hash) + OPTION_FIELD_NUMBER;
       hash = (53 * hash) + option_;
       hash = (37 * hash) + COINCHE_FIELD_NUMBER;
@@ -2513,6 +2689,8 @@ public final class Game {
 
         amount_ = 0;
 
+        contract_ = 0;
+
         option_ = 0;
 
         coinche_ = false;
@@ -2543,6 +2721,7 @@ public final class Game {
         com.jcoincheserver.protobuf.Game.Bidding result = new com.jcoincheserver.protobuf.Game.Bidding(this);
         result.bid_ = bid_;
         result.amount_ = amount_;
+        result.contract_ = contract_;
         result.option_ = option_;
         result.coinche_ = coinche_;
         result.surcoinche_ = surcoinche_;
@@ -2592,6 +2771,9 @@ public final class Game {
         }
         if (other.getAmount() != 0) {
           setAmount(other.getAmount());
+        }
+        if (other.contract_ != 0) {
+          setContractValue(other.getContractValue());
         }
         if (other.option_ != 0) {
           setOptionValue(other.getOptionValue());
@@ -2680,15 +2862,59 @@ public final class Game {
         return this;
       }
 
+      private int contract_ = 0;
+      /**
+       * <code>optional .protobuf.Bidding.Contract contract = 3;</code>
+       */
+      public int getContractValue() {
+        return contract_;
+      }
+      /**
+       * <code>optional .protobuf.Bidding.Contract contract = 3;</code>
+       */
+      public Builder setContractValue(int value) {
+        contract_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.Bidding.Contract contract = 3;</code>
+       */
+      public com.jcoincheserver.protobuf.Game.Bidding.Contract getContract() {
+        com.jcoincheserver.protobuf.Game.Bidding.Contract result = com.jcoincheserver.protobuf.Game.Bidding.Contract.valueOf(contract_);
+        return result == null ? com.jcoincheserver.protobuf.Game.Bidding.Contract.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>optional .protobuf.Bidding.Contract contract = 3;</code>
+       */
+      public Builder setContract(com.jcoincheserver.protobuf.Game.Bidding.Contract value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        contract_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.Bidding.Contract contract = 3;</code>
+       */
+      public Builder clearContract() {
+        
+        contract_ = 0;
+        onChanged();
+        return this;
+      }
+
       private int option_ = 0;
       /**
-       * <code>optional .protobuf.Bidding.Options option = 3;</code>
+       * <code>optional .protobuf.Bidding.Options option = 4;</code>
        */
       public int getOptionValue() {
         return option_;
       }
       /**
-       * <code>optional .protobuf.Bidding.Options option = 3;</code>
+       * <code>optional .protobuf.Bidding.Options option = 4;</code>
        */
       public Builder setOptionValue(int value) {
         option_ = value;
@@ -2696,14 +2922,14 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.Bidding.Options option = 3;</code>
+       * <code>optional .protobuf.Bidding.Options option = 4;</code>
        */
       public com.jcoincheserver.protobuf.Game.Bidding.Options getOption() {
         com.jcoincheserver.protobuf.Game.Bidding.Options result = com.jcoincheserver.protobuf.Game.Bidding.Options.valueOf(option_);
         return result == null ? com.jcoincheserver.protobuf.Game.Bidding.Options.UNRECOGNIZED : result;
       }
       /**
-       * <code>optional .protobuf.Bidding.Options option = 3;</code>
+       * <code>optional .protobuf.Bidding.Options option = 4;</code>
        */
       public Builder setOption(com.jcoincheserver.protobuf.Game.Bidding.Options value) {
         if (value == null) {
@@ -2715,7 +2941,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.Bidding.Options option = 3;</code>
+       * <code>optional .protobuf.Bidding.Options option = 4;</code>
        */
       public Builder clearOption() {
         
@@ -2726,13 +2952,13 @@ public final class Game {
 
       private boolean coinche_ ;
       /**
-       * <code>optional bool coinche = 4;</code>
+       * <code>optional bool coinche = 5;</code>
        */
       public boolean getCoinche() {
         return coinche_;
       }
       /**
-       * <code>optional bool coinche = 4;</code>
+       * <code>optional bool coinche = 5;</code>
        */
       public Builder setCoinche(boolean value) {
         
@@ -2741,7 +2967,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional bool coinche = 4;</code>
+       * <code>optional bool coinche = 5;</code>
        */
       public Builder clearCoinche() {
         
@@ -2752,13 +2978,13 @@ public final class Game {
 
       private boolean surcoinche_ ;
       /**
-       * <code>optional bool surcoinche = 5;</code>
+       * <code>optional bool surcoinche = 6;</code>
        */
       public boolean getSurcoinche() {
         return surcoinche_;
       }
       /**
-       * <code>optional bool surcoinche = 5;</code>
+       * <code>optional bool surcoinche = 6;</code>
        */
       public Builder setSurcoinche(boolean value) {
         
@@ -2767,7 +2993,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional bool surcoinche = 5;</code>
+       * <code>optional bool surcoinche = 6;</code>
        */
       public Builder clearSurcoinche() {
         
@@ -2928,40 +3154,48 @@ public final class Game {
     public enum CardType
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>HEARTS = 0;</code>
+       * <code>UNKNOWNCARDTYPE = 0;</code>
        */
-      HEARTS(0),
+      UNKNOWNCARDTYPE(0),
       /**
-       * <code>SPADES = 1;</code>
+       * <code>HEARTS = 1;</code>
        */
-      SPADES(1),
+      HEARTS(1),
       /**
-       * <code>CLUBS = 2;</code>
+       * <code>SPADES = 2;</code>
        */
-      CLUBS(2),
+      SPADES(2),
       /**
-       * <code>DIAMONDS = 3;</code>
+       * <code>CLUBS = 3;</code>
        */
-      DIAMONDS(3),
+      CLUBS(3),
+      /**
+       * <code>DIAMONDS = 4;</code>
+       */
+      DIAMONDS(4),
       UNRECOGNIZED(-1),
       ;
 
       /**
-       * <code>HEARTS = 0;</code>
+       * <code>UNKNOWNCARDTYPE = 0;</code>
        */
-      public static final int HEARTS_VALUE = 0;
+      public static final int UNKNOWNCARDTYPE_VALUE = 0;
       /**
-       * <code>SPADES = 1;</code>
+       * <code>HEARTS = 1;</code>
        */
-      public static final int SPADES_VALUE = 1;
+      public static final int HEARTS_VALUE = 1;
       /**
-       * <code>CLUBS = 2;</code>
+       * <code>SPADES = 2;</code>
        */
-      public static final int CLUBS_VALUE = 2;
+      public static final int SPADES_VALUE = 2;
       /**
-       * <code>DIAMONDS = 3;</code>
+       * <code>CLUBS = 3;</code>
        */
-      public static final int DIAMONDS_VALUE = 3;
+      public static final int CLUBS_VALUE = 3;
+      /**
+       * <code>DIAMONDS = 4;</code>
+       */
+      public static final int DIAMONDS_VALUE = 4;
 
 
       public final int getNumber() {
@@ -2982,10 +3216,11 @@ public final class Game {
 
       public static CardType forNumber(int value) {
         switch (value) {
-          case 0: return HEARTS;
-          case 1: return SPADES;
-          case 2: return CLUBS;
-          case 3: return DIAMONDS;
+          case 0: return UNKNOWNCARDTYPE;
+          case 1: return HEARTS;
+          case 2: return SPADES;
+          case 3: return CLUBS;
+          case 4: return DIAMONDS;
           default: return null;
         }
       }
@@ -3044,72 +3279,80 @@ public final class Game {
     public enum CardValue
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>SEVEN = 0;</code>
+       * <code>UNKNOWNCARDVALUE = 0;</code>
        */
-      SEVEN(0),
+      UNKNOWNCARDVALUE(0),
       /**
-       * <code>EIGHT = 1;</code>
+       * <code>SEVEN = 1;</code>
        */
-      EIGHT(1),
+      SEVEN(1),
       /**
-       * <code>NINE = 2;</code>
+       * <code>EIGHT = 2;</code>
        */
-      NINE(2),
+      EIGHT(2),
       /**
-       * <code>TEN = 3;</code>
+       * <code>NINE = 3;</code>
        */
-      TEN(3),
+      NINE(3),
       /**
-       * <code>JACK = 4;</code>
+       * <code>TEN = 4;</code>
        */
-      JACK(4),
+      TEN(4),
       /**
-       * <code>QUEEN = 5;</code>
+       * <code>JACK = 5;</code>
        */
-      QUEEN(5),
+      JACK(5),
       /**
-       * <code>KING = 6;</code>
+       * <code>QUEEN = 6;</code>
        */
-      KING(6),
+      QUEEN(6),
       /**
-       * <code>AS = 7;</code>
+       * <code>KING = 7;</code>
        */
-      AS(7),
+      KING(7),
+      /**
+       * <code>AS = 8;</code>
+       */
+      AS(8),
       UNRECOGNIZED(-1),
       ;
 
       /**
-       * <code>SEVEN = 0;</code>
+       * <code>UNKNOWNCARDVALUE = 0;</code>
        */
-      public static final int SEVEN_VALUE = 0;
+      public static final int UNKNOWNCARDVALUE_VALUE = 0;
       /**
-       * <code>EIGHT = 1;</code>
+       * <code>SEVEN = 1;</code>
        */
-      public static final int EIGHT_VALUE = 1;
+      public static final int SEVEN_VALUE = 1;
       /**
-       * <code>NINE = 2;</code>
+       * <code>EIGHT = 2;</code>
        */
-      public static final int NINE_VALUE = 2;
+      public static final int EIGHT_VALUE = 2;
       /**
-       * <code>TEN = 3;</code>
+       * <code>NINE = 3;</code>
        */
-      public static final int TEN_VALUE = 3;
+      public static final int NINE_VALUE = 3;
       /**
-       * <code>JACK = 4;</code>
+       * <code>TEN = 4;</code>
        */
-      public static final int JACK_VALUE = 4;
+      public static final int TEN_VALUE = 4;
       /**
-       * <code>QUEEN = 5;</code>
+       * <code>JACK = 5;</code>
        */
-      public static final int QUEEN_VALUE = 5;
+      public static final int JACK_VALUE = 5;
       /**
-       * <code>KING = 6;</code>
+       * <code>QUEEN = 6;</code>
        */
-      public static final int KING_VALUE = 6;
+      public static final int QUEEN_VALUE = 6;
       /**
-       * <code>AS = 7;</code>
+       * <code>KING = 7;</code>
        */
-      public static final int AS_VALUE = 7;
+      public static final int KING_VALUE = 7;
+      /**
+       * <code>AS = 8;</code>
+       */
+      public static final int AS_VALUE = 8;
 
 
       public final int getNumber() {
@@ -3130,14 +3373,15 @@ public final class Game {
 
       public static CardValue forNumber(int value) {
         switch (value) {
-          case 0: return SEVEN;
-          case 1: return EIGHT;
-          case 2: return NINE;
-          case 3: return TEN;
-          case 4: return JACK;
-          case 5: return QUEEN;
-          case 6: return KING;
-          case 7: return AS;
+          case 0: return UNKNOWNCARDVALUE;
+          case 1: return SEVEN;
+          case 2: return EIGHT;
+          case 3: return NINE;
+          case 4: return TEN;
+          case 5: return JACK;
+          case 6: return QUEEN;
+          case 7: return KING;
+          case 8: return AS;
           default: return null;
         }
       }
@@ -3234,10 +3478,10 @@ public final class Game {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (cardType_ != com.jcoincheserver.protobuf.Game.Card.CardType.HEARTS.getNumber()) {
+      if (cardType_ != com.jcoincheserver.protobuf.Game.Card.CardType.UNKNOWNCARDTYPE.getNumber()) {
         output.writeEnum(1, cardType_);
       }
-      if (cardValue_ != com.jcoincheserver.protobuf.Game.Card.CardValue.SEVEN.getNumber()) {
+      if (cardValue_ != com.jcoincheserver.protobuf.Game.Card.CardValue.UNKNOWNCARDVALUE.getNumber()) {
         output.writeEnum(2, cardValue_);
       }
     }
@@ -3247,11 +3491,11 @@ public final class Game {
       if (size != -1) return size;
 
       size = 0;
-      if (cardType_ != com.jcoincheserver.protobuf.Game.Card.CardType.HEARTS.getNumber()) {
+      if (cardType_ != com.jcoincheserver.protobuf.Game.Card.CardType.UNKNOWNCARDTYPE.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, cardType_);
       }
-      if (cardValue_ != com.jcoincheserver.protobuf.Game.Card.CardValue.SEVEN.getNumber()) {
+      if (cardValue_ != com.jcoincheserver.protobuf.Game.Card.CardValue.UNKNOWNCARDVALUE.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, cardValue_);
       }
@@ -5390,31 +5634,35 @@ public final class Game {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\ngame.proto\022\010protobuf\"\360\001\n\006Answer\022\017\n\007req" +
+      "\n\ngame.proto\022\010protobuf\"\372\001\n\006Answer\022\017\n\007req" +
       "uest\030\001 \001(\t\022\014\n\004code\030\002 \001(\005\022#\n\004type\030\003 \001(\0162\025" +
       ".protobuf.Answer.Type\022 \n\006player\030\004 \001(\0132\020." +
       "protobuf.Player\022\"\n\007bidding\030\005 \001(\0132\021.proto" +
       "buf.Bidding\022$\n\004game\030\006 \001(\0132\026.protobuf.Gam" +
-      "eProgress\"6\n\004Type\022\n\n\006PLAYER\020\000\022\013\n\007BIDDING" +
-      "\020\001\022\010\n\004GAME\020\002\022\013\n\007STANDBY\020\003\"\026\n\006Player\022\014\n\004n" +
-      "ame\030\001 \001(\t\"\302\001\n\007Bidding\022\013\n\003bid\030\001 \001(\010\022\016\n\006am" +
-      "ount\030\002 \001(\005\022)\n\006option\030\003 \001(\0162\031.protobuf.Bi" +
-      "dding.Options\022\017\n\007coinche\030\004 \001(\010\022\022\n\nsurcoi",
-      "nche\030\005 \001(\010\"J\n\007Options\022\n\n\006HEARTS\020\000\022\n\n\006SPA" +
-      "DES\020\001\022\t\n\005CLUBS\020\002\022\014\n\010DIAMONDS\020\003\022\006\n\002TA\020\004\022\006" +
-      "\n\002SA\020\005\"\370\001\n\004Card\022)\n\010cardType\030\001 \001(\0162\027.prot" +
-      "obuf.Card.CardType\022+\n\tcardValue\030\002 \001(\0162\030." +
-      "protobuf.Card.CardValue\";\n\010CardType\022\n\n\006H" +
-      "EARTS\020\000\022\n\n\006SPADES\020\001\022\t\n\005CLUBS\020\002\022\014\n\010DIAMON" +
-      "DS\020\003\"[\n\tCardValue\022\t\n\005SEVEN\020\000\022\t\n\005EIGHT\020\001\022" +
-      "\010\n\004NINE\020\002\022\007\n\003TEN\020\003\022\010\n\004JACK\020\004\022\t\n\005QUEEN\020\005\022" +
-      "\010\n\004KING\020\006\022\006\n\002AS\020\007\"O\n\014GameProgress\022\017\n\007com" +
-      "mand\030\001 \001(\t\022\020\n\010argument\030\002 \001(\t\022\034\n\004card\030\003 \001",
-      "(\0132\016.protobuf.Card\"A\n\020DistributionCard\022\017" +
-      "\n\007partner\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.protobuf" +
-      ".CardBM\n\033com.jcoincheserver.protobufB\004Ga" +
-      "me\252\002\'Google.Protobuf.jcoincheserver.prot" +
-      "obufb\006proto3"
+      "eProgress\"@\n\004Type\022\010\n\004NONE\020\000\022\n\n\006PLAYER\020\001\022" +
+      "\013\n\007BIDDING\020\002\022\010\n\004GAME\020\003\022\013\n\007STANDBY\020\004\"\026\n\006P" +
+      "layer\022\014\n\004name\030\001 \001(\t\"\311\002\n\007Bidding\022\013\n\003bid\030\001" +
+      " \001(\010\022\016\n\006amount\030\002 \001(\005\022,\n\010contract\030\003 \001(\0162\032" +
+      ".protobuf.Bidding.Contract\022)\n\006option\030\004 \001",
+      "(\0162\031.protobuf.Bidding.Options\022\017\n\007coinche" +
+      "\030\005 \001(\010\022\022\n\nsurcoinche\030\006 \001(\010\"D\n\010Contract\022\023" +
+      "\n\017UNKNOWNCONTRACT\020\000\022\n\n\006AMOUNT\020\001\022\t\n\005CAPOT" +
+      "\020\002\022\014\n\010GENERALE\020\003\"]\n\007Options\022\021\n\rUNKNOWNOP" +
+      "TION\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020" +
+      "\003\022\014\n\010DIAMONDS\020\004\022\006\n\002TA\020\005\022\006\n\002SA\020\006\"\243\002\n\004Card" +
+      "\022)\n\010cardType\030\001 \001(\0162\027.protobuf.Card.CardT" +
+      "ype\022+\n\tcardValue\030\002 \001(\0162\030.protobuf.Card.C" +
+      "ardValue\"P\n\010CardType\022\023\n\017UNKNOWNCARDTYPE\020" +
+      "\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020\003\022\014\n\010",
+      "DIAMONDS\020\004\"q\n\tCardValue\022\024\n\020UNKNOWNCARDVA" +
+      "LUE\020\000\022\t\n\005SEVEN\020\001\022\t\n\005EIGHT\020\002\022\010\n\004NINE\020\003\022\007\n" +
+      "\003TEN\020\004\022\010\n\004JACK\020\005\022\t\n\005QUEEN\020\006\022\010\n\004KING\020\007\022\006\n" +
+      "\002AS\020\010\"O\n\014GameProgress\022\017\n\007command\030\001 \001(\t\022\020" +
+      "\n\010argument\030\002 \001(\t\022\034\n\004card\030\003 \001(\0132\016.protobu" +
+      "f.Card\"A\n\020DistributionCard\022\017\n\007partner\030\001 " +
+      "\001(\t\022\034\n\004card\030\002 \003(\0132\016.protobuf.CardBM\n\033com" +
+      ".jcoincheserver.protobufB\004Game\252\002\'Google." +
+      "Protobuf.jcoincheserver.protobufb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5445,7 +5693,7 @@ public final class Game {
     internal_static_protobuf_Bidding_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_Bidding_descriptor,
-        new java.lang.String[] { "Bid", "Amount", "Option", "Coinche", "Surcoinche", });
+        new java.lang.String[] { "Bid", "Amount", "Contract", "Option", "Coinche", "Surcoinche", });
     internal_static_protobuf_Card_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_protobuf_Card_fieldAccessorTable = new
