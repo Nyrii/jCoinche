@@ -6,6 +6,7 @@ import eu.epitech.jcoinche.jcoincheclient.protobuf.Game;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import static eu.epitech.jcoinche.jcoincheclient.protobuf.Game.Answer.Type.BIDDING;
 
@@ -28,6 +29,15 @@ public class Bidding {
         }
     }
 
+    public void printCards(Game.Answer answer) {
+        Game.DistributionCard cards = answer.getCards();
+        ArrayList deck = (ArrayList)cards.getCardList();
+        System.out.println("Here are your cards : ");
+        for (Object card : deck) {
+            System.out.println(((Game.Card) card).getCardType() + " " + ((Game.Card) card).getCardValue());
+        }
+    }
+
     public void biddingProcess(Game.Answer answer) throws Exception {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -40,6 +50,7 @@ public class Bidding {
                 while (line == null || line.isEmpty() || (line.toLowerCase() != "y" && line.toLowerCase() != "n")) {
                     try {
                         if (i == 0) {
+                            printCards(answer);
                             System.out.println("Would you like to bet ? (y/n) ");
                         } else if (i > 0) {
                             System.out.println("An error occured : you have to do something or at least PASS. Would you like to bet then ? (y/n) ");
