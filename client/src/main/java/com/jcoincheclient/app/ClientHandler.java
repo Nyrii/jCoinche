@@ -45,8 +45,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<Answer> {
                 switch (answer.getType()) {
 
                     case PLAYER:
-//                        player.askInformations();
-                        bidding.bid();
+                        player.askInformations();
+//                        bidding.bid();
                         break;
 
                     case BIDDING:
