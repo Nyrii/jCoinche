@@ -1,4 +1,4 @@
-package com.jcoincheserver.app;
+package eu.epitech.jcoinche.jcoincheserver.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
@@ -26,7 +26,7 @@ public class Server {
             b.group(gameGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new chatClientInitializer(sslCtx));
+                    .childHandler(new ServerInitializer(sslCtx));
             b.bind(PORT).sync().channel().closeFuture().sync();
         } finally {
             gameGroup.shutdownGracefully();

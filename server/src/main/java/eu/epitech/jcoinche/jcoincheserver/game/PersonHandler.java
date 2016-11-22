@@ -1,15 +1,12 @@
-package com.jcoincheserver.app;
+package eu.epitech.jcoinche.jcoincheserver.game;
 
-import com.jcoincheserver.protobuf.Game.Answer;
+import eu.epitech.jcoinche.jcoincheserver.protobuf.Game;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -17,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by noboud_n on 20/11/2016.
  */
-public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
+public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
 
     static ArrayList gameRunning = new ArrayList();
 
@@ -27,11 +24,11 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
                 new GenericFutureListener<Future<Channel>>() {
                     @Override
                     public void operationComplete(Future<Channel> future) throws Exception {
-                        Answer person = Answer.newBuilder()
+                        Game.Answer person = Game.Answer.newBuilder()
                                 .setRequest("Welcome to jCoinche game hosted by " +
                                         InetAddress.getLocalHost().getHostName() +
                                         "!\nPlease enter your name:\r\n")
-                                .setType(Answer.Type.PLAYER)
+                                .setType(Game.Answer.Type.PLAYER)
                                 .setCode(200)
                                 .build();
                         ctx.writeAndFlush(person);
@@ -75,7 +72,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
     }
 
     @Override
-    public void channelRead0(ChannelHandlerContext arg0, Answer answer) throws Exception {
+    public void channelRead0(ChannelHandlerContext arg0, Game.Answer answer) throws Exception {
         if (answer.getCode() == -1) {
             GameManager gm;
             if ((gm = getGameFromChannel(arg0)) != null)

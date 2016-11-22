@@ -1,6 +1,6 @@
-package com.jcoincheserver.app;
+package eu.epitech.jcoinche.jcoincheserver.game;
 
-import com.jcoincheserver.protobuf.Game;
+import eu.epitech.jcoinche.jcoincheserver.protobuf.Game;
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
 
@@ -12,6 +12,8 @@ import java.util.Random;
  */
 public class CardManager {
     static ArrayList cardList = new ArrayList();
+
+    static ArrayList cardGames = new ArrayList();
 
     public CardManager() {
         ArrayList typeCardList = new ArrayList();
@@ -61,10 +63,12 @@ public class CardManager {
                     .setRequest("Cards have been distributed!")
                     .build();
             c.writeAndFlush(answer);
+            cardGames.add(tmp);
         }
     }
 
-    public static ArrayList getCardList() {
-        return cardList;
+    public static ArrayList getCardGames() {
+        return cardGames;
     }
+
 }
