@@ -6,18 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e0f9de1-fa9f-424b-abeb-62d294c13201" name="Default" comment="Client : Pushed bidding modification, modified game proto and Game class">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/Client.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheclient/protobuf/Game.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/Bidding.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheclient/game/Bidding.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/ClientHandler.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheclient/network/ClientHandler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/ClientInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheclient/network/ClientInitializer.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/Connection.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheclient/network/Connection.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/Player.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheclient/game/Player.java" />
+    <list default="true" id="3e0f9de1-fa9f-424b-abeb-62d294c13201" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/proto/game.proto" afterPath="$PROJECT_DIR$/src/main/proto/game.proto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" />
     </list>
     <ignored path="jcoinche-client.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,9 +43,11 @@
       <file leaf-file-name="Client.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheclient/app/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="360">
+              <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -891,7 +883,7 @@
       <workItem from="1479812540370" duration="1094000" />
       <workItem from="1479818345432" duration="640000" />
       <workItem from="1479824910128" duration="4796000" />
-      <workItem from="1479838892200" duration="576000" />
+      <workItem from="1479838892200" duration="665000" />
     </task>
     <task id="LOCAL-00001" summary="Modified pom.xml">
       <created>1479313062708</created>
@@ -935,15 +927,22 @@
       <option name="project" value="LOCAL" />
       <updated>1479824998251</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Client : changed packages, moved files.">
+      <created>1479839550601</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1479839550601</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49325000" />
+    <option name="totallyTimeSpent" value="49414000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1108" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.49574015" order="6" side_tool="false" content_ui="tabs" />
@@ -957,7 +956,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32858595" sideWeight="0.4914803" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19169329" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19169329" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929292" sideWeight="0.4978701" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -990,7 +989,8 @@
     <MESSAGE value="Client : protobuf PLAYER in progress." />
     <MESSAGE value="Client : modified a test for server" />
     <MESSAGE value="Client : Pushed bidding modification, modified game proto and Game class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Client : Pushed bidding modification, modified game proto and Game class" />
+    <MESSAGE value="Client : changed packages, moved files." />
+    <option name="LAST_COMMIT_MESSAGE" value="Client : changed packages, moved files." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1053,9 +1053,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheclient/app/Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="360">
+          <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
