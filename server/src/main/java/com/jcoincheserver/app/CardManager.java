@@ -31,17 +31,6 @@ public class CardManager {
         valueCardList.add("QUEEN");
         valueCardList.add("KING");
         valueCardList.add("AS");
-
-        Game.Card carde = Game.Card.newBuilder()
-                .setCardType(Game.Card.CardType.valueOf((String) typeCardList.get(0)))
-                .setCardValue(Game.Card.CardValue.valueOf((String) valueCardList.get(0)))
-                .build();
-        System.out.println("1 = {" + carde + "}");
-        Game.Card cardet = Game.Card.newBuilder()
-                .setCardType(Game.Card.CardType.HEARTS)
-                .setCardValue(Game.Card.CardValue.SEVEN)
-                .build();
-        System.out.println("1 = {" + cardet + "}");
         for (int i = 0; i < typeCardList.size(); ++i) {
             for (int j = 0; j < valueCardList.size(); ++j) {
                 Game.Card card = Game.Card.newBuilder()
@@ -49,9 +38,6 @@ public class CardManager {
                         .setCardValue(Game.Card.CardValue.valueOf((String) valueCardList.get(j)))
                         .build();
                 cardList.add(card);
-                System.out.println(Game.Card.CardType.valueOf((String) typeCardList.get(i)));
-                System.out.println(Game.Card.CardValue.valueOf((String) valueCardList.get(j)));
-                System.out.println("at i = " + i + " et j = " + j + " ->{" + card + "}");
             }
         }
         return true;
@@ -65,15 +51,19 @@ public class CardManager {
             for (int i = 0; i < 8; i++) {
                 index = rand.nextInt(cardList.size());
                 tmp.add(cardList.get(index));
-                System.out.println("I just add " + cardList.get(index));
                 cardList.remove(index);
             }
             Game.DistributionCard cards = Game.DistributionCard
                     .newBuilder()
                     .addAllCard(tmp)
                     .build();
-            System.out.println("player = " + cards.getAllFields() + "\nthere is " + tmp.size() + " cards");
-            c.writeAndFlush(cards);
+            Game.Answer answer = Game.Answer.newBuilder()
+                    .setCards(cards)
+                    .setType(Game.Answer.Type.BIDDING)
+                    .setCode(200)
+                    .setRequest("Here is your cards!")
+                    .build();
+            c.writeAndFlush(answer);
         }
     }
 

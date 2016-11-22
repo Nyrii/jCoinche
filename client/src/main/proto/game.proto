@@ -31,6 +31,7 @@ message Answer {
     Player player = 4;
     Bidding bidding = 5;
     GameProgress game = 6;
+    DistributionCard cards = 7;
 }
 
 message Player {

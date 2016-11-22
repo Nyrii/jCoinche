@@ -100,6 +100,19 @@ public final class Game {
      * <code>optional .protobuf.GameProgress game = 6;</code>
      */
     com.jcoincheclient.protobuf.Game.GameProgressOrBuilder getGameOrBuilder();
+
+    /**
+     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     */
+    boolean hasCards();
+    /**
+     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     */
+    com.jcoincheclient.protobuf.Game.DistributionCard getCards();
+    /**
+     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     */
+    com.jcoincheclient.protobuf.Game.DistributionCardOrBuilder getCardsOrBuilder();
   }
   /**
    * <pre>
@@ -199,6 +212,19 @@ public final class Game {
               if (subBuilder != null) {
                 subBuilder.mergeFrom(game_);
                 game_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 58: {
+              com.jcoincheclient.protobuf.Game.DistributionCard.Builder subBuilder = null;
+              if (cards_ != null) {
+                subBuilder = cards_.toBuilder();
+              }
+              cards_ = input.readMessage(com.jcoincheclient.protobuf.Game.DistributionCard.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(cards_);
+                cards_ = subBuilder.buildPartial();
               }
 
               break;
@@ -493,6 +519,27 @@ public final class Game {
       return getGame();
     }
 
+    public static final int CARDS_FIELD_NUMBER = 7;
+    private com.jcoincheclient.protobuf.Game.DistributionCard cards_;
+    /**
+     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     */
+    public boolean hasCards() {
+      return cards_ != null;
+    }
+    /**
+     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     */
+    public com.jcoincheclient.protobuf.Game.DistributionCard getCards() {
+      return cards_ == null ? com.jcoincheclient.protobuf.Game.DistributionCard.getDefaultInstance() : cards_;
+    }
+    /**
+     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     */
+    public com.jcoincheclient.protobuf.Game.DistributionCardOrBuilder getCardsOrBuilder() {
+      return getCards();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -523,6 +570,9 @@ public final class Game {
       if (game_ != null) {
         output.writeMessage(6, getGame());
       }
+      if (cards_ != null) {
+        output.writeMessage(7, getCards());
+      }
     }
 
     public int getSerializedSize() {
@@ -552,6 +602,10 @@ public final class Game {
       if (game_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, getGame());
+      }
+      if (cards_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, getCards());
       }
       memoizedSize = size;
       return size;
@@ -589,6 +643,11 @@ public final class Game {
         result = result && getGame()
             .equals(other.getGame());
       }
+      result = result && (hasCards() == other.hasCards());
+      if (hasCards()) {
+        result = result && getCards()
+            .equals(other.getCards());
+      }
       return result;
     }
 
@@ -616,6 +675,10 @@ public final class Game {
       if (hasGame()) {
         hash = (37 * hash) + GAME_FIELD_NUMBER;
         hash = (53 * hash) + getGame().hashCode();
+      }
+      if (hasCards()) {
+        hash = (37 * hash) + CARDS_FIELD_NUMBER;
+        hash = (53 * hash) + getCards().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -763,6 +826,12 @@ public final class Game {
           game_ = null;
           gameBuilder_ = null;
         }
+        if (cardsBuilder_ == null) {
+          cards_ = null;
+        } else {
+          cards_ = null;
+          cardsBuilder_ = null;
+        }
         return this;
       }
 
@@ -802,6 +871,11 @@ public final class Game {
           result.game_ = game_;
         } else {
           result.game_ = gameBuilder_.build();
+        }
+        if (cardsBuilder_ == null) {
+          result.cards_ = cards_;
+        } else {
+          result.cards_ = cardsBuilder_.build();
         }
         onBuilt();
         return result;
@@ -862,6 +936,9 @@ public final class Game {
         }
         if (other.hasGame()) {
           mergeGame(other.getGame());
+        }
+        if (other.hasCards()) {
+          mergeCards(other.getCards());
         }
         onChanged();
         return this;
@@ -1433,6 +1510,123 @@ public final class Game {
           game_ = null;
         }
         return gameBuilder_;
+      }
+
+      private com.jcoincheclient.protobuf.Game.DistributionCard cards_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.jcoincheclient.protobuf.Game.DistributionCard, com.jcoincheclient.protobuf.Game.DistributionCard.Builder, com.jcoincheclient.protobuf.Game.DistributionCardOrBuilder> cardsBuilder_;
+      /**
+       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       */
+      public boolean hasCards() {
+        return cardsBuilder_ != null || cards_ != null;
+      }
+      /**
+       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       */
+      public com.jcoincheclient.protobuf.Game.DistributionCard getCards() {
+        if (cardsBuilder_ == null) {
+          return cards_ == null ? com.jcoincheclient.protobuf.Game.DistributionCard.getDefaultInstance() : cards_;
+        } else {
+          return cardsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       */
+      public Builder setCards(com.jcoincheclient.protobuf.Game.DistributionCard value) {
+        if (cardsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cards_ = value;
+          onChanged();
+        } else {
+          cardsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       */
+      public Builder setCards(
+          com.jcoincheclient.protobuf.Game.DistributionCard.Builder builderForValue) {
+        if (cardsBuilder_ == null) {
+          cards_ = builderForValue.build();
+          onChanged();
+        } else {
+          cardsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       */
+      public Builder mergeCards(com.jcoincheclient.protobuf.Game.DistributionCard value) {
+        if (cardsBuilder_ == null) {
+          if (cards_ != null) {
+            cards_ =
+              com.jcoincheclient.protobuf.Game.DistributionCard.newBuilder(cards_).mergeFrom(value).buildPartial();
+          } else {
+            cards_ = value;
+          }
+          onChanged();
+        } else {
+          cardsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       */
+      public Builder clearCards() {
+        if (cardsBuilder_ == null) {
+          cards_ = null;
+          onChanged();
+        } else {
+          cards_ = null;
+          cardsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       */
+      public com.jcoincheclient.protobuf.Game.DistributionCard.Builder getCardsBuilder() {
+        
+        onChanged();
+        return getCardsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       */
+      public com.jcoincheclient.protobuf.Game.DistributionCardOrBuilder getCardsOrBuilder() {
+        if (cardsBuilder_ != null) {
+          return cardsBuilder_.getMessageOrBuilder();
+        } else {
+          return cards_ == null ?
+              com.jcoincheclient.protobuf.Game.DistributionCard.getDefaultInstance() : cards_;
+        }
+      }
+      /**
+       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.jcoincheclient.protobuf.Game.DistributionCard, com.jcoincheclient.protobuf.Game.DistributionCard.Builder, com.jcoincheclient.protobuf.Game.DistributionCardOrBuilder> 
+          getCardsFieldBuilder() {
+        if (cardsBuilder_ == null) {
+          cardsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.jcoincheclient.protobuf.Game.DistributionCard, com.jcoincheclient.protobuf.Game.DistributionCard.Builder, com.jcoincheclient.protobuf.Game.DistributionCardOrBuilder>(
+                  getCards(),
+                  getParentForChildren(),
+                  isClean());
+          cards_ = null;
+        }
+        return cardsBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5634,35 +5828,37 @@ public final class Game {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\ngame.proto\022\010protobuf\"\372\001\n\006Answer\022\017\n\007req" +
+      "\n\ngame.proto\022\010protobuf\"\245\002\n\006Answer\022\017\n\007req" +
       "uest\030\001 \001(\t\022\014\n\004code\030\002 \001(\005\022#\n\004type\030\003 \001(\0162\025" +
       ".protobuf.Answer.Type\022 \n\006player\030\004 \001(\0132\020." +
       "protobuf.Player\022\"\n\007bidding\030\005 \001(\0132\021.proto" +
       "buf.Bidding\022$\n\004game\030\006 \001(\0132\026.protobuf.Gam" +
-      "eProgress\"@\n\004Type\022\010\n\004NONE\020\000\022\n\n\006PLAYER\020\001\022" +
-      "\013\n\007BIDDING\020\002\022\010\n\004GAME\020\003\022\013\n\007STANDBY\020\004\"\026\n\006P" +
-      "layer\022\014\n\004name\030\001 \001(\t\"\311\002\n\007Bidding\022\013\n\003bid\030\001" +
-      " \001(\010\022\016\n\006amount\030\002 \001(\005\022,\n\010contract\030\003 \001(\0162\032" +
-      ".protobuf.Bidding.Contract\022)\n\006option\030\004 \001",
-      "(\0162\031.protobuf.Bidding.Options\022\017\n\007coinche" +
-      "\030\005 \001(\010\022\022\n\nsurcoinche\030\006 \001(\010\"D\n\010Contract\022\023" +
-      "\n\017UNKNOWNCONTRACT\020\000\022\n\n\006AMOUNT\020\001\022\t\n\005CAPOT" +
-      "\020\002\022\014\n\010GENERALE\020\003\"]\n\007Options\022\021\n\rUNKNOWNOP" +
-      "TION\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020" +
-      "\003\022\014\n\010DIAMONDS\020\004\022\006\n\002TA\020\005\022\006\n\002SA\020\006\"\243\002\n\004Card" +
-      "\022)\n\010cardType\030\001 \001(\0162\027.protobuf.Card.CardT" +
-      "ype\022+\n\tcardValue\030\002 \001(\0162\030.protobuf.Card.C" +
-      "ardValue\"P\n\010CardType\022\023\n\017UNKNOWNCARDTYPE\020" +
-      "\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020\003\022\014\n\010",
-      "DIAMONDS\020\004\"q\n\tCardValue\022\024\n\020UNKNOWNCARDVA" +
-      "LUE\020\000\022\t\n\005SEVEN\020\001\022\t\n\005EIGHT\020\002\022\010\n\004NINE\020\003\022\007\n" +
-      "\003TEN\020\004\022\010\n\004JACK\020\005\022\t\n\005QUEEN\020\006\022\010\n\004KING\020\007\022\006\n" +
-      "\002AS\020\010\"O\n\014GameProgress\022\017\n\007command\030\001 \001(\t\022\020" +
-      "\n\010argument\030\002 \001(\t\022\034\n\004card\030\003 \001(\0132\016.protobu" +
-      "f.Card\"A\n\020DistributionCard\022\017\n\007partner\030\001 " +
-      "\001(\t\022\034\n\004card\030\002 \003(\0132\016.protobuf.CardBM\n\033com" +
-      ".jcoincheclient.protobufB\004Game\252\002\'Google." +
-      "Protobuf.jcoincheclient.protobufb\006proto3"
+      "eProgress\022)\n\005cards\030\007 \001(\0132\032.protobuf.Dist" +
+      "ributionCard\"@\n\004Type\022\010\n\004NONE\020\000\022\n\n\006PLAYER" +
+      "\020\001\022\013\n\007BIDDING\020\002\022\010\n\004GAME\020\003\022\013\n\007STANDBY\020\004\"\026" +
+      "\n\006Player\022\014\n\004name\030\001 \001(\t\"\311\002\n\007Bidding\022\013\n\003bi" +
+      "d\030\001 \001(\010\022\016\n\006amount\030\002 \001(\005\022,\n\010contract\030\003 \001(",
+      "\0162\032.protobuf.Bidding.Contract\022)\n\006option\030" +
+      "\004 \001(\0162\031.protobuf.Bidding.Options\022\017\n\007coin" +
+      "che\030\005 \001(\010\022\022\n\nsurcoinche\030\006 \001(\010\"D\n\010Contrac" +
+      "t\022\023\n\017UNKNOWNCONTRACT\020\000\022\n\n\006AMOUNT\020\001\022\t\n\005CA" +
+      "POT\020\002\022\014\n\010GENERALE\020\003\"]\n\007Options\022\021\n\rUNKNOW" +
+      "NOPTION\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLU" +
+      "BS\020\003\022\014\n\010DIAMONDS\020\004\022\006\n\002TA\020\005\022\006\n\002SA\020\006\"\243\002\n\004C" +
+      "ard\022)\n\010cardType\030\001 \001(\0162\027.protobuf.Card.Ca" +
+      "rdType\022+\n\tcardValue\030\002 \001(\0162\030.protobuf.Car" +
+      "d.CardValue\"P\n\010CardType\022\023\n\017UNKNOWNCARDTY",
+      "PE\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020\003\022" +
+      "\014\n\010DIAMONDS\020\004\"q\n\tCardValue\022\024\n\020UNKNOWNCAR" +
+      "DVALUE\020\000\022\t\n\005SEVEN\020\001\022\t\n\005EIGHT\020\002\022\010\n\004NINE\020\003" +
+      "\022\007\n\003TEN\020\004\022\010\n\004JACK\020\005\022\t\n\005QUEEN\020\006\022\010\n\004KING\020\007" +
+      "\022\006\n\002AS\020\010\"O\n\014GameProgress\022\017\n\007command\030\001 \001(" +
+      "\t\022\020\n\010argument\030\002 \001(\t\022\034\n\004card\030\003 \001(\0132\016.prot" +
+      "obuf.Card\"A\n\020DistributionCard\022\017\n\007partner" +
+      "\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.protobuf.CardBM\n\033" +
+      "com.jcoincheclient.protobufB\004Game\252\002\'Goog" +
+      "le.Protobuf.jcoincheclient.protobufb\006pro",
+      "to3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5681,7 +5877,7 @@ public final class Game {
     internal_static_protobuf_Answer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_Answer_descriptor,
-        new java.lang.String[] { "Request", "Code", "Type", "Player", "Bidding", "Game", });
+        new java.lang.String[] { "Request", "Code", "Type", "Player", "Bidding", "Game", "Cards", });
     internal_static_protobuf_Player_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_protobuf_Player_fieldAccessorTable = new

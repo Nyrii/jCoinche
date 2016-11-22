@@ -25,6 +25,8 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
 
     boolean play = false;
 
+    private int turn = 0;
+
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
         ctx.pipeline().get(SslHandler.class).handshakeFuture().addListener(
@@ -82,6 +84,9 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
                 System.out.println("player: ");
                 System.out.println(answer.getPlayer());
                 arg0.writeAndFlush(AnswerToClient.setName(this, nameClient, arg0, answer.getPlayer().getName().substring(0, answer.getPlayer().getName().length() - 2)));
+                play = AnswerToClient.partyCanBegin(nameClient);
+                if (play && CardManager.initCardList())
+                    CardManager.giveCardToAllPlayers(clientSocket);
                 break;
 
             case BIDDING:
@@ -98,9 +103,6 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
                 break;
 
         }
-        play = AnswerToClient.partyCanBegin(nameClient);
-        if (play && CardManager.initCardList())
-            CardManager.giveCardToAllPlayers(clientSocket);
     }
 
     @Override
@@ -114,7 +116,6 @@ public class PersonHandler extends SimpleChannelInboundHandler<Answer>{
             if (c != arg0.channel()) {
                 c.writeAndFlush("[" + arg0.channel().remoteAddress() + "] " + msg + "\r\n");
             } else {
-//                if (!AnswerToClient.interprete(this, nameClient, arg0, answer))
                 c.writeAndFlush("[you] " + msg + "\r\n");
             }
         }

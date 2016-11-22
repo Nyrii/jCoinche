@@ -85,17 +85,8 @@ public class AnswerToClient {
         if (cmd.size() == 0)
             initCmdAndFunctionsList();
 
-//        String[] tokens = msg.toLowerCase().split(" ");
-//        for (int i = 0; i < cmd.size(); i++) {
-//            if (cmd.get(i) == tokens[0]) {
-//                Function f = (Function) func.get(i);
-//                f.answer(answerClient, nameClient, ctx, msg);
-//            }
-//        }
-//        if (msg.toLowerCase().contains("name")) {
-//            addName(nameClient, ctx.toString(), msg);
-//            answerClient.setNameClient(nameClient);
-//        }
+
+
         Game.Answer answer = Game.Answer.newBuilder()
                 .setRequest("Bind not implemented yet")
                 .setCode(400)
