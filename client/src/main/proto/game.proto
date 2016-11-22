@@ -4,7 +4,7 @@ package protobuf;
 // [END declaration]
 
 // [START java_declaration]
-option java_package = "com.jcoincheclient.protobuf";
+option java_package = "eu.epitech.jcoinche.jcoincheclient.protobuf";
 option java_outer_classname = "Game";
 // [END java_declaration]
 

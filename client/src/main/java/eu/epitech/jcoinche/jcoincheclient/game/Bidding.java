@@ -1,8 +1,8 @@
-package com.jcoincheclient.app;
+package eu.epitech.jcoinche.jcoincheclient.game;
 
 import com.jcoincheclient.protobuf.Game;
 import com.jcoincheclient.protobuf.Game.Answer;
-import io.netty.channel.ChannelFuture;
+import eu.epitech.jcoinche.jcoincheclient.network.Connection;
 
 import java.io.BufferedReader;
 import java.io.IOException;

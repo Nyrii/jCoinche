@@ -1,4 +1,4 @@
-package com.jcoincheclient.app;
+package eu.epitech.jcoinche.jcoincheclient.network;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;

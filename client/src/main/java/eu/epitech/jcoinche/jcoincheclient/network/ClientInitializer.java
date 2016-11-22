@@ -1,4 +1,4 @@
-package com.jcoincheclient.app;
+package eu.epitech.jcoinche.jcoincheclient.network;
 
 import com.jcoincheclient.protobuf.Game.Answer;
 import io.netty.channel.ChannelInitializer;

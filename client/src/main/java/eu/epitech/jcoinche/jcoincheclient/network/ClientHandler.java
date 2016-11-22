@@ -1,6 +1,8 @@
-package com.jcoincheclient.app;
+package eu.epitech.jcoinche.jcoincheclient.network;
 
 import com.jcoincheclient.protobuf.Game.Answer;
+import eu.epitech.jcoinche.jcoincheclient.game.Bidding;
+import eu.epitech.jcoinche.jcoincheclient.game.Player;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
