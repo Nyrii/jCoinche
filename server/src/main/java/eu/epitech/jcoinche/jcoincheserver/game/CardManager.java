@@ -15,6 +15,8 @@ public class CardManager {
 
     static ArrayList cardGames = new ArrayList();
 
+    static ArrayList deckObjects = new ArrayList();
+
     public CardManager() {
         ArrayList typeCardList = new ArrayList();
         ArrayList valueCardList = new ArrayList();
@@ -56,6 +58,7 @@ public class CardManager {
                     .newBuilder()
                     .addAllCard(tmp)
                     .build();
+            deckObjects.add(cards);
             Game.Answer answer = Game.Answer.newBuilder()
                     .setCards(cards)
                     .setType(Game.Answer.Type.SETTINGS)
@@ -76,6 +79,10 @@ public class CardManager {
 
     public static ArrayList getCardGames() {
         return cardGames;
+    }
+
+    public static Game.DistributionCard getDeckFromPosition(int pos) {
+        return (Game.DistributionCard) deckObjects.get(pos);
     }
 
 }

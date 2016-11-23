@@ -212,4 +212,8 @@ public class GameManager {
             askPlayerOneToBid();
         }
     }
+
+    public Game.DistributionCard getDeck(int pos) {
+        return cm.getDeckFromPosition(pos);
+    }
 }

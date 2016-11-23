@@ -90,6 +90,7 @@ public class AnswerToClient {
         return Game.Answer.newBuilder()
                 .setRequest(str)
                 .setCode(code)
+                .setCards(gm.getDeck(gm.getClientPosition(ctx)))
                 .setType(BIDDING)
                 .build();
     }
@@ -118,6 +119,7 @@ public class AnswerToClient {
         return Game.Answer.newBuilder()
                 .setRequest(str)
                 .setCode(code)
+                .setCards(gm.getDeck(gm.getClientPosition(ctx)))
                 .setType(BIDDING)
                 .build();
     }
@@ -140,6 +142,7 @@ public class AnswerToClient {
         return Game.Answer.newBuilder()
                 .setRequest(str)
                 .setCode(code)
+                .setCards(gm.getDeck(gm.getClientPosition(ctx)))
                 .setType(BIDDING)
                 .build();
     }
@@ -159,6 +162,7 @@ public class AnswerToClient {
                     .setRequest("You just pass your turn")
                     .setCode(200)
                     .setType(BIDDING)
+                    .setCards(gm.getDeck(gm.getClientPosition(ctx)))
                     .build();
             gm.addInactiveTurn(gm.getNbTurnInactive() + 1);
             pastInElse = true;
