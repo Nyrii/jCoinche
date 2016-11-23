@@ -10,6 +10,7 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 import java.util.ArrayList;
 
 import static eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.BIDDING;
+import static eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.GAME;
 
 /**
  * Created by Saursinet on 22/11/2016.
@@ -29,6 +30,10 @@ public class GameManager {
     private boolean surCoinche = false;
     private boolean capot = false;
     private boolean bidding = false;
+    private boolean game = false;
+    private int nbTurnInactive = 0;
+    private int scoreTeam1 = 0;
+    private int scoreTeam2 = 0;
     CardManager cm = new CardManager();
 
     public GameManager() {}
@@ -79,8 +84,7 @@ public class GameManager {
             else if (answer.getCode() == 202) {
                 personWhoSurCoinche = getClientPosition(ctx);
                 this.bidding = false;
-            }
-            else if (answer.getCode() == 203) {
+            } else if (answer.getCode() == 203) {
                 personWhoCapot = getClientPosition(ctx);
                 this.bidding = false;
             }
@@ -106,6 +110,38 @@ public class GameManager {
         cm.giveCardToAllPlayers(clientSocket);
         turn = 0;
         bidding = true;
+    }
+
+    public void askPlayerOneToBid() {
+        int i = 0;
+        for (Channel c : clientSocket) {
+            if (i == 0)
+                c.writeAndFlush(Game.Answer.newBuilder().setRequest("Please bid!").setCode(200).setType(BIDDING));
+            ++i;
+        }
+    }
+
+    public void askPlayerOneToPlay() {
+        int i = 0;
+        for (Channel c : clientSocket) {
+            if (i == 0)
+                c.writeAndFlush(Game.Answer.newBuilder().setRequest("Please play!").setCode(200).setType(GAME));
+            ++i;
+        }
+    }
+
+    public void getNextPlayerChannel() {
+        turn = turn == 3 ? 0 : turn + 1;
+        int i = 0;
+        for (Channel c : clientSocket) {
+            if (i == turn)
+                c.writeAndFlush(Game.Answer.newBuilder().setRequest("Please bid!").setCode(200).setType(BIDDING));
+            ++i;
+        }
+    }
+
+    public boolean bidIsOver() {
+        return bidding;
     }
 
     public int getClientPosition(ChannelHandlerContext ctx) {
@@ -135,13 +171,13 @@ public class GameManager {
         return play;
     }
 
-    public void setContract(int contract) { this.contract = contract; }
+    public void setContract(int contract, ChannelHandlerContext ctx) { this.contract = contract; personWhoBet = getClientPosition(ctx); }
 
-    public void setCoinche(boolean coinche) { this.coinche = coinche; }
+    public void setCoinche(boolean coinche, ChannelHandlerContext ctx) { this.coinche = coinche; this.personWhoCoinche = getClientPosition(ctx); }
 
-    public void setSurCoinche(boolean surCoinche) { this.surCoinche = surCoinche; }
+    public void setSurCoinche(boolean surCoinche, ChannelHandlerContext ctx) { this.surCoinche = surCoinche; this.personWhoSurCoinche = getClientPosition(ctx); bidding = false; }
 
-    public void setCapot(boolean capot) { this.capot= capot; }
+    public void setCapot(boolean capot, ChannelHandlerContext ctx) { this.capot= capot; personWhoCapot = getClientPosition(ctx); bidding = false; }
 
     public boolean getCoinche() { return this.coinche; }
 
@@ -154,5 +190,26 @@ public class GameManager {
                 ((play1 == 0 || play1 == 2) && (play2 == 0 || play2 == 2)))
             return true;
         return false;
+    }
+
+    public void addInactiveTurn(int nbTurnInactive) {
+        this.nbTurnInactive = nbTurnInactive;
+    }
+
+    public int getNbTurnInactive() {
+        return nbTurnInactive;
+    }
+
+    public void checkIfPartyCanRun() {
+        if ((contract != -1 && nbTurnInactive == 4) ||
+                capot || surCoinche) {
+            bidding = false;
+            game = true;
+            askPlayerOneToPlay();
+        } else if (contract == -1 && nbTurnInactive == 4) {
+            bidding = false;
+            cm.giveCardToAllPlayers(clientSocket);
+            askPlayerOneToBid();
+        }
     }
 }

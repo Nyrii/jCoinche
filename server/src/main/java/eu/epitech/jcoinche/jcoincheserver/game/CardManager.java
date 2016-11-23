@@ -58,12 +58,19 @@ public class CardManager {
                     .build();
             Game.Answer answer = Game.Answer.newBuilder()
                     .setCards(cards)
-                    .setType(Game.Answer.Type.BIDDING)
+                    .setType(Game.Answer.Type.STANDBY)
                     .setCode(200)
                     .setRequest("Cards have been distributed!")
                     .build();
             c.writeAndFlush(answer);
             cardGames.add(tmp);
+        }
+        for (Object deck : cardGames) {
+            System.out.println("player has : {");
+            for (Object card : (ArrayList) deck) {
+                System.out.println(card);
+            }
+            System.out.println("}");
         }
     }
 

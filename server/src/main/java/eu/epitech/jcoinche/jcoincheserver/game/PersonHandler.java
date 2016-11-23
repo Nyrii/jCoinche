@@ -27,7 +27,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                         Game.Answer person = Game.Answer.newBuilder()
                                 .setRequest("Welcome to jCoinche game hosted by " +
                                         InetAddress.getLocalHost().getHostName() +
-                                        "!\nPlease enter your name:\r\n")
+                                        "!\nPlease enter your name:")
                                 .setType(Game.Answer.Type.PLAYER)
                                 .setCode(200)
                                 .build();
@@ -73,9 +73,12 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
 
     @Override
     public void channelRead0(ChannelHandlerContext arg0, Game.Answer answer) throws Exception {
+        GameManager gm = getGameFromChannel(arg0);
+
+        if (gm == null)
+            return ;
         if (answer.getCode() == -1) {
-            GameManager gm;
-            if ((gm = getGameFromChannel(arg0)) != null)
+            if (gm != null)
                  gm.sendMessageToAllPersonInGame(arg0, " just quit the game");
             System.out.println(arg0.channel().remoteAddress() + " just quit the game");
             arg0.close();
@@ -87,17 +90,23 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
             case PLAYER:
                 System.out.println("player: ");
                 System.out.println(answer.getPlayer());
-                arg0.writeAndFlush(getGameFromChannel(arg0).setName(arg0, answer.getPlayer().getName().substring(0, answer.getPlayer().getName().length() - 2)));
-                getGameFromChannel(arg0).setPlay(getGameFromChannel(arg0).partyCanBegin());
-                if (getGameFromChannel(arg0).getPlay())
-                    getGameFromChannel(arg0).giveCardToAllPlayers();
+                arg0.writeAndFlush(gm.setName(arg0, answer.getPlayer().getName()));
+                gm.setPlay(gm.partyCanBegin());
+                if (gm.getPlay()) {
+                    gm.giveCardToAllPlayers();
+                    gm.askPlayerOneToBid();
+                }
                 break;
 
             case BIDDING:
                 System.out.println("biding: ");
                 System.out.println(answer.getBidding());
-                if (getGameFromChannel(arg0).getPlay())
-                    arg0.writeAndFlush(getGameFromChannel(arg0).interpreteBidding(arg0, answer.getBidding()));
+                if (gm.getPlay()) {
+                    Game.Answer ans = gm.interpreteBidding(arg0, answer.getBidding());
+                    arg0.writeAndFlush(ans);
+                    if (ans.getCode() < 400)
+                        gm.getNextPlayerChannel();
+                }
                 break;
 
             case GAME:

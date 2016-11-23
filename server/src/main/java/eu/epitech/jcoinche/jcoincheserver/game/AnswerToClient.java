@@ -65,14 +65,14 @@ public class AnswerToClient {
         }
     };
 
-    private static Game.Answer setResponseifBid(GameManager gm, Game.Bidding bidding, int contract) {
+    private static Game.Answer setResponseifBid(GameManager gm, ChannelHandlerContext ctx, Game.Bidding bidding, int contract) {
         int code;
         String str;
 
         if (bidding.getContract() == Game.Bidding.Contract.CAPOT) {
             code = 203;
             str = "Just annonce capot";
-            gm.setCapot(true);
+            gm.setCapot(true, ctx);
         } else if (bidding.getAmount() < 80) {
             code = 400;
             str = "Bidding to low, minimum is 81";
@@ -85,7 +85,7 @@ public class AnswerToClient {
         } else {
             code = 200;
             str = "Bidding okay";
-            gm.setContract(bidding.getAmount());
+            gm.setContract(bidding.getAmount(), ctx);
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)
@@ -111,7 +111,7 @@ public class AnswerToClient {
             code = 400;
             str = "You cannot coinche your partner";
         } else {
-            gm.setCoinche(true);
+            gm.setCoinche(true, ctx);
             code = 201;
             str = "You just coinched the other player";
         }
@@ -133,7 +133,7 @@ public class AnswerToClient {
             code = 400;
             str = "You cannot surcoinche if it's not you who bet at first";
         } else {
-            gm.setSurCoinche(true);
+            gm.setSurCoinche(true, ctx);
             code = 201;
             str = "You just surcoinched the other player";
         }
@@ -145,15 +145,27 @@ public class AnswerToClient {
     }
 
     public static Game.Answer interpreteBidding(GameManager gm, ChannelHandlerContext ctx, Game.Bidding bidding, int contract) {
-        Game.Answer answer = Game.Answer.newBuilder().build();
+        Game.Answer answer;
+        boolean pastInElse = false;
 
         if (bidding.getBid()) {
-            answer = setResponseifBid(gm, bidding, contract);
+            answer = setResponseifBid(gm, ctx, bidding, contract);
         } else if (bidding.getCoinche()) {
             answer = setResponseIfCoinche(gm, contract, ctx);
         } else if (bidding.getSurcoinche()) {
             answer = setResponseIfSurCoinche(gm, ctx);
+        } else {
+            answer = Game.Answer.newBuilder()
+                    .setRequest("You just pass your turn")
+                    .setCode(200)
+                    .setType(BIDDING)
+                    .build();
+            gm.addInactiveTurn(gm.getNbTurnInactive() + 1);
+            pastInElse = true;
         }
+        if (!pastInElse)
+            gm.addInactiveTurn(0);
+        gm.checkIfPartyCanRun();
         return answer;
     }
 }
