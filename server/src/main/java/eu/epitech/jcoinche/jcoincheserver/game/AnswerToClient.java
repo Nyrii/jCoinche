@@ -170,6 +170,7 @@ public class AnswerToClient {
         if (!pastInElse)
             gm.addInactiveTurn(0);
         gm.checkIfPartyCanRun();
+        System.out.println("bidding = {" + answer + "}");
         return answer;
     }
 }

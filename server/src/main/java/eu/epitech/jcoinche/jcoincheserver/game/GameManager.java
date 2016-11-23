@@ -92,6 +92,7 @@ public class GameManager {
             answer = Game.Answer.newBuilder()
                     .setRequest("It's not your turn")
                     .setCode(400)
+                    .setCards(getDeck(getClientPosition(ctx)))
                     .setType(BIDDING)
                     .build();
         }
@@ -116,7 +117,11 @@ public class GameManager {
         int i = 0;
         for (Channel c : clientSocket) {
             if (i == 0)
-                c.writeAndFlush(Game.Answer.newBuilder().setRequest("Please bid!").setCode(200).setType(BIDDING));
+                c.writeAndFlush(Game.Answer.newBuilder()
+                        .setRequest("Your turn, you are allowed to bid.")
+                        .setCode(200).setType(BIDDING)
+                        .setCards(getDeck(i))
+                .build());
             ++i;
         }
     }
@@ -125,7 +130,8 @@ public class GameManager {
         int i = 0;
         for (Channel c : clientSocket) {
             if (i == 0)
-                c.writeAndFlush(Game.Answer.newBuilder().setRequest("Please play!").setCode(200).setType(GAME));
+                c.writeAndFlush(Game.Answer.newBuilder().setRequest("Your turn, you have to play.").setCode(200).setType(GAME)
+                        .setCards(getDeck(i)).build());
             ++i;
         }
     }
