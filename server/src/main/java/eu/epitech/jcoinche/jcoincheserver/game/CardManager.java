@@ -58,7 +58,7 @@ public class CardManager {
                     .build();
             Game.Answer answer = Game.Answer.newBuilder()
                     .setCards(cards)
-                    .setType(Game.Answer.Type.STANDBY)
+                    .setType(Game.Answer.Type.SETTINGS)
                     .setCode(200)
                     .setRequest("Cards have been distributed!")
                     .build();
