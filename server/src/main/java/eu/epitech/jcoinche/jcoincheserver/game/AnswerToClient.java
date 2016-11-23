@@ -68,10 +68,12 @@ public class AnswerToClient {
     private static Game.Answer setResponseifBid(GameManager gm, ChannelHandlerContext ctx, Game.Bidding bidding, int contract) {
         int code;
         String str;
+        Game.Answer.Type type = BIDDING;
 
         if (bidding.getContract() == Game.Bidding.Contract.CAPOT) {
             code = 203;
             str = "Just annonce capot";
+            type = SETTINGS;
             gm.setCapot(true, ctx);
         } else if (bidding.getAmount() < 80) {
             code = 400;
@@ -91,7 +93,7 @@ public class AnswerToClient {
                 .setRequest(str)
                 .setCode(code)
                 .setCards(gm.getDeck(gm.getClientPosition(ctx)))
-                .setType(BIDDING)
+                .setType(type)
                 .build();
     }
 
@@ -127,6 +129,7 @@ public class AnswerToClient {
     private static Game.Answer setResponseIfSurCoinche(GameManager gm, ChannelHandlerContext ctx) {
         int code;
         String str;
+        Game.Answer.Type type = BIDDING;
 
         if (gm.getSurCoinche()) {
             code = 400;
@@ -137,13 +140,14 @@ public class AnswerToClient {
         } else {
             gm.setSurCoinche(true, ctx);
             code = 201;
+            type = SETTINGS;
             str = "You just surcoinched the other player";
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)
                 .setCode(code)
                 .setCards(gm.getDeck(gm.getClientPosition(ctx)))
-                .setType(BIDDING)
+                .setType(type)
                 .build();
     }
 
@@ -159,7 +163,7 @@ public class AnswerToClient {
             answer = setResponseIfSurCoinche(gm, ctx);
         } else {
             answer = Game.Answer.newBuilder()
-                    .setRequest("You just pass your turn")
+                    .setRequest("You just pass your turn!")
                     .setCode(200)
                     .setType(BIDDING)
                     .setCards(gm.getDeck(gm.getClientPosition(ctx)))
