@@ -35,7 +35,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
                         .append(" ")
                         .append(answer.getRequest())
                         .toString();
-                if (answer.getCode() == 200) {
+                if (answer.getCode() >= 200 && answer.getCode() <= 300) {
                     System.out.println(message);
                 } else {
                     System.err.println(message);

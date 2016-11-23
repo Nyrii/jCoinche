@@ -35,20 +35,7 @@ public class Bidding {
 
 
     public void printCards(Game.Answer answer) {
-        System.out.println(answer);
-//        List<Game.Card> deck = Cards.sortCardsByTypeAndValue(answer.getCards());
-        Game.DistributionCard cards = answer.getCards();
-        List<Game.Card> deck = new ArrayList<Game.Card>(cards.getCardList());
-        Collections.sort(deck, new Comparator<Game.Card>() {
-            @Override
-            public int compare(Game.Card left, Game.Card right) {
-                int stringComparison = left.getCardType().toString().compareTo(right.getCardType().toString());
-                if (stringComparison == 0) {
-                    return (left.getCardValue().compareTo(right.getCardValue()));
-                }
-                return stringComparison;
-            }
-        });
+        List<Game.Card> deck = Cards.sortCardsByTypeAndValue(answer.getCards());
         System.out.println("Here are your cards : ");
         for (Object card : deck) {
             String entireCard = new StringBuilder()
@@ -111,7 +98,7 @@ public class Bidding {
             Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
             Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
 
-            if (askContract(bidding) == false || askCardSuit(bidding)) {
+            if (askContract(bidding) == false || askCardSuit(bidding) == false) {
                 return false;
             }
             bidding.setCoinche(false);
@@ -197,8 +184,9 @@ public class Bidding {
                 default:
                     return false;
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public boolean otherOptions(Game.Answer answer) throws Exception {
