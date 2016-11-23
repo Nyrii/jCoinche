@@ -277,6 +277,10 @@ public final class Game {
        * <code>STANDBY = 4;</code>
        */
       STANDBY(4),
+      /**
+       * <code>SETTINGS = 5;</code>
+       */
+      SETTINGS(5),
       UNRECOGNIZED(-1),
       ;
 
@@ -300,6 +304,10 @@ public final class Game {
        * <code>STANDBY = 4;</code>
        */
       public static final int STANDBY_VALUE = 4;
+      /**
+       * <code>SETTINGS = 5;</code>
+       */
+      public static final int SETTINGS_VALUE = 5;
 
 
       public final int getNumber() {
@@ -325,6 +333,7 @@ public final class Game {
           case 2: return BIDDING;
           case 3: return GAME;
           case 4: return STANDBY;
+          case 5: return SETTINGS;
           default: return null;
         }
       }
@@ -4159,14 +4168,23 @@ public final class Game {
         getCommandBytes();
 
     /**
-     * <code>optional string argument = 2;</code>
+     * <code>repeated string argument = 2;</code>
      */
-    java.lang.String getArgument();
+    java.util.List<java.lang.String>
+        getArgumentList();
     /**
-     * <code>optional string argument = 2;</code>
+     * <code>repeated string argument = 2;</code>
+     */
+    int getArgumentCount();
+    /**
+     * <code>repeated string argument = 2;</code>
+     */
+    java.lang.String getArgument(int index);
+    /**
+     * <code>repeated string argument = 2;</code>
      */
     com.google.protobuf.ByteString
-        getArgumentBytes();
+        getArgumentBytes(int index);
 
     /**
      * <code>optional .protobuf.Card card = 3;</code>
@@ -4194,7 +4212,7 @@ public final class Game {
     }
     private GameProgress() {
       command_ = "";
-      argument_ = "";
+      argument_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -4230,8 +4248,11 @@ public final class Game {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-
-              argument_ = s;
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                argument_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              argument_.add(s);
               break;
             }
             case 26: {
@@ -4255,6 +4276,9 @@ public final class Game {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          argument_ = argument_.getUnmodifiableView();
+        }
         makeExtensionsImmutable();
       }
     }
@@ -4270,6 +4294,7 @@ public final class Game {
               eu.epitech.jcoinche.jcoincheclient.protobuf.Game.GameProgress.class, eu.epitech.jcoinche.jcoincheclient.protobuf.Game.GameProgress.Builder.class);
     }
 
+    private int bitField0_;
     public static final int COMMAND_FIELD_NUMBER = 1;
     private volatile java.lang.Object command_;
     /**
@@ -4305,37 +4330,32 @@ public final class Game {
     }
 
     public static final int ARGUMENT_FIELD_NUMBER = 2;
-    private volatile java.lang.Object argument_;
+    private com.google.protobuf.LazyStringList argument_;
     /**
-     * <code>optional string argument = 2;</code>
+     * <code>repeated string argument = 2;</code>
      */
-    public java.lang.String getArgument() {
-      java.lang.Object ref = argument_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        argument_ = s;
-        return s;
-      }
+    public com.google.protobuf.ProtocolStringList
+        getArgumentList() {
+      return argument_;
     }
     /**
-     * <code>optional string argument = 2;</code>
+     * <code>repeated string argument = 2;</code>
+     */
+    public int getArgumentCount() {
+      return argument_.size();
+    }
+    /**
+     * <code>repeated string argument = 2;</code>
+     */
+    public java.lang.String getArgument(int index) {
+      return argument_.get(index);
+    }
+    /**
+     * <code>repeated string argument = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getArgumentBytes() {
-      java.lang.Object ref = argument_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        argument_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getArgumentBytes(int index) {
+      return argument_.getByteString(index);
     }
 
     public static final int CARD_FIELD_NUMBER = 3;
@@ -4374,8 +4394,8 @@ public final class Game {
       if (!getCommandBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, command_);
       }
-      if (!getArgumentBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, argument_);
+      for (int i = 0; i < argument_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, argument_.getRaw(i));
       }
       if (card_ != null) {
         output.writeMessage(3, getCard());
@@ -4390,8 +4410,13 @@ public final class Game {
       if (!getCommandBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, command_);
       }
-      if (!getArgumentBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, argument_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < argument_.size(); i++) {
+          dataSize += computeStringSizeNoTag(argument_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getArgumentList().size();
       }
       if (card_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -4415,8 +4440,8 @@ public final class Game {
       boolean result = true;
       result = result && getCommand()
           .equals(other.getCommand());
-      result = result && getArgument()
-          .equals(other.getArgument());
+      result = result && getArgumentList()
+          .equals(other.getArgumentList());
       result = result && (hasCard() == other.hasCard());
       if (hasCard()) {
         result = result && getCard()
@@ -4434,8 +4459,10 @@ public final class Game {
       hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + COMMAND_FIELD_NUMBER;
       hash = (53 * hash) + getCommand().hashCode();
-      hash = (37 * hash) + ARGUMENT_FIELD_NUMBER;
-      hash = (53 * hash) + getArgument().hashCode();
+      if (getArgumentCount() > 0) {
+        hash = (37 * hash) + ARGUMENT_FIELD_NUMBER;
+        hash = (53 * hash) + getArgumentList().hashCode();
+      }
       if (hasCard()) {
         hash = (37 * hash) + CARD_FIELD_NUMBER;
         hash = (53 * hash) + getCard().hashCode();
@@ -4560,8 +4587,8 @@ public final class Game {
         super.clear();
         command_ = "";
 
-        argument_ = "";
-
+        argument_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (cardBuilder_ == null) {
           card_ = null;
         } else {
@@ -4590,13 +4617,20 @@ public final class Game {
 
       public eu.epitech.jcoinche.jcoincheclient.protobuf.Game.GameProgress buildPartial() {
         eu.epitech.jcoinche.jcoincheclient.protobuf.Game.GameProgress result = new eu.epitech.jcoinche.jcoincheclient.protobuf.Game.GameProgress(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.command_ = command_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          argument_ = argument_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
         result.argument_ = argument_;
         if (cardBuilder_ == null) {
           result.card_ = card_;
         } else {
           result.card_ = cardBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -4642,8 +4676,14 @@ public final class Game {
           command_ = other.command_;
           onChanged();
         }
-        if (!other.getArgument().isEmpty()) {
-          argument_ = other.argument_;
+        if (!other.argument_.isEmpty()) {
+          if (argument_.isEmpty()) {
+            argument_ = other.argument_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureArgumentIsMutable();
+            argument_.addAll(other.argument_);
+          }
           onChanged();
         }
         if (other.hasCard()) {
@@ -4674,6 +4714,7 @@ public final class Game {
         }
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object command_ = "";
       /**
@@ -4744,71 +4785,96 @@ public final class Game {
         return this;
       }
 
-      private java.lang.Object argument_ = "";
-      /**
-       * <code>optional string argument = 2;</code>
-       */
-      public java.lang.String getArgument() {
-        java.lang.Object ref = argument_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          argument_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      private com.google.protobuf.LazyStringList argument_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureArgumentIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          argument_ = new com.google.protobuf.LazyStringArrayList(argument_);
+          bitField0_ |= 0x00000002;
+         }
       }
       /**
-       * <code>optional string argument = 2;</code>
+       * <code>repeated string argument = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getArgumentList() {
+        return argument_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string argument = 2;</code>
+       */
+      public int getArgumentCount() {
+        return argument_.size();
+      }
+      /**
+       * <code>repeated string argument = 2;</code>
+       */
+      public java.lang.String getArgument(int index) {
+        return argument_.get(index);
+      }
+      /**
+       * <code>repeated string argument = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getArgumentBytes() {
-        java.lang.Object ref = argument_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          argument_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+          getArgumentBytes(int index) {
+        return argument_.getByteString(index);
       }
       /**
-       * <code>optional string argument = 2;</code>
+       * <code>repeated string argument = 2;</code>
        */
       public Builder setArgument(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureArgumentIsMutable();
+        argument_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string argument = 2;</code>
+       */
+      public Builder addArgument(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  
-        argument_ = value;
+  ensureArgumentIsMutable();
+        argument_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>optional string argument = 2;</code>
+       * <code>repeated string argument = 2;</code>
+       */
+      public Builder addAllArgument(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureArgumentIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, argument_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string argument = 2;</code>
        */
       public Builder clearArgument() {
-        
-        argument_ = getDefaultInstance().getArgument();
+        argument_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
       /**
-       * <code>optional string argument = 2;</code>
+       * <code>repeated string argument = 2;</code>
        */
-      public Builder setArgumentBytes(
+      public Builder addArgumentBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
-        argument_ = value;
+        ensureArgumentIsMutable();
+        argument_.add(value);
         onChanged();
         return this;
       }
@@ -5892,37 +5958,38 @@ public final class Game {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\ngame.proto\022\010protobuf\"\245\002\n\006Answer\022\017\n\007req" +
+      "\n\ngame.proto\022\010protobuf\"\263\002\n\006Answer\022\017\n\007req" +
       "uest\030\001 \001(\t\022\014\n\004code\030\002 \001(\005\022#\n\004type\030\003 \001(\0162\025" +
       ".protobuf.Answer.Type\022 \n\006player\030\004 \001(\0132\020." +
       "protobuf.Player\022\"\n\007bidding\030\005 \001(\0132\021.proto" +
       "buf.Bidding\022$\n\004game\030\006 \001(\0132\026.protobuf.Gam" +
       "eProgress\022)\n\005cards\030\007 \001(\0132\032.protobuf.Dist" +
-      "ributionCard\"@\n\004Type\022\010\n\004NONE\020\000\022\n\n\006PLAYER" +
-      "\020\001\022\013\n\007BIDDING\020\002\022\010\n\004GAME\020\003\022\013\n\007STANDBY\020\004\"\026" +
-      "\n\006Player\022\014\n\004name\030\001 \001(\t\"\327\002\n\007Bidding\022\013\n\003bi" +
-      "d\030\001 \001(\010\022\016\n\006amount\030\002 \001(\005\022,\n\010contract\030\003 \001(",
-      "\0162\032.protobuf.Bidding.Contract\022)\n\006option\030" +
-      "\004 \001(\0162\031.protobuf.Bidding.Options\022\017\n\007coin" +
-      "che\030\005 \001(\010\022\022\n\nsurcoinche\030\006 \001(\010\022\014\n\004pass\030\007 " +
-      "\001(\010\"D\n\010Contract\022\023\n\017UNKNOWNCONTRACT\020\000\022\n\n\006" +
-      "AMOUNT\020\001\022\t\n\005CAPOT\020\002\022\014\n\010GENERALE\020\003\"]\n\007Opt" +
-      "ions\022\021\n\rUNKNOWNOPTION\020\000\022\n\n\006HEARTS\020\001\022\n\n\006S" +
-      "PADES\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\022\006\n\002TA\020\005" +
-      "\022\006\n\002SA\020\006\"\243\002\n\004Card\022)\n\010cardType\030\001 \001(\0162\027.pr" +
-      "otobuf.Card.CardType\022+\n\tcardValue\030\002 \001(\0162" +
-      "\030.protobuf.Card.CardValue\"P\n\010CardType\022\023\n",
-      "\017UNKNOWNCARDTYPE\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES" +
-      "\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\"q\n\tCardValue" +
-      "\022\024\n\020UNKNOWNCARDVALUE\020\000\022\t\n\005SEVEN\020\001\022\t\n\005EIG" +
-      "HT\020\002\022\010\n\004NINE\020\003\022\007\n\003TEN\020\004\022\010\n\004JACK\020\005\022\t\n\005QUE" +
-      "EN\020\006\022\010\n\004KING\020\007\022\006\n\002AS\020\010\"O\n\014GameProgress\022\017" +
-      "\n\007command\030\001 \001(\t\022\020\n\010argument\030\002 \001(\t\022\034\n\004car" +
-      "d\030\003 \001(\0132\016.protobuf.Card\"A\n\020DistributionC" +
-      "ard\022\017\n\007partner\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.pro" +
-      "tobuf.CardB]\n+eu.epitech.jcoinche.jcoinc" +
-      "heclient.protobufB\004Game\252\002\'Google.Protobu",
-      "f.jcoincheclient.protobufb\006proto3"
+      "ributionCard\"N\n\004Type\022\010\n\004NONE\020\000\022\n\n\006PLAYER" +
+      "\020\001\022\013\n\007BIDDING\020\002\022\010\n\004GAME\020\003\022\013\n\007STANDBY\020\004\022\014" +
+      "\n\010SETTINGS\020\005\"\026\n\006Player\022\014\n\004name\030\001 \001(\t\"\327\002\n" +
+      "\007Bidding\022\013\n\003bid\030\001 \001(\010\022\016\n\006amount\030\002 \001(\005\022,\n",
+      "\010contract\030\003 \001(\0162\032.protobuf.Bidding.Contr" +
+      "act\022)\n\006option\030\004 \001(\0162\031.protobuf.Bidding.O" +
+      "ptions\022\017\n\007coinche\030\005 \001(\010\022\022\n\nsurcoinche\030\006 " +
+      "\001(\010\022\014\n\004pass\030\007 \001(\010\"D\n\010Contract\022\023\n\017UNKNOWN" +
+      "CONTRACT\020\000\022\n\n\006AMOUNT\020\001\022\t\n\005CAPOT\020\002\022\014\n\010GEN" +
+      "ERALE\020\003\"]\n\007Options\022\021\n\rUNKNOWNOPTION\020\000\022\n\n" +
+      "\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAM" +
+      "ONDS\020\004\022\006\n\002TA\020\005\022\006\n\002SA\020\006\"\243\002\n\004Card\022)\n\010cardT" +
+      "ype\030\001 \001(\0162\027.protobuf.Card.CardType\022+\n\tca" +
+      "rdValue\030\002 \001(\0162\030.protobuf.Card.CardValue\"",
+      "P\n\010CardType\022\023\n\017UNKNOWNCARDTYPE\020\000\022\n\n\006HEAR" +
+      "TS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020" +
+      "\004\"q\n\tCardValue\022\024\n\020UNKNOWNCARDVALUE\020\000\022\t\n\005" +
+      "SEVEN\020\001\022\t\n\005EIGHT\020\002\022\010\n\004NINE\020\003\022\007\n\003TEN\020\004\022\010\n" +
+      "\004JACK\020\005\022\t\n\005QUEEN\020\006\022\010\n\004KING\020\007\022\006\n\002AS\020\010\"O\n\014" +
+      "GameProgress\022\017\n\007command\030\001 \001(\t\022\020\n\010argumen" +
+      "t\030\002 \003(\t\022\034\n\004card\030\003 \001(\0132\016.protobuf.Card\"A\n" +
+      "\020DistributionCard\022\017\n\007partner\030\001 \001(\t\022\034\n\004ca" +
+      "rd\030\002 \003(\0132\016.protobuf.CardB]\n+eu.epitech.j" +
+      "coinche.jcoincheclient.protobufB\004Game\252\002\'",
+      "Google.Protobuf.jcoincheclient.protobufb" +
+      "\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

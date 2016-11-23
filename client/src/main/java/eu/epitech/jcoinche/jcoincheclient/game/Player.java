@@ -53,11 +53,11 @@ public class Player {
                                         .setPlayer(Game.Player.newBuilder().setName(line).build())
                                         .build();
                     lastWriteFuture = Connection.get_channel().writeAndFlush(answer);
+                    // Wait until all messages are flushed.
                     if (lastWriteFuture != null) {
                         try {
                             lastWriteFuture.sync();
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
                             sendError("QUIT");
                             throw new Exception("Could not send the player's informations to the server.");
                         }
@@ -68,7 +68,6 @@ public class Player {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
             sendError("QUIT");
             throw new Exception("Cannot get the player's informations.");
         }
