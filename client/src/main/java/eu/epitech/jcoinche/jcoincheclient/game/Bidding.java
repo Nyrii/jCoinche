@@ -35,7 +35,20 @@ public class Bidding {
 
 
     public void printCards(Game.Answer answer) {
-        List<Game.Card> deck = Cards.sortCardsByTypeAndValue(answer.getCards());
+        System.out.println(answer);
+//        List<Game.Card> deck = Cards.sortCardsByTypeAndValue(answer.getCards());
+        Game.DistributionCard cards = answer.getCards();
+        List<Game.Card> deck = new ArrayList<Game.Card>(cards.getCardList());
+        Collections.sort(deck, new Comparator<Game.Card>() {
+            @Override
+            public int compare(Game.Card left, Game.Card right) {
+                int stringComparison = left.getCardType().toString().compareTo(right.getCardType().toString());
+                if (stringComparison == 0) {
+                    return (left.getCardValue().compareTo(right.getCardValue()));
+                }
+                return stringComparison;
+            }
+        });
         System.out.println("Here are your cards : ");
         for (Object card : deck) {
             String entireCard = new StringBuilder()
