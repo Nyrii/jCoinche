@@ -7,6 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static eu.epitech.jcoinche.jcoincheclient.protobuf.Game.Answer.Type.BIDDING;
 
@@ -25,16 +28,22 @@ public class Bidding {
         try {
             Connection.get_channel().closeFuture().sync();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("Could not close the socket properly... exiting the client...");
+            System.exit(84);
         }
     }
 
+
     public void printCards(Game.Answer answer) {
-        Game.DistributionCard cards = answer.getCards();
-        ArrayList deck = (ArrayList)cards.getCardList();
+        List<Game.Card> deck = Cards.sortCardsByTypeAndValue(answer.getCards());
         System.out.println("Here are your cards : ");
         for (Object card : deck) {
-            System.out.println(((Game.Card) card).getCardType() + " " + ((Game.Card) card).getCardValue());
+            String entireCard = new StringBuilder()
+                            .append(((Game.Card) card).getCardValue())
+                            .append(" OF ")
+                            .append(((Game.Card) card).getCardType())
+                            .toString();
+            System.out.println(entireCard);
         }
     }
 
@@ -43,7 +52,7 @@ public class Bidding {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             String line = null;
             boolean askAgain = false;
-            Integer i = 0;
+            int i = 0;
 
             while (!askAgain) {
                 line = null;
@@ -51,9 +60,9 @@ public class Bidding {
                     try {
                         if (i == 0) {
                             printCards(answer);
-                            System.out.println("Would you like to bet ? (y/n) ");
+                            System.out.println("Would you like to bet ? (y/n)");
                         } else if (i > 0) {
-                            System.out.println("An error occured : you have to do something or at least PASS. Would you like to bet then ? (y/n) ");
+                            System.out.println("An error occured : you have to do something or at least PASS. Would you like to bet then ? (y/n)");
                         }
                         line = in.readLine();
                         if (line != null && !line.isEmpty() && (line.toLowerCase().equals("y") || line.toLowerCase().equals("n"))) {

@@ -106,8 +106,8 @@ public class Connection {
             _secureSocket = SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build();
         } catch (SSLException e) {
             String error = new StringBuilder()
-                    .append("Could not create a socket.")
-                    .toString();
+                            .append("Could not create a socket.")
+                            .toString();
             throw new ConnectException(error);
         }
         _group = new NioEventLoopGroup();
@@ -121,17 +121,17 @@ public class Connection {
             _channel = _bootstrap.connect(System.getProperty("host", HOST), Integer.parseInt(System.getProperty("port", PORT))).sync().channel();
         } catch (InterruptedException e) {
             String error = new StringBuilder()
-                    .append("Connection interrupted. Could not create a channel to connect to the server.")
-                    .toString();
+                            .append("Connection interrupted. Could not create a channel to connect to the server.")
+                            .toString();
             throw new ConnectException(error);
         } catch (Exception e) {
             String error = new StringBuilder()
-                    .append("Could not connect to host \"")
-                    .append(HOST)
-                    .append("\" and port \"")
-                    .append(PORT)
-                    .append("\". Please check them and retry later.")
-                    .toString();
+                            .append("Could not connect to host \"")
+                            .append(HOST)
+                            .append("\" and port \"")
+                            .append(PORT)
+                            .append("\". Please check them and retry later.")
+                            .toString();
             throw new ConnectException(error);
         }
     }

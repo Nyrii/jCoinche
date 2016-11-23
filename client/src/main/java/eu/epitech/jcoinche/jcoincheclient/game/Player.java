@@ -25,7 +25,8 @@ public class Player {
         try {
             Connection.get_channel().closeFuture().sync();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("Could not close the socket properly... exiting the client...");
+            System.exit(84);
         }
     }
 
@@ -48,9 +49,9 @@ public class Player {
                 if (line != null && !line.isEmpty() && line.trim().length() > 0) {
                     // Sends the received line to the server.
                     Game.Answer answer = Game.Answer.newBuilder()
-                            .setType(PLAYER)
-                            .setPlayer(Game.Player.newBuilder().setName(line + "\r\n").build())
-                            .build();
+                                        .setType(PLAYER)
+                                        .setPlayer(Game.Player.newBuilder().setName(line).build())
+                                        .build();
                     lastWriteFuture = Connection.get_channel().writeAndFlush(answer);
                     if (lastWriteFuture != null) {
                         try {

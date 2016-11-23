@@ -6,6 +6,8 @@ import eu.epitech.jcoinche.jcoincheclient.game.Player;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.net.ConnectException;
+
 /**
  * Created by noboud_n on 16/11/2016.
  */
@@ -17,8 +19,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
 
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-            cause.printStackTrace();
+            System.out.println(cause.getMessage());
             ctx.close();
+            System.exit(84);
         }
 
         @Override
@@ -26,10 +29,17 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
             Player player = new Player();
             Bidding bidding = new Bidding();
 
-            if (answer.getCode() != -1 && answer.getCode() != 0 && answer.getCode() != 200) {
-                System.err.println(answer.getCode() + " " + answer.getRequest());
-            } else if (answer.getCode() == 200) {
-                System.out.println(answer.getCode() + " " + answer.getRequest());
+            if (answer.getCode() != -1 && answer.getCode() != 0 && !answer.getRequest().isEmpty()) {
+                String message = new StringBuilder()
+                        .append(answer.getCode())
+                        .append(" ")
+                        .append(answer.getRequest())
+                        .toString();
+                if (answer.getCode() == 200) {
+                    System.out.println(message);
+                } else {
+                    System.err.println(message);
+                }
             }
 
             try {
