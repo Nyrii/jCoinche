@@ -16,10 +16,31 @@ import static eu.epitech.jcoinche.jcoincheclient.protobuf.Game.Answer.Type.SETTI
  * Created by noboud_n on 23/11/2016.
  */
 public class Settings {
+
+    public boolean sendRequest(String command, List<String> arguments) {
+        ChannelFuture lastWriteFuture = null;
+
+        Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
+        futureAnswer.setType(SETTINGS)
+                .setRequest(command)
+                .addAllArguments(arguments)
+                .setCode(100)
+                .build();
+        lastWriteFuture = Connection.get_channel().writeAndFlush(futureAnswer);
+        if (lastWriteFuture != null) {
+            try {
+                lastWriteFuture.sync();
+            } catch (Exception e) {
+                System.err.println("Could not send the last requests");
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean request() {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String line = null;
-        ChannelFuture lastWriteFuture = null;
         int i = 0;
 
         for (;;) {
@@ -30,7 +51,7 @@ public class Settings {
                     break;
                 } else if (!line.isEmpty()) {
                     String[] commandLine = line.split("\\s+");
-                    ArrayList<String> arguments = new ArrayList<String>();
+                    List<String> arguments = new ArrayList<>();
                     String command = "";
                     for (String args : commandLine) {
                         if (i == 0) {
@@ -47,26 +68,11 @@ public class Settings {
                         }
                         ++i;
                     }
-                    Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
-                    futureAnswer.setType(SETTINGS)
-                            .setRequest(command)
-                            .addAllArguments(arguments)
-                            .setCode(100)
-                            .build();
-                    lastWriteFuture = Connection.get_channel().writeAndFlush(futureAnswer);
-                    if (lastWriteFuture != null) {
-                        try {
-                            lastWriteFuture.sync();
-                        } catch (Exception e) {
-                            System.err.println("Could not send the last requests");
-                            return false;
-                        }
-                    }
+                    sendRequest(command, arguments);
                 }
             } catch (IOException e) {
                 System.err.println("Could not get your request.");
             } catch (Exception e) {
-                e.printStackTrace();
                 System.err.println("Could not send the request to the server.");
             }
         }
