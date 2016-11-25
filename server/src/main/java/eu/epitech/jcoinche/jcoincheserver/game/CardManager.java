@@ -44,10 +44,14 @@ public class CardManager {
         }
     }
 
-    public static void giveCardToAllPlayers(ChannelGroup clients) {
+    public static void giveCardToAllPlayers(ArrayList clients) {
         Random rand = new Random();
         int index;
-        for (Channel c: clients) {
+        if (cardGames.size() != 0) {
+            cardGames.clear();
+            deckObjects.clear();
+        }
+        for (Object c: clients) {
             ArrayList tmp = new ArrayList();
             for (int i = 0; i < 8; i++) {
                 index = rand.nextInt(cardList.size());
@@ -65,20 +69,16 @@ public class CardManager {
                     .setCode(200)
                     .setRequest("Cards have been distributed!")
                     .build();
-            c.writeAndFlush(answer);
+            ((Channel) c).writeAndFlush(answer);
             cardGames.add(tmp);
         }
-        for (Object deck : cardGames) {
-            System.out.println("player has : {");
-            for (Object card : (ArrayList) deck) {
-                System.out.println(card);
-            }
-            System.out.println("}");
-        }
-    }
-
-    public static ArrayList getCardGames() {
-        return cardGames;
+//        for (Object deck : cardGames) {
+//            System.out.println("player has : {");
+//            for (Object card : (ArrayList) deck) {
+//                System.out.println(card);
+//            }
+//            System.out.println("}");
+//        }
     }
 
     public static Game.DistributionCard getDeckFromPosition(int pos) {

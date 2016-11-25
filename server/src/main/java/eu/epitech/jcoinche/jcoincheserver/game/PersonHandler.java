@@ -103,8 +103,8 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 System.out.println(answer.getBidding());
                 if (gm.getPlay()) {
                     Game.Answer ans = gm.interpreteBidding(arg0, answer.getBidding());
-                    arg0.writeAndFlush(ans);
-                    if (ans.getCode() < 400)
+                    System.out.println(ans);
+                    if (gm.getBid() && ans.getCode() < 400 && ans.getCode() != 203 && ans.getCode() != 202)
                         gm.getNextPlayerChannel();
                 }
                 break;

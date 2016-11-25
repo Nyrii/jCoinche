@@ -7,7 +7,6 @@ import org.apache.maven.shared.utils.StringUtils;
 
 import java.util.ArrayList;
 
-
 /**
  * Created by Saursinet on 20/11/2016.
  */
@@ -36,6 +35,7 @@ public class AnswerToClient {
             return false;
         for (int i = 0; i < nameClient.size(); i++) {
             if (id.contains((String) nameClient.get(i))) {
+                System.out.println("replace " + nameClient.get(i) + " by " + name);
                 nameClient.set(i, name);
             }
         }
@@ -75,18 +75,21 @@ public class AnswerToClient {
             str = "Just annonce capot";
             type = SETTINGS;
             gm.setCapot(true, ctx);
+            gm.setMessage(gm.getNameFromClient(ctx) + " announced capot at " + bidding.getOption());
         } else if (bidding.getAmount() < 80) {
             code = 400;
             str = "Bidding to low, minimum is 81";
         } else if (bidding.getAmount() > 160) {
             code = 400;
             str = "Bidding to high, maximum is 160 or capot";
-        } else if (bidding.getAmount() < contract) {
+        } else if (bidding.getAmount() <= contract) {
             code = 400;
             str = "Bidding to low, a previous bidding was " + contract;
         } else {
             code = 200;
             str = "Bidding okay";
+            type = SETTINGS;
+            gm.setMessage(gm.getNameFromClient(ctx) + " announced a bidding with " + bidding.getAmount() + " at " + bidding.getOption());
             gm.setContract(bidding.getAmount(), ctx);
         }
         return Game.Answer.newBuilder()
@@ -100,6 +103,7 @@ public class AnswerToClient {
     private static Game.Answer setResponseIfCoinche(GameManager gm, int contract, ChannelHandlerContext ctx) {
         int code;
         String str;
+        Game.Answer.Type type = BIDDING;
 
         if (gm.getCoinche()) {
             code = 400;
@@ -116,13 +120,15 @@ public class AnswerToClient {
         } else {
             gm.setCoinche(true, ctx);
             code = 201;
+            type = SETTINGS;
             str = "You just coinched the other player";
+            gm.setMessage(gm.getNameFromClient(ctx) + " coinched the other team");
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)
                 .setCode(code)
                 .setCards(gm.getDeck(gm.getClientPosition(ctx)))
-                .setType(BIDDING)
+                .setType(type)
                 .build();
     }
 
@@ -136,12 +142,14 @@ public class AnswerToClient {
             str = "A person has already surcoinche";
         } else if (gm.getPersonWhoBet() != gm.getClientPosition(ctx)) {
             code = 400;
+            System.out.println("person who bet = " + gm.getPersonWhoBet() + "  et pos = " + gm.getClientPosition(ctx) + " name :" + gm.getNameFromClient(ctx));
             str = "You cannot surcoinche if it's not you who bet at first";
         } else {
             gm.setSurCoinche(true, ctx);
-            code = 201;
+            code = 202;
             type = SETTINGS;
             str = "You just surcoinched the other player";
+            gm.setMessage(gm.getNameFromClient(ctx) + " surcoinched");
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)
@@ -164,8 +172,8 @@ public class AnswerToClient {
         } else {
             answer = Game.Answer.newBuilder()
                     .setRequest("You just pass your turn!")
-                    .setCode(200)
-                    .setType(BIDDING)
+                    .setCode(205)
+                    .setType(SETTINGS)
                     .setCards(gm.getDeck(gm.getClientPosition(ctx)))
                     .build();
             gm.addInactiveTurn(gm.getNbTurnInactive() + 1);
@@ -174,7 +182,6 @@ public class AnswerToClient {
         if (!pastInElse)
             gm.addInactiveTurn(0);
         gm.checkIfPartyCanRun();
-        System.out.println("bidding = {" + answer + "}");
         return answer;
     }
 }
