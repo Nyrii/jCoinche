@@ -47,10 +47,10 @@ public class Settings {
                         }
                         ++i;
                     }
-                    Game.Answer request = Game.Answer.newBuilder().addAllArguments(arguments).build();
                     Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
                     futureAnswer.setType(SETTINGS)
                             .setRequest(command)
+                            .addAllArguments(arguments)
                             .setCode(100)
                             .build();
                     lastWriteFuture = Connection.get_channel().writeAndFlush(futureAnswer);
