@@ -27,7 +27,7 @@ public class Bidding {
         Connection.get_channel().writeAndFlush(answer);
         try {
             Connection.get_channel().closeFuture().sync();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             System.err.println("Could not close the socket properly... exiting the client...");
             System.exit(84);
         }
@@ -69,7 +69,6 @@ public class Bidding {
                             break;
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
                         sendError("QUIT");
                         throw new Exception("System error : Could not get the input.");
                     }
@@ -86,7 +85,6 @@ public class Bidding {
                 i = 1;
             }
         } catch (Exception e) {
-            e.printStackTrace();
             sendError("QUIT");
             throw new Exception("Cannot get the player's informations.");
         }
@@ -107,9 +105,7 @@ public class Bidding {
                         .setBidding(bidding)
                         .build();
             Connection.get_channel().writeAndFlush(futureAnswer);
-            System.out.println(bidding);
         } catch (Exception e) {
-            e.printStackTrace();
             sendError("QUIT");
             throw new Exception("Cannot get the player's bidding wishes.");
         }
@@ -132,21 +128,19 @@ public class Bidding {
         }
         if (line != null && !line.isEmpty()) {
             bidding.setBid(true);
-            if (line.toUpperCase().equals("CAPOT")) {
-                bidding.setContract(Game.Bidding.Contract.CAPOT);
-                bidding.setAmount(-1);
-            } else if (line.toUpperCase().equals("GENERALE")) {
-                bidding.setContract(Game.Bidding.Contract.GENERALE);
-                bidding.setAmount(-1);
-            } else {
-                try {
-                    Integer amount = Integer.parseInt(line);
-                    bidding.setAmount(amount);
-                    bidding.setContract(Game.Bidding.Contract.AMOUNT);
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    return false;
+            for (Game.Bidding.Contract contract : Game.Bidding.Contract.values()) {
+                if (contract.name().equals(line.toUpperCase()) && !line.toUpperCase().equals("AMOUNT")) {
+                    bidding.setContract(Game.Bidding.Contract.valueOf(line.toUpperCase()));
+                    bidding.setAmount(-1);
+                    return true;
                 }
+            }
+            try {
+                Integer amount = Integer.parseInt(line);
+                bidding.setAmount(amount);
+                bidding.setContract(Game.Bidding.Contract.AMOUNT);
+            } catch (NumberFormatException e) {
+                return false;
             }
             return true;
         }
@@ -160,31 +154,19 @@ public class Bidding {
 
         // Get the card suit of the contract
         try {
-            System.out.println("Choose a card suit (HEARTS, SPADES, CLUBS, DIAMONDS) :");
+            System.out.println("Choose a card suit (HEARTS, SPADES, CLUBS, DIAMONDS, TA or SA) :");
             line = in.readLine();
         } catch (IOException e) {
-            e.printStackTrace();
             sendError("QUIT");
             throw new Exception("System error : Could not get the input.");
         }
         if (line != null && !line.isEmpty()) {
-            switch (line.toUpperCase()) {
-                case "HEARTS":
-                    bidding.setOption(Game.Bidding.Options.HEARTS);
-                    break;
-                case "SPADES":
-                    bidding.setOption(Game.Bidding.Options.SPADES);
-                    break;
-                case "CLUBS":
-                    bidding.setOption(Game.Bidding.Options.CLUBS);
-                    break;
-                case "DIAMONDS":
-                    bidding.setOption(Game.Bidding.Options.DIAMONDS);
-                    break;
-                default:
-                    return false;
+            for (Game.Bidding.Options opt : Game.Bidding.Options.values()) {
+                if (opt.name().equals(line.toUpperCase())) {
+                    bidding.setOption(Game.Bidding.Options.valueOf(line.toUpperCase()));
+                    return true;
+                }
             }
-            return true;
         }
         return false;
     }

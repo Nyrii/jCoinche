@@ -46,7 +46,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
                 switch (answer.getType()) {
 
                     case PLAYER:
-                        player.askInformations();
+//                        player.askInformations();
+                        settings.request();
                         break;
 
                     case BIDDING:
@@ -55,7 +56,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
 
                     case GAME:
                         System.out.println(answer.getGame());
-                        // do the processing
                         break;
 
                     case SETTINGS:

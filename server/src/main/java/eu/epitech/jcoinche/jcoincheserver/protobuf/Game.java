@@ -29,7 +29,26 @@ public final class Game {
         getRequestBytes();
 
     /**
-     * <code>optional int32 code = 2;</code>
+     * <code>repeated string arguments = 2;</code>
+     */
+    java.util.List<java.lang.String>
+        getArgumentsList();
+    /**
+     * <code>repeated string arguments = 2;</code>
+     */
+    int getArgumentsCount();
+    /**
+     * <code>repeated string arguments = 2;</code>
+     */
+    java.lang.String getArguments(int index);
+    /**
+     * <code>repeated string arguments = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getArgumentsBytes(int index);
+
+    /**
+     * <code>optional int32 code = 3;</code>
      */
     int getCode();
 
@@ -38,7 +57,7 @@ public final class Game {
      * Identifies which field is filled in.
      * </pre>
      *
-     * <code>optional .protobuf.Answer.Type type = 3;</code>
+     * <code>optional .protobuf.Answer.Type type = 4;</code>
      */
     int getTypeValue();
     /**
@@ -46,7 +65,7 @@ public final class Game {
      * Identifies which field is filled in.
      * </pre>
      *
-     * <code>optional .protobuf.Answer.Type type = 3;</code>
+     * <code>optional .protobuf.Answer.Type type = 4;</code>
      */
     eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type getType();
 
@@ -55,7 +74,7 @@ public final class Game {
      * One of the following will be filled in.
      * </pre>
      *
-     * <code>optional .protobuf.Player player = 4;</code>
+     * <code>optional .protobuf.Player player = 5;</code>
      */
     boolean hasPlayer();
     /**
@@ -63,7 +82,7 @@ public final class Game {
      * One of the following will be filled in.
      * </pre>
      *
-     * <code>optional .protobuf.Player player = 4;</code>
+     * <code>optional .protobuf.Player player = 5;</code>
      */
     eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player getPlayer();
     /**
@@ -71,46 +90,46 @@ public final class Game {
      * One of the following will be filled in.
      * </pre>
      *
-     * <code>optional .protobuf.Player player = 4;</code>
+     * <code>optional .protobuf.Player player = 5;</code>
      */
     eu.epitech.jcoinche.jcoincheserver.protobuf.Game.PlayerOrBuilder getPlayerOrBuilder();
 
     /**
-     * <code>optional .protobuf.Bidding bidding = 5;</code>
+     * <code>optional .protobuf.Bidding bidding = 6;</code>
      */
     boolean hasBidding();
     /**
-     * <code>optional .protobuf.Bidding bidding = 5;</code>
+     * <code>optional .protobuf.Bidding bidding = 6;</code>
      */
     eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding getBidding();
     /**
-     * <code>optional .protobuf.Bidding bidding = 5;</code>
+     * <code>optional .protobuf.Bidding bidding = 6;</code>
      */
     eu.epitech.jcoinche.jcoincheserver.protobuf.Game.BiddingOrBuilder getBiddingOrBuilder();
 
     /**
-     * <code>optional .protobuf.GameProgress game = 6;</code>
+     * <code>optional .protobuf.GameProgress game = 7;</code>
      */
     boolean hasGame();
     /**
-     * <code>optional .protobuf.GameProgress game = 6;</code>
+     * <code>optional .protobuf.GameProgress game = 7;</code>
      */
     eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress getGame();
     /**
-     * <code>optional .protobuf.GameProgress game = 6;</code>
+     * <code>optional .protobuf.GameProgress game = 7;</code>
      */
     eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgressOrBuilder getGameOrBuilder();
 
     /**
-     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     * <code>optional .protobuf.DistributionCard cards = 8;</code>
      */
     boolean hasCards();
     /**
-     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     * <code>optional .protobuf.DistributionCard cards = 8;</code>
      */
     eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard getCards();
     /**
-     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     * <code>optional .protobuf.DistributionCard cards = 8;</code>
      */
     eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCardOrBuilder getCardsOrBuilder();
   }
@@ -131,6 +150,7 @@ public final class Game {
     }
     private Answer() {
       request_ = "";
+      arguments_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       code_ = 0;
       type_ = 0;
     }
@@ -166,18 +186,27 @@ public final class Game {
               request_ = s;
               break;
             }
-            case 16: {
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                arguments_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              arguments_.add(s);
+              break;
+            }
+            case 24: {
 
               code_ = input.readInt32();
               break;
             }
-            case 24: {
+            case 32: {
               int rawValue = input.readEnum();
 
               type_ = rawValue;
               break;
             }
-            case 34: {
+            case 42: {
               eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player.Builder subBuilder = null;
               if (player_ != null) {
                 subBuilder = player_.toBuilder();
@@ -190,7 +219,7 @@ public final class Game {
 
               break;
             }
-            case 42: {
+            case 50: {
               eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding.Builder subBuilder = null;
               if (bidding_ != null) {
                 subBuilder = bidding_.toBuilder();
@@ -203,7 +232,7 @@ public final class Game {
 
               break;
             }
-            case 50: {
+            case 58: {
               eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress.Builder subBuilder = null;
               if (game_ != null) {
                 subBuilder = game_.toBuilder();
@@ -216,7 +245,7 @@ public final class Game {
 
               break;
             }
-            case 58: {
+            case 66: {
               eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard.Builder subBuilder = null;
               if (cards_ != null) {
                 subBuilder = cards_.toBuilder();
@@ -237,6 +266,9 @@ public final class Game {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          arguments_ = arguments_.getUnmodifiableView();
+        }
         makeExtensionsImmutable();
       }
     }
@@ -377,6 +409,7 @@ public final class Game {
       // @@protoc_insertion_point(enum_scope:protobuf.Answer.Type)
     }
 
+    private int bitField0_;
     public static final int REQUEST_FIELD_NUMBER = 1;
     private volatile java.lang.Object request_;
     /**
@@ -411,23 +444,52 @@ public final class Game {
       }
     }
 
-    public static final int CODE_FIELD_NUMBER = 2;
+    public static final int ARGUMENTS_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList arguments_;
+    /**
+     * <code>repeated string arguments = 2;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getArgumentsList() {
+      return arguments_;
+    }
+    /**
+     * <code>repeated string arguments = 2;</code>
+     */
+    public int getArgumentsCount() {
+      return arguments_.size();
+    }
+    /**
+     * <code>repeated string arguments = 2;</code>
+     */
+    public java.lang.String getArguments(int index) {
+      return arguments_.get(index);
+    }
+    /**
+     * <code>repeated string arguments = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getArgumentsBytes(int index) {
+      return arguments_.getByteString(index);
+    }
+
+    public static final int CODE_FIELD_NUMBER = 3;
     private int code_;
     /**
-     * <code>optional int32 code = 2;</code>
+     * <code>optional int32 code = 3;</code>
      */
     public int getCode() {
       return code_;
     }
 
-    public static final int TYPE_FIELD_NUMBER = 3;
+    public static final int TYPE_FIELD_NUMBER = 4;
     private int type_;
     /**
      * <pre>
      * Identifies which field is filled in.
      * </pre>
      *
-     * <code>optional .protobuf.Answer.Type type = 3;</code>
+     * <code>optional .protobuf.Answer.Type type = 4;</code>
      */
     public int getTypeValue() {
       return type_;
@@ -437,21 +499,21 @@ public final class Game {
      * Identifies which field is filled in.
      * </pre>
      *
-     * <code>optional .protobuf.Answer.Type type = 3;</code>
+     * <code>optional .protobuf.Answer.Type type = 4;</code>
      */
     public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type getType() {
       eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type result = eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.valueOf(type_);
       return result == null ? eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.UNRECOGNIZED : result;
     }
 
-    public static final int PLAYER_FIELD_NUMBER = 4;
+    public static final int PLAYER_FIELD_NUMBER = 5;
     private eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player player_;
     /**
      * <pre>
      * One of the following will be filled in.
      * </pre>
      *
-     * <code>optional .protobuf.Player player = 4;</code>
+     * <code>optional .protobuf.Player player = 5;</code>
      */
     public boolean hasPlayer() {
       return player_ != null;
@@ -461,7 +523,7 @@ public final class Game {
      * One of the following will be filled in.
      * </pre>
      *
-     * <code>optional .protobuf.Player player = 4;</code>
+     * <code>optional .protobuf.Player player = 5;</code>
      */
     public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player getPlayer() {
       return player_ == null ? eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player.getDefaultInstance() : player_;
@@ -471,70 +533,70 @@ public final class Game {
      * One of the following will be filled in.
      * </pre>
      *
-     * <code>optional .protobuf.Player player = 4;</code>
+     * <code>optional .protobuf.Player player = 5;</code>
      */
     public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.PlayerOrBuilder getPlayerOrBuilder() {
       return getPlayer();
     }
 
-    public static final int BIDDING_FIELD_NUMBER = 5;
+    public static final int BIDDING_FIELD_NUMBER = 6;
     private eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding bidding_;
     /**
-     * <code>optional .protobuf.Bidding bidding = 5;</code>
+     * <code>optional .protobuf.Bidding bidding = 6;</code>
      */
     public boolean hasBidding() {
       return bidding_ != null;
     }
     /**
-     * <code>optional .protobuf.Bidding bidding = 5;</code>
+     * <code>optional .protobuf.Bidding bidding = 6;</code>
      */
     public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding getBidding() {
       return bidding_ == null ? eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding.getDefaultInstance() : bidding_;
     }
     /**
-     * <code>optional .protobuf.Bidding bidding = 5;</code>
+     * <code>optional .protobuf.Bidding bidding = 6;</code>
      */
     public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.BiddingOrBuilder getBiddingOrBuilder() {
       return getBidding();
     }
 
-    public static final int GAME_FIELD_NUMBER = 6;
+    public static final int GAME_FIELD_NUMBER = 7;
     private eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress game_;
     /**
-     * <code>optional .protobuf.GameProgress game = 6;</code>
+     * <code>optional .protobuf.GameProgress game = 7;</code>
      */
     public boolean hasGame() {
       return game_ != null;
     }
     /**
-     * <code>optional .protobuf.GameProgress game = 6;</code>
+     * <code>optional .protobuf.GameProgress game = 7;</code>
      */
     public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress getGame() {
       return game_ == null ? eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress.getDefaultInstance() : game_;
     }
     /**
-     * <code>optional .protobuf.GameProgress game = 6;</code>
+     * <code>optional .protobuf.GameProgress game = 7;</code>
      */
     public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgressOrBuilder getGameOrBuilder() {
       return getGame();
     }
 
-    public static final int CARDS_FIELD_NUMBER = 7;
+    public static final int CARDS_FIELD_NUMBER = 8;
     private eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard cards_;
     /**
-     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     * <code>optional .protobuf.DistributionCard cards = 8;</code>
      */
     public boolean hasCards() {
       return cards_ != null;
     }
     /**
-     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     * <code>optional .protobuf.DistributionCard cards = 8;</code>
      */
     public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard getCards() {
       return cards_ == null ? eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard.getDefaultInstance() : cards_;
     }
     /**
-     * <code>optional .protobuf.DistributionCard cards = 7;</code>
+     * <code>optional .protobuf.DistributionCard cards = 8;</code>
      */
     public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCardOrBuilder getCardsOrBuilder() {
       return getCards();
@@ -555,23 +617,26 @@ public final class Game {
       if (!getRequestBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, request_);
       }
+      for (int i = 0; i < arguments_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, arguments_.getRaw(i));
+      }
       if (code_ != 0) {
-        output.writeInt32(2, code_);
+        output.writeInt32(3, code_);
       }
       if (type_ != eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.NONE.getNumber()) {
-        output.writeEnum(3, type_);
+        output.writeEnum(4, type_);
       }
       if (player_ != null) {
-        output.writeMessage(4, getPlayer());
+        output.writeMessage(5, getPlayer());
       }
       if (bidding_ != null) {
-        output.writeMessage(5, getBidding());
+        output.writeMessage(6, getBidding());
       }
       if (game_ != null) {
-        output.writeMessage(6, getGame());
+        output.writeMessage(7, getGame());
       }
       if (cards_ != null) {
-        output.writeMessage(7, getCards());
+        output.writeMessage(8, getCards());
       }
     }
 
@@ -583,29 +648,37 @@ public final class Game {
       if (!getRequestBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, request_);
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < arguments_.size(); i++) {
+          dataSize += computeStringSizeNoTag(arguments_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getArgumentsList().size();
+      }
       if (code_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, code_);
+          .computeInt32Size(3, code_);
       }
       if (type_ != eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.NONE.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(3, type_);
+          .computeEnumSize(4, type_);
       }
       if (player_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, getPlayer());
+          .computeMessageSize(5, getPlayer());
       }
       if (bidding_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, getBidding());
+          .computeMessageSize(6, getBidding());
       }
       if (game_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, getGame());
+          .computeMessageSize(7, getGame());
       }
       if (cards_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, getCards());
+          .computeMessageSize(8, getCards());
       }
       memoizedSize = size;
       return size;
@@ -625,6 +698,8 @@ public final class Game {
       boolean result = true;
       result = result && getRequest()
           .equals(other.getRequest());
+      result = result && getArgumentsList()
+          .equals(other.getArgumentsList());
       result = result && (getCode()
           == other.getCode());
       result = result && type_ == other.type_;
@@ -660,6 +735,10 @@ public final class Game {
       hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + REQUEST_FIELD_NUMBER;
       hash = (53 * hash) + getRequest().hashCode();
+      if (getArgumentsCount() > 0) {
+        hash = (37 * hash) + ARGUMENTS_FIELD_NUMBER;
+        hash = (53 * hash) + getArgumentsList().hashCode();
+      }
       hash = (37 * hash) + CODE_FIELD_NUMBER;
       hash = (53 * hash) + getCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
@@ -804,6 +883,8 @@ public final class Game {
         super.clear();
         request_ = "";
 
+        arguments_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         code_ = 0;
 
         type_ = 0;
@@ -854,7 +935,14 @@ public final class Game {
 
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer buildPartial() {
         eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer result = new eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.request_ = request_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          arguments_ = arguments_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.arguments_ = arguments_;
         result.code_ = code_;
         result.type_ = type_;
         if (playerBuilder_ == null) {
@@ -877,6 +965,7 @@ public final class Game {
         } else {
           result.cards_ = cardsBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -922,6 +1011,16 @@ public final class Game {
           request_ = other.request_;
           onChanged();
         }
+        if (!other.arguments_.isEmpty()) {
+          if (arguments_.isEmpty()) {
+            arguments_ = other.arguments_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureArgumentsIsMutable();
+            arguments_.addAll(other.arguments_);
+          }
+          onChanged();
+        }
         if (other.getCode() != 0) {
           setCode(other.getCode());
         }
@@ -965,6 +1064,7 @@ public final class Game {
         }
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object request_ = "";
       /**
@@ -1035,15 +1135,109 @@ public final class Game {
         return this;
       }
 
+      private com.google.protobuf.LazyStringList arguments_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureArgumentsIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          arguments_ = new com.google.protobuf.LazyStringArrayList(arguments_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string arguments = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getArgumentsList() {
+        return arguments_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string arguments = 2;</code>
+       */
+      public int getArgumentsCount() {
+        return arguments_.size();
+      }
+      /**
+       * <code>repeated string arguments = 2;</code>
+       */
+      public java.lang.String getArguments(int index) {
+        return arguments_.get(index);
+      }
+      /**
+       * <code>repeated string arguments = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getArgumentsBytes(int index) {
+        return arguments_.getByteString(index);
+      }
+      /**
+       * <code>repeated string arguments = 2;</code>
+       */
+      public Builder setArguments(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureArgumentsIsMutable();
+        arguments_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string arguments = 2;</code>
+       */
+      public Builder addArguments(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureArgumentsIsMutable();
+        arguments_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string arguments = 2;</code>
+       */
+      public Builder addAllArguments(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureArgumentsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, arguments_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string arguments = 2;</code>
+       */
+      public Builder clearArguments() {
+        arguments_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string arguments = 2;</code>
+       */
+      public Builder addArgumentsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureArgumentsIsMutable();
+        arguments_.add(value);
+        onChanged();
+        return this;
+      }
+
       private int code_ ;
       /**
-       * <code>optional int32 code = 2;</code>
+       * <code>optional int32 code = 3;</code>
        */
       public int getCode() {
         return code_;
       }
       /**
-       * <code>optional int32 code = 2;</code>
+       * <code>optional int32 code = 3;</code>
        */
       public Builder setCode(int value) {
         
@@ -1052,7 +1246,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional int32 code = 2;</code>
+       * <code>optional int32 code = 3;</code>
        */
       public Builder clearCode() {
         
@@ -1067,7 +1261,7 @@ public final class Game {
        * Identifies which field is filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Answer.Type type = 3;</code>
+       * <code>optional .protobuf.Answer.Type type = 4;</code>
        */
       public int getTypeValue() {
         return type_;
@@ -1077,7 +1271,7 @@ public final class Game {
        * Identifies which field is filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Answer.Type type = 3;</code>
+       * <code>optional .protobuf.Answer.Type type = 4;</code>
        */
       public Builder setTypeValue(int value) {
         type_ = value;
@@ -1089,7 +1283,7 @@ public final class Game {
        * Identifies which field is filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Answer.Type type = 3;</code>
+       * <code>optional .protobuf.Answer.Type type = 4;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type getType() {
         eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type result = eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.valueOf(type_);
@@ -1100,7 +1294,7 @@ public final class Game {
        * Identifies which field is filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Answer.Type type = 3;</code>
+       * <code>optional .protobuf.Answer.Type type = 4;</code>
        */
       public Builder setType(eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type value) {
         if (value == null) {
@@ -1116,7 +1310,7 @@ public final class Game {
        * Identifies which field is filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Answer.Type type = 3;</code>
+       * <code>optional .protobuf.Answer.Type type = 4;</code>
        */
       public Builder clearType() {
         
@@ -1133,7 +1327,7 @@ public final class Game {
        * One of the following will be filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Player player = 4;</code>
+       * <code>optional .protobuf.Player player = 5;</code>
        */
       public boolean hasPlayer() {
         return playerBuilder_ != null || player_ != null;
@@ -1143,7 +1337,7 @@ public final class Game {
        * One of the following will be filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Player player = 4;</code>
+       * <code>optional .protobuf.Player player = 5;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player getPlayer() {
         if (playerBuilder_ == null) {
@@ -1157,7 +1351,7 @@ public final class Game {
        * One of the following will be filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Player player = 4;</code>
+       * <code>optional .protobuf.Player player = 5;</code>
        */
       public Builder setPlayer(eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player value) {
         if (playerBuilder_ == null) {
@@ -1177,7 +1371,7 @@ public final class Game {
        * One of the following will be filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Player player = 4;</code>
+       * <code>optional .protobuf.Player player = 5;</code>
        */
       public Builder setPlayer(
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player.Builder builderForValue) {
@@ -1195,7 +1389,7 @@ public final class Game {
        * One of the following will be filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Player player = 4;</code>
+       * <code>optional .protobuf.Player player = 5;</code>
        */
       public Builder mergePlayer(eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player value) {
         if (playerBuilder_ == null) {
@@ -1217,7 +1411,7 @@ public final class Game {
        * One of the following will be filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Player player = 4;</code>
+       * <code>optional .protobuf.Player player = 5;</code>
        */
       public Builder clearPlayer() {
         if (playerBuilder_ == null) {
@@ -1235,7 +1429,7 @@ public final class Game {
        * One of the following will be filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Player player = 4;</code>
+       * <code>optional .protobuf.Player player = 5;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player.Builder getPlayerBuilder() {
         
@@ -1247,7 +1441,7 @@ public final class Game {
        * One of the following will be filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Player player = 4;</code>
+       * <code>optional .protobuf.Player player = 5;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.PlayerOrBuilder getPlayerOrBuilder() {
         if (playerBuilder_ != null) {
@@ -1262,7 +1456,7 @@ public final class Game {
        * One of the following will be filled in.
        * </pre>
        *
-       * <code>optional .protobuf.Player player = 4;</code>
+       * <code>optional .protobuf.Player player = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Player.Builder, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.PlayerOrBuilder> 
@@ -1282,13 +1476,13 @@ public final class Game {
       private com.google.protobuf.SingleFieldBuilderV3<
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding.Builder, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.BiddingOrBuilder> biddingBuilder_;
       /**
-       * <code>optional .protobuf.Bidding bidding = 5;</code>
+       * <code>optional .protobuf.Bidding bidding = 6;</code>
        */
       public boolean hasBidding() {
         return biddingBuilder_ != null || bidding_ != null;
       }
       /**
-       * <code>optional .protobuf.Bidding bidding = 5;</code>
+       * <code>optional .protobuf.Bidding bidding = 6;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding getBidding() {
         if (biddingBuilder_ == null) {
@@ -1298,7 +1492,7 @@ public final class Game {
         }
       }
       /**
-       * <code>optional .protobuf.Bidding bidding = 5;</code>
+       * <code>optional .protobuf.Bidding bidding = 6;</code>
        */
       public Builder setBidding(eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding value) {
         if (biddingBuilder_ == null) {
@@ -1314,7 +1508,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.Bidding bidding = 5;</code>
+       * <code>optional .protobuf.Bidding bidding = 6;</code>
        */
       public Builder setBidding(
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding.Builder builderForValue) {
@@ -1328,7 +1522,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.Bidding bidding = 5;</code>
+       * <code>optional .protobuf.Bidding bidding = 6;</code>
        */
       public Builder mergeBidding(eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding value) {
         if (biddingBuilder_ == null) {
@@ -1346,7 +1540,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.Bidding bidding = 5;</code>
+       * <code>optional .protobuf.Bidding bidding = 6;</code>
        */
       public Builder clearBidding() {
         if (biddingBuilder_ == null) {
@@ -1360,7 +1554,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.Bidding bidding = 5;</code>
+       * <code>optional .protobuf.Bidding bidding = 6;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding.Builder getBiddingBuilder() {
         
@@ -1368,7 +1562,7 @@ public final class Game {
         return getBiddingFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .protobuf.Bidding bidding = 5;</code>
+       * <code>optional .protobuf.Bidding bidding = 6;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.BiddingOrBuilder getBiddingOrBuilder() {
         if (biddingBuilder_ != null) {
@@ -1379,7 +1573,7 @@ public final class Game {
         }
       }
       /**
-       * <code>optional .protobuf.Bidding bidding = 5;</code>
+       * <code>optional .protobuf.Bidding bidding = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Bidding.Builder, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.BiddingOrBuilder> 
@@ -1399,13 +1593,13 @@ public final class Game {
       private com.google.protobuf.SingleFieldBuilderV3<
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress.Builder, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgressOrBuilder> gameBuilder_;
       /**
-       * <code>optional .protobuf.GameProgress game = 6;</code>
+       * <code>optional .protobuf.GameProgress game = 7;</code>
        */
       public boolean hasGame() {
         return gameBuilder_ != null || game_ != null;
       }
       /**
-       * <code>optional .protobuf.GameProgress game = 6;</code>
+       * <code>optional .protobuf.GameProgress game = 7;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress getGame() {
         if (gameBuilder_ == null) {
@@ -1415,7 +1609,7 @@ public final class Game {
         }
       }
       /**
-       * <code>optional .protobuf.GameProgress game = 6;</code>
+       * <code>optional .protobuf.GameProgress game = 7;</code>
        */
       public Builder setGame(eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress value) {
         if (gameBuilder_ == null) {
@@ -1431,7 +1625,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.GameProgress game = 6;</code>
+       * <code>optional .protobuf.GameProgress game = 7;</code>
        */
       public Builder setGame(
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress.Builder builderForValue) {
@@ -1445,7 +1639,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.GameProgress game = 6;</code>
+       * <code>optional .protobuf.GameProgress game = 7;</code>
        */
       public Builder mergeGame(eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress value) {
         if (gameBuilder_ == null) {
@@ -1463,7 +1657,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.GameProgress game = 6;</code>
+       * <code>optional .protobuf.GameProgress game = 7;</code>
        */
       public Builder clearGame() {
         if (gameBuilder_ == null) {
@@ -1477,7 +1671,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.GameProgress game = 6;</code>
+       * <code>optional .protobuf.GameProgress game = 7;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress.Builder getGameBuilder() {
         
@@ -1485,7 +1679,7 @@ public final class Game {
         return getGameFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .protobuf.GameProgress game = 6;</code>
+       * <code>optional .protobuf.GameProgress game = 7;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgressOrBuilder getGameOrBuilder() {
         if (gameBuilder_ != null) {
@@ -1496,7 +1690,7 @@ public final class Game {
         }
       }
       /**
-       * <code>optional .protobuf.GameProgress game = 6;</code>
+       * <code>optional .protobuf.GameProgress game = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgress.Builder, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.GameProgressOrBuilder> 
@@ -1516,13 +1710,13 @@ public final class Game {
       private com.google.protobuf.SingleFieldBuilderV3<
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard.Builder, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCardOrBuilder> cardsBuilder_;
       /**
-       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       * <code>optional .protobuf.DistributionCard cards = 8;</code>
        */
       public boolean hasCards() {
         return cardsBuilder_ != null || cards_ != null;
       }
       /**
-       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       * <code>optional .protobuf.DistributionCard cards = 8;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard getCards() {
         if (cardsBuilder_ == null) {
@@ -1532,7 +1726,7 @@ public final class Game {
         }
       }
       /**
-       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       * <code>optional .protobuf.DistributionCard cards = 8;</code>
        */
       public Builder setCards(eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard value) {
         if (cardsBuilder_ == null) {
@@ -1548,7 +1742,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       * <code>optional .protobuf.DistributionCard cards = 8;</code>
        */
       public Builder setCards(
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard.Builder builderForValue) {
@@ -1562,7 +1756,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       * <code>optional .protobuf.DistributionCard cards = 8;</code>
        */
       public Builder mergeCards(eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard value) {
         if (cardsBuilder_ == null) {
@@ -1580,7 +1774,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       * <code>optional .protobuf.DistributionCard cards = 8;</code>
        */
       public Builder clearCards() {
         if (cardsBuilder_ == null) {
@@ -1594,7 +1788,7 @@ public final class Game {
         return this;
       }
       /**
-       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       * <code>optional .protobuf.DistributionCard cards = 8;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard.Builder getCardsBuilder() {
         
@@ -1602,7 +1796,7 @@ public final class Game {
         return getCardsFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       * <code>optional .protobuf.DistributionCard cards = 8;</code>
        */
       public eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCardOrBuilder getCardsOrBuilder() {
         if (cardsBuilder_ != null) {
@@ -1613,7 +1807,7 @@ public final class Game {
         }
       }
       /**
-       * <code>optional .protobuf.DistributionCard cards = 7;</code>
+       * <code>optional .protobuf.DistributionCard cards = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCard.Builder, eu.epitech.jcoinche.jcoincheserver.protobuf.Game.DistributionCardOrBuilder> 
@@ -4159,23 +4353,23 @@ public final class Game {
         getCommandBytes();
 
     /**
-     * <code>repeated string argument = 2;</code>
+     * <code>repeated string arguments = 2;</code>
      */
     java.util.List<java.lang.String>
-        getArgumentList();
+        getArgumentsList();
     /**
-     * <code>repeated string argument = 2;</code>
+     * <code>repeated string arguments = 2;</code>
      */
-    int getArgumentCount();
+    int getArgumentsCount();
     /**
-     * <code>repeated string argument = 2;</code>
+     * <code>repeated string arguments = 2;</code>
      */
-    java.lang.String getArgument(int index);
+    java.lang.String getArguments(int index);
     /**
-     * <code>repeated string argument = 2;</code>
+     * <code>repeated string arguments = 2;</code>
      */
     com.google.protobuf.ByteString
-        getArgumentBytes(int index);
+        getArgumentsBytes(int index);
 
     /**
      * <code>optional .protobuf.Card card = 3;</code>
@@ -4203,7 +4397,7 @@ public final class Game {
     }
     private GameProgress() {
       command_ = "";
-      argument_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      arguments_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -4240,10 +4434,10 @@ public final class Game {
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                argument_ = new com.google.protobuf.LazyStringArrayList();
+                arguments_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000002;
               }
-              argument_.add(s);
+              arguments_.add(s);
               break;
             }
             case 26: {
@@ -4268,7 +4462,7 @@ public final class Game {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          argument_ = argument_.getUnmodifiableView();
+          arguments_ = arguments_.getUnmodifiableView();
         }
         makeExtensionsImmutable();
       }
@@ -4320,33 +4514,33 @@ public final class Game {
       }
     }
 
-    public static final int ARGUMENT_FIELD_NUMBER = 2;
-    private com.google.protobuf.LazyStringList argument_;
+    public static final int ARGUMENTS_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList arguments_;
     /**
-     * <code>repeated string argument = 2;</code>
+     * <code>repeated string arguments = 2;</code>
      */
     public com.google.protobuf.ProtocolStringList
-        getArgumentList() {
-      return argument_;
+        getArgumentsList() {
+      return arguments_;
     }
     /**
-     * <code>repeated string argument = 2;</code>
+     * <code>repeated string arguments = 2;</code>
      */
-    public int getArgumentCount() {
-      return argument_.size();
+    public int getArgumentsCount() {
+      return arguments_.size();
     }
     /**
-     * <code>repeated string argument = 2;</code>
+     * <code>repeated string arguments = 2;</code>
      */
-    public java.lang.String getArgument(int index) {
-      return argument_.get(index);
+    public java.lang.String getArguments(int index) {
+      return arguments_.get(index);
     }
     /**
-     * <code>repeated string argument = 2;</code>
+     * <code>repeated string arguments = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getArgumentBytes(int index) {
-      return argument_.getByteString(index);
+        getArgumentsBytes(int index) {
+      return arguments_.getByteString(index);
     }
 
     public static final int CARD_FIELD_NUMBER = 3;
@@ -4385,8 +4579,8 @@ public final class Game {
       if (!getCommandBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, command_);
       }
-      for (int i = 0; i < argument_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, argument_.getRaw(i));
+      for (int i = 0; i < arguments_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, arguments_.getRaw(i));
       }
       if (card_ != null) {
         output.writeMessage(3, getCard());
@@ -4403,11 +4597,11 @@ public final class Game {
       }
       {
         int dataSize = 0;
-        for (int i = 0; i < argument_.size(); i++) {
-          dataSize += computeStringSizeNoTag(argument_.getRaw(i));
+        for (int i = 0; i < arguments_.size(); i++) {
+          dataSize += computeStringSizeNoTag(arguments_.getRaw(i));
         }
         size += dataSize;
-        size += 1 * getArgumentList().size();
+        size += 1 * getArgumentsList().size();
       }
       if (card_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -4431,8 +4625,8 @@ public final class Game {
       boolean result = true;
       result = result && getCommand()
           .equals(other.getCommand());
-      result = result && getArgumentList()
-          .equals(other.getArgumentList());
+      result = result && getArgumentsList()
+          .equals(other.getArgumentsList());
       result = result && (hasCard() == other.hasCard());
       if (hasCard()) {
         result = result && getCard()
@@ -4450,9 +4644,9 @@ public final class Game {
       hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + COMMAND_FIELD_NUMBER;
       hash = (53 * hash) + getCommand().hashCode();
-      if (getArgumentCount() > 0) {
-        hash = (37 * hash) + ARGUMENT_FIELD_NUMBER;
-        hash = (53 * hash) + getArgumentList().hashCode();
+      if (getArgumentsCount() > 0) {
+        hash = (37 * hash) + ARGUMENTS_FIELD_NUMBER;
+        hash = (53 * hash) + getArgumentsList().hashCode();
       }
       if (hasCard()) {
         hash = (37 * hash) + CARD_FIELD_NUMBER;
@@ -4578,7 +4772,7 @@ public final class Game {
         super.clear();
         command_ = "";
 
-        argument_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        arguments_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
         if (cardBuilder_ == null) {
           card_ = null;
@@ -4612,10 +4806,10 @@ public final class Game {
         int to_bitField0_ = 0;
         result.command_ = command_;
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          argument_ = argument_.getUnmodifiableView();
+          arguments_ = arguments_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
-        result.argument_ = argument_;
+        result.arguments_ = arguments_;
         if (cardBuilder_ == null) {
           result.card_ = card_;
         } else {
@@ -4667,13 +4861,13 @@ public final class Game {
           command_ = other.command_;
           onChanged();
         }
-        if (!other.argument_.isEmpty()) {
-          if (argument_.isEmpty()) {
-            argument_ = other.argument_;
+        if (!other.arguments_.isEmpty()) {
+          if (arguments_.isEmpty()) {
+            arguments_ = other.arguments_;
             bitField0_ = (bitField0_ & ~0x00000002);
           } else {
-            ensureArgumentIsMutable();
-            argument_.addAll(other.argument_);
+            ensureArgumentsIsMutable();
+            arguments_.addAll(other.arguments_);
           }
           onChanged();
         }
@@ -4776,96 +4970,96 @@ public final class Game {
         return this;
       }
 
-      private com.google.protobuf.LazyStringList argument_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureArgumentIsMutable() {
+      private com.google.protobuf.LazyStringList arguments_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureArgumentsIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          argument_ = new com.google.protobuf.LazyStringArrayList(argument_);
+          arguments_ = new com.google.protobuf.LazyStringArrayList(arguments_);
           bitField0_ |= 0x00000002;
          }
       }
       /**
-       * <code>repeated string argument = 2;</code>
+       * <code>repeated string arguments = 2;</code>
        */
       public com.google.protobuf.ProtocolStringList
-          getArgumentList() {
-        return argument_.getUnmodifiableView();
+          getArgumentsList() {
+        return arguments_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string argument = 2;</code>
+       * <code>repeated string arguments = 2;</code>
        */
-      public int getArgumentCount() {
-        return argument_.size();
+      public int getArgumentsCount() {
+        return arguments_.size();
       }
       /**
-       * <code>repeated string argument = 2;</code>
+       * <code>repeated string arguments = 2;</code>
        */
-      public java.lang.String getArgument(int index) {
-        return argument_.get(index);
+      public java.lang.String getArguments(int index) {
+        return arguments_.get(index);
       }
       /**
-       * <code>repeated string argument = 2;</code>
+       * <code>repeated string arguments = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getArgumentBytes(int index) {
-        return argument_.getByteString(index);
+          getArgumentsBytes(int index) {
+        return arguments_.getByteString(index);
       }
       /**
-       * <code>repeated string argument = 2;</code>
+       * <code>repeated string arguments = 2;</code>
        */
-      public Builder setArgument(
+      public Builder setArguments(
           int index, java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureArgumentIsMutable();
-        argument_.set(index, value);
+  ensureArgumentsIsMutable();
+        arguments_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string argument = 2;</code>
+       * <code>repeated string arguments = 2;</code>
        */
-      public Builder addArgument(
+      public Builder addArguments(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureArgumentIsMutable();
-        argument_.add(value);
+  ensureArgumentsIsMutable();
+        arguments_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string argument = 2;</code>
+       * <code>repeated string arguments = 2;</code>
        */
-      public Builder addAllArgument(
+      public Builder addAllArguments(
           java.lang.Iterable<java.lang.String> values) {
-        ensureArgumentIsMutable();
+        ensureArgumentsIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, argument_);
+            values, arguments_);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string argument = 2;</code>
+       * <code>repeated string arguments = 2;</code>
        */
-      public Builder clearArgument() {
-        argument_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      public Builder clearArguments() {
+        arguments_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string argument = 2;</code>
+       * <code>repeated string arguments = 2;</code>
        */
-      public Builder addArgumentBytes(
+      public Builder addArgumentsBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        ensureArgumentIsMutable();
-        argument_.add(value);
+        ensureArgumentsIsMutable();
+        arguments_.add(value);
         onChanged();
         return this;
       }
@@ -5949,37 +6143,38 @@ public final class Game {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\ngame.proto\022\010protobuf\"\246\002\n\006Answer\022\017\n\007req" +
-      "uest\030\001 \001(\t\022\014\n\004code\030\002 \001(\005\022#\n\004type\030\003 \001(\0162\025" +
-      ".protobuf.Answer.Type\022 \n\006player\030\004 \001(\0132\020." +
-      "protobuf.Player\022\"\n\007bidding\030\005 \001(\0132\021.proto" +
-      "buf.Bidding\022$\n\004game\030\006 \001(\0132\026.protobuf.Gam" +
-      "eProgress\022)\n\005cards\030\007 \001(\0132\032.protobuf.Dist" +
-      "ributionCard\"A\n\004Type\022\010\n\004NONE\020\000\022\n\n\006PLAYER" +
-      "\020\001\022\013\n\007BIDDING\020\002\022\010\n\004GAME\020\003\022\014\n\010SETTINGS\020\004\"" +
-      "\026\n\006Player\022\014\n\004name\030\001 \001(\t\"\327\002\n\007Bidding\022\013\n\003b" +
-      "id\030\001 \001(\010\022\016\n\006amount\030\002 \001(\005\022,\n\010contract\030\003 \001",
-      "(\0162\032.protobuf.Bidding.Contract\022)\n\006option" +
-      "\030\004 \001(\0162\031.protobuf.Bidding.Options\022\017\n\007coi" +
-      "nche\030\005 \001(\010\022\022\n\nsurcoinche\030\006 \001(\010\022\014\n\004pass\030\007" +
-      " \001(\010\"D\n\010Contract\022\023\n\017UNKNOWNCONTRACT\020\000\022\n\n" +
-      "\006AMOUNT\020\001\022\t\n\005CAPOT\020\002\022\014\n\010GENERALE\020\003\"]\n\007Op" +
-      "tions\022\021\n\rUNKNOWNOPTION\020\000\022\n\n\006HEARTS\020\001\022\n\n\006" +
-      "SPADES\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\022\006\n\002TA\020" +
-      "\005\022\006\n\002SA\020\006\"\243\002\n\004Card\022)\n\010cardType\030\001 \001(\0162\027.p" +
-      "rotobuf.Card.CardType\022+\n\tcardValue\030\002 \001(\016" +
-      "2\030.protobuf.Card.CardValue\"P\n\010CardType\022\023",
-      "\n\017UNKNOWNCARDTYPE\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADE" +
-      "S\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\"q\n\tCardValu" +
-      "e\022\024\n\020UNKNOWNCARDVALUE\020\000\022\t\n\005SEVEN\020\001\022\t\n\005EI" +
-      "GHT\020\002\022\010\n\004NINE\020\003\022\007\n\003TEN\020\004\022\010\n\004JACK\020\005\022\t\n\005QU" +
-      "EEN\020\006\022\010\n\004KING\020\007\022\006\n\002AS\020\010\"O\n\014GameProgress\022" +
-      "\017\n\007command\030\001 \001(\t\022\020\n\010argument\030\002 \003(\t\022\034\n\004ca" +
-      "rd\030\003 \001(\0132\016.protobuf.Card\"A\n\020Distribution" +
-      "Card\022\017\n\007partner\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.pr" +
-      "otobuf.CardB]\n+eu.epitech.jcoinche.jcoin" +
-      "cheserver.protobufB\004Game\252\002\'Google.Protob",
-      "uf.jcoincheserver.protobufb\006proto3"
+      "\n\ngame.proto\022\010protobuf\"\271\002\n\006Answer\022\017\n\007req" +
+      "uest\030\001 \001(\t\022\021\n\targuments\030\002 \003(\t\022\014\n\004code\030\003 " +
+      "\001(\005\022#\n\004type\030\004 \001(\0162\025.protobuf.Answer.Type" +
+      "\022 \n\006player\030\005 \001(\0132\020.protobuf.Player\022\"\n\007bi" +
+      "dding\030\006 \001(\0132\021.protobuf.Bidding\022$\n\004game\030\007" +
+      " \001(\0132\026.protobuf.GameProgress\022)\n\005cards\030\010 " +
+      "\001(\0132\032.protobuf.DistributionCard\"A\n\004Type\022" +
+      "\010\n\004NONE\020\000\022\n\n\006PLAYER\020\001\022\013\n\007BIDDING\020\002\022\010\n\004GA" +
+      "ME\020\003\022\014\n\010SETTINGS\020\004\"\026\n\006Player\022\014\n\004name\030\001 \001" +
+      "(\t\"\327\002\n\007Bidding\022\013\n\003bid\030\001 \001(\010\022\016\n\006amount\030\002 ",
+      "\001(\005\022,\n\010contract\030\003 \001(\0162\032.protobuf.Bidding" +
+      ".Contract\022)\n\006option\030\004 \001(\0162\031.protobuf.Bid" +
+      "ding.Options\022\017\n\007coinche\030\005 \001(\010\022\022\n\nsurcoin" +
+      "che\030\006 \001(\010\022\014\n\004pass\030\007 \001(\010\"D\n\010Contract\022\023\n\017U" +
+      "NKNOWNCONTRACT\020\000\022\n\n\006AMOUNT\020\001\022\t\n\005CAPOT\020\002\022" +
+      "\014\n\010GENERALE\020\003\"]\n\007Options\022\021\n\rUNKNOWNOPTIO" +
+      "N\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020\003\022\014" +
+      "\n\010DIAMONDS\020\004\022\006\n\002TA\020\005\022\006\n\002SA\020\006\"\243\002\n\004Card\022)\n" +
+      "\010cardType\030\001 \001(\0162\027.protobuf.Card.CardType" +
+      "\022+\n\tcardValue\030\002 \001(\0162\030.protobuf.Card.Card",
+      "Value\"P\n\010CardType\022\023\n\017UNKNOWNCARDTYPE\020\000\022\n" +
+      "\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIA" +
+      "MONDS\020\004\"q\n\tCardValue\022\024\n\020UNKNOWNCARDVALUE" +
+      "\020\000\022\t\n\005SEVEN\020\001\022\t\n\005EIGHT\020\002\022\010\n\004NINE\020\003\022\007\n\003TE" +
+      "N\020\004\022\010\n\004JACK\020\005\022\t\n\005QUEEN\020\006\022\010\n\004KING\020\007\022\006\n\002AS" +
+      "\020\010\"P\n\014GameProgress\022\017\n\007command\030\001 \001(\t\022\021\n\ta" +
+      "rguments\030\002 \003(\t\022\034\n\004card\030\003 \001(\0132\016.protobuf." +
+      "Card\"A\n\020DistributionCard\022\017\n\007partner\030\001 \001(" +
+      "\t\022\034\n\004card\030\002 \003(\0132\016.protobuf.CardB]\n+eu.ep" +
+      "itech.jcoinche.jcoincheserver.protobufB\004",
+      "Game\252\002\'Google.Protobuf.jcoincheserver.pr" +
+      "otobufb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5998,7 +6193,7 @@ public final class Game {
     internal_static_protobuf_Answer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_Answer_descriptor,
-        new java.lang.String[] { "Request", "Code", "Type", "Player", "Bidding", "Game", "Cards", });
+        new java.lang.String[] { "Request", "Arguments", "Code", "Type", "Player", "Bidding", "Game", "Cards", });
     internal_static_protobuf_Player_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_protobuf_Player_fieldAccessorTable = new
@@ -6022,7 +6217,7 @@ public final class Game {
     internal_static_protobuf_GameProgress_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_GameProgress_descriptor,
-        new java.lang.String[] { "Command", "Argument", "Card", });
+        new java.lang.String[] { "Command", "Arguments", "Card", });
     internal_static_protobuf_DistributionCard_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_protobuf_DistributionCard_fieldAccessorTable = new
