@@ -36,6 +36,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -57,12 +58,37 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <protocVersion>3.1.0</protocVersion> <!-- 2.4.1, 2.5.0, 2.6.1, 3.0.0 -->
+                            <protocVersion>3.1.0</protocVersion>
                             <outputDirectory>src/main/java</outputDirectory>
                             <inputDirectories>
                                 <include>src/main/proto</include>
                             </inputDirectories>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <outputDirectory>${project.build.directory}/../../target</outputDirectory>
+                    <archive>
+                        <manifest>
+                            <mainClass>eu.epitech.jcoinche.jcoincheclient.app.Client</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
