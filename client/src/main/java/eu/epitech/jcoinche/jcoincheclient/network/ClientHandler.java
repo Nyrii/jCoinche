@@ -1,6 +1,6 @@
 package eu.epitech.jcoinche.jcoincheclient.network;
 
-import eu.epitech.jcoinche.jcoincheclient.game.Settings;
+import eu.epitech.jcoinche.jcoincheclient.game.GameProcedure;
 import eu.epitech.jcoinche.jcoincheclient.protobuf.Game;
 import eu.epitech.jcoinche.jcoincheclient.game.Bidding;
 import eu.epitech.jcoinche.jcoincheclient.game.Player;
@@ -27,7 +27,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
         public void channelRead0(ChannelHandlerContext arg0, Game.Answer answer) throws Exception {
             Player player = new Player();
             Bidding bidding = new Bidding();
-            Settings settings = new Settings();
+            GameProcedure procedure = new GameProcedure();
 
             if (answer.getCode() != -1 && answer.getCode() != 0 && !answer.getRequest().isEmpty()) {
                 String message = new StringBuilder()
@@ -55,12 +55,11 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
                         break;
 
                     case GAME:
-                        System.out.println(answer.getGame());
+                        procedure.request(Game.Answer.Type.GAME);
                         break;
 
                     case SETTINGS:
-                        System.out.println("Please, wait for your turn.");
-                        settings.request();
+                        procedure.request(Game.Answer.Type.SETTINGS);
                         break;
 
                 }
