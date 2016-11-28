@@ -47,7 +47,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
 
                     case PLAYER:
                         player.askInformations();
-//                        settings.request();
                         break;
 
                     case BIDDING:

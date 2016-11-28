@@ -34,8 +34,12 @@ public class Bidding {
     }
 
 
-    private void printCards(Game.Answer answer) {
+    private boolean printCards(Game.Answer answer) {
         List<Game.Card> deck = Cards.sortCardsByTypeAndValue(answer.getCards());
+        if (deck == null) {
+            System.out.println("Your hand is empty");
+            return false;
+        }
         System.out.println("Here are your cards : ");
         for (Object card : deck) {
             String entireCard = new StringBuilder()
@@ -45,6 +49,7 @@ public class Bidding {
                             .toString();
             System.out.println(entireCard);
         }
+        return true;
     }
 
     public void biddingProcess(Game.Answer answer) throws Exception {
@@ -76,14 +81,26 @@ public class Bidding {
 
                 switch (line.toLowerCase()) {
                     case "y":
-                        askAgain = bid(answer);
+                        askAgain = bid();
                         break;
                     case "n":
-                        askAgain = otherOptions(answer);
+                        System.out.println("If you do not bid, you have to choose one of these options (COINCHE, SURCOINCHE, PASS) : ");
+                        Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
+                        Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
+                        askAgain = askOtherOptions(futureAnswer, bidding, in.readLine());
+                        if (askAgain == true) {
+                            futureAnswer.setBidding(bidding)
+                                    .setType(BIDDING)
+                                    .build();
+                            Connection.get_channel().writeAndFlush(futureAnswer);
+                        }
                         break;
                 }
                 i = 1;
             }
+        } catch (IOException e) {
+            sendError("QUIT");
+            throw new Exception("Cannot get the player's input.");
         } catch (Exception e) {
             sendError("QUIT");
             throw new Exception("Cannot get the player's informations.");
@@ -91,20 +108,29 @@ public class Bidding {
     }
 
 
-    public boolean bid(Game.Answer answer) throws Exception {
+    public boolean bid() throws Exception {
         try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
             Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
 
-            if (askContract(bidding) == false || askCardSuit(bidding) == false) {
+            System.out.println("Choose an option (x as an integer to announce the value of your contract, \"CAPOT\", \"GENERALE\") :");
+            if (askContract(in.readLine(), bidding) == false) {
+                return false;
+            }
+            System.out.println("Choose a card suit (HEARTS, SPADES, CLUBS, DIAMONDS, TA or SA) :");
+            if (askCardSuit(in.readLine(), bidding) == false) {
                 return false;
             }
             bidding.setCoinche(false);
             bidding.setSurcoinche(false);
             futureAnswer.setType(BIDDING)
-                        .setBidding(bidding)
-                        .build();
+                    .setBidding(bidding)
+                    .build();
             Connection.get_channel().writeAndFlush(futureAnswer);
+        } catch (IOException e) {
+            sendError("QUIT");
+            throw new Exception("Cannot get the player's input.");
         } catch (Exception e) {
             sendError("QUIT");
             throw new Exception("Cannot get the player's bidding wishes.");
@@ -113,18 +139,8 @@ public class Bidding {
     }
 
 
-    public boolean askContract(Game.Bidding.Builder bidding) throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String line = null;
-
+    public boolean askContract(String line, Game.Bidding.Builder bidding) throws Exception {
         // Get the contract of the bid
-        try {
-            System.out.println("Choose an option (x as an integer to announce the value of your contract, \"CAPOT\", \"GENERALE\") :");
-            line = in.readLine();
-        } catch (IOException e) {
-            sendError("QUIT");
-            throw new Exception("System error : Could not get the input.");
-        }
         if (line != null && !line.isEmpty()) {
             bidding.setBid(true);
             for (Game.Bidding.Contract contract : Game.Bidding.Contract.values()) {
@@ -147,18 +163,10 @@ public class Bidding {
     }
 
 
-    public boolean askCardSuit(Game.Bidding.Builder bidding) throws Exception {
+    public boolean askCardSuit(String line, Game.Bidding.Builder bidding) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String line = null;
 
         // Get the card suit of the contract
-        try {
-            System.out.println("Choose a card suit (HEARTS, SPADES, CLUBS, DIAMONDS, TA or SA) :");
-            line = in.readLine();
-        } catch (IOException e) {
-            sendError("QUIT");
-            throw new Exception("System error : Could not get the input.");
-        }
         if (line != null && !line.isEmpty()) {
             for (Game.Bidding.Options opt : Game.Bidding.Options.values()) {
                 if (opt.name().equals(line.toUpperCase())) {
@@ -170,49 +178,31 @@ public class Bidding {
         return false;
     }
 
-    public boolean otherOptions(Game.Answer answer) throws Exception {
-        Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
-        Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String line = null;
-
+    public boolean askOtherOptions(Game.Answer.Builder futureAnswer, Game.Bidding.Builder bidding, String line) throws Exception {
         bidding.setBid(false);
-
         // Get the other options
-        try {
-            System.out.println("If you do not bid, you have to choose one of these options (COINCHE, SURCOINCHE, PASS) : ");
-            line = in.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-            sendError("QUIT");
-            throw new Exception("System error : Could not get the input.");
-        }
         if (line != null && !line.isEmpty()) {
             switch (line.toUpperCase()) {
                 case "COINCHE":
                     bidding.setCoinche(true);
                     bidding.setSurcoinche(false);
                     bidding.setPass(false);
-                    break;
+                    return true;
                 case "SURCOINCHE":
                     bidding.setCoinche(false);
                     bidding.setSurcoinche(true);
                     bidding.setPass(false);
-                    break;
+                    return true;
                 case "PASS":
                     bidding.setCoinche(false);
                     bidding.setSurcoinche(false);
                     bidding.setPass(true);
-                    break;
+                    return true;
                 default:
                     return false;
             }
         }
-        futureAnswer.setBidding(bidding)
-                    .setType(BIDDING)
-                    .build();
-        Connection.get_channel().writeAndFlush(futureAnswer);
-        return true;
+        return false;
     }
 
 }
