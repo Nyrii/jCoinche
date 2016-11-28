@@ -72,13 +72,6 @@ public class CardManager {
             ((Channel) c).writeAndFlush(answer);
             cardGames.add(tmp);
         }
-//        for (Object deck : cardGames) {
-//            System.out.println("player has : {");
-//            for (Object card : (ArrayList) deck) {
-//                System.out.println(card);
-//            }
-//            System.out.println("}");
-//        }
     }
 
     public static Game.DistributionCard getDeckFromPosition(int pos) {

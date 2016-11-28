@@ -208,6 +208,8 @@ public class GameManager {
 
     public boolean getBid() { return bidding; }
 
+    public boolean getGame() { return game; }
+
     public void setContract(int contract, ChannelHandlerContext ctx) { this.contract = contract; personWhoBet = getClientPosition(ctx); }
 
     public void setCoinche(boolean coinche, ChannelHandlerContext ctx) { this.coinche = coinche; this.personWhoCoinche = getClientPosition(ctx); }
@@ -242,14 +244,12 @@ public class GameManager {
                 capot || surCoinche) {
             bidding = false;
             game = true;
-            System.out.println("yes on envoie un msg");
-            askPlayerOneToPlay();
         } else if (contract == -1 && nbTurnInactive == 4) {
             bidding = true;
             cm = new CardManager();
             turn = 3;
             cm.giveCardToAllPlayers(clientSocket);
-            sendMessageToAllPersonInGame("nobody put a contract we will give new cards.");
+            sendMessageToAllPersonInGame("Nobody put a contract we will give new cards.");
         }
     }
 
