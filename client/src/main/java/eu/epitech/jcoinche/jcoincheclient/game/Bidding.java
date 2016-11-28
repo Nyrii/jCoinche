@@ -18,7 +18,7 @@ import static eu.epitech.jcoinche.jcoincheclient.protobuf.Game.Answer.Type.BIDDI
  */
 public class Bidding {
 
-    public void sendError(String error) {
+    private void sendError(String error) {
         Game.Answer answer = Game.Answer.newBuilder()
                             .setRequest(error)
                             .setCode(-1)
@@ -34,7 +34,7 @@ public class Bidding {
     }
 
 
-    public void printCards(Game.Answer answer) {
+    private void printCards(Game.Answer answer) {
         List<Game.Card> deck = Cards.sortCardsByTypeAndValue(answer.getCards());
         System.out.println("Here are your cards : ");
         for (Object card : deck) {
@@ -122,7 +122,6 @@ public class Bidding {
             System.out.println("Choose an option (x as an integer to announce the value of your contract, \"CAPOT\", \"GENERALE\") :");
             line = in.readLine();
         } catch (IOException e) {
-            e.printStackTrace();
             sendError("QUIT");
             throw new Exception("System error : Could not get the input.");
         }

@@ -68,7 +68,7 @@ public class GameProcedure {
                                     .append(" ")
                                     .append(args).toString());
                         } else {
-                            arguments.add(args);
+                            arguments.add(args.toUpperCase());
                         }
                         ++i;
                     }

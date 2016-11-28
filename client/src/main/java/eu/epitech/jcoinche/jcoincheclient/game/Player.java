@@ -15,7 +15,7 @@ import static eu.epitech.jcoinche.jcoincheclient.protobuf.Game.Answer.Type.PLAYE
  */
 public class Player {
 
-    public void sendError(String error) {
+    private void sendError(String error) {
         Game.Answer answer = Game.Answer.newBuilder()
                 .setRequest(error)
                 .setCode(-1)
