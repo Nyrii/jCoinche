@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class AnswerToClient {
 
     public static boolean partyCanBegin(ArrayList nameClient) {
-        if (nameClient.size() != 4)
+        if (nameClient == null || nameClient.size() != 4)
             return false;
         for (Object tmp : nameClient) {
             if (((String) tmp).charAt(0) == '0' && ((String) tmp).charAt(1) == 'x')
@@ -22,7 +22,9 @@ public class AnswerToClient {
         return true;
     }
 
-    private static boolean nameAlreadyInUse(ArrayList nameClient, String id, String name) {
+    protected static boolean nameAlreadyInUse(ArrayList nameClient, String name) {
+        if (nameClient == null)
+            return false;
         for (int i = 0; i < nameClient.size(); i++) {
             if (name.toLowerCase().equals(((String) nameClient.get(i)).toLowerCase()))
                 return true;
@@ -43,7 +45,7 @@ public class AnswerToClient {
     }
 
     public static Game.Answer setName(GameManager answerClient, ArrayList nameClient, ChannelHandlerContext ctx, String msg) {
-        if (nameAlreadyInUse(nameClient, ctx.toString(), msg)) {
+        if (nameAlreadyInUse(nameClient, msg)) {
             return Game.Answer.newBuilder()
                     .setRequest("nickname is already in use")
                     .setCode(403)

@@ -7,12 +7,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e0f9de1-fa9f-424b-abeb-62d294c13201" name="Default" comment="Client : modified a test for server">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../server/src/main/java/eu/epitech/jcoinche/jcoincheserver/test/TestAnswerToClient.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Tests/src/main/java/server/testGameManager.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Tests/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Tests/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/jcoinche-server.iml" afterPath="$PROJECT_DIR$/../server/jcoinche-server.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/pom.xml" afterPath="$PROJECT_DIR$/../server/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/AnswerToClient.java" afterPath="$PROJECT_DIR$/../server/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/AnswerToClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/CardManager.java" afterPath="$PROJECT_DIR$/../server/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/CardManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/eu/epitech/jcoinche/jcoincheserver/protobuf/Game.java" afterPath="$PROJECT_DIR$/../server/src/main/java/eu/epitech/jcoinche/jcoincheserver/protobuf/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/proto/game.proto" afterPath="$PROJECT_DIR$/../server/src/main/proto/game.proto" />
     </list>
     <ignored path="jcoinche-client.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,28 +40,18 @@
       <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
+            <state relative-caret-position="264">
               <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Client.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Client.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheclient/app/Client.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="120">
               <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="game.proto" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/proto/game.proto">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -161,6 +153,8 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -307,8 +301,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -757,7 +749,8 @@
       <workItem from="1479811457556" duration="447000" />
       <workItem from="1479812540370" duration="1094000" />
       <workItem from="1479818345432" duration="862000" />
-      <workItem from="1479840807914" duration="3419000" />
+      <workItem from="1479840807914" duration="3495000" />
+      <workItem from="1479926031074" duration="19871000" />
     </task>
     <task id="LOCAL-00001" summary="Modified pom.xml">
       <created>1479313062708</created>
@@ -798,20 +791,20 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47594000" />
+    <option name="totallyTimeSpent" value="67541000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1097" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.49574015" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32858595" sideWeight="0.48722044" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30745658" sideWeight="0.49733758" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.9193054" sideWeight="0.3290735" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32756868" sideWeight="0.49361023" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30745658" sideWeight="0.5026624" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.48314607" sideWeight="0.6709265" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32858595" sideWeight="0.4914803" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -986,31 +979,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/Client.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/ClientHandler.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/Player.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/Connection.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jcoincheclient/app/Bidding.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheclient/app/Client.java">
+    <entry file="file://$PROJECT_DIR$/src/main/proto/game.proto">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="525">
+          <caret line="41" column="17" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/proto/game.proto">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        <state relative-caret-position="264">
+          <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheclient/app/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>

@@ -1,17 +1,16 @@
-package eu.epitech.jcoinche.test.answerToClient;
+package eu.epitech.jcoinche.jcoincheserver.test;
 
+import eu.epitech.jcoinche.jcoincheserver.game.AnswerToClient;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static eu.epitech.jcoinche.test.answerToClient.AnswerToClient.nameAlreadyInUse;
-import static eu.epitech.jcoinche.test.answerToClient.AnswerToClient.partyCanBegin;
 import static junit.framework.TestCase.assertEquals;
 
 /**
- * Created by Saursinet on 25/11/2016.
+ * Created by Saursinet on 28/11/2016.
  */
-public class testAnswerToClient {
+public class TestAnswerToClient extends AnswerToClient {
     @Test
     public void partyCanBeginTest() {
         boolean var = partyCanBegin(null);
@@ -55,7 +54,8 @@ public class testAnswerToClient {
     @Test
     public void nameAlreadyInUseTest() {
         System.out.println("test nameAlreadyInUse with list = null and good name...");
-        boolean var = nameAlreadyInUse(null, "toto");
+        boolean var;
+        var = nameAlreadyInUse(null, "toto");
         assertEquals(false, var);
         System.out.println("OK");
 
