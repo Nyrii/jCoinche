@@ -10,18 +10,16 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static eu.epitech.jcoinche.jcoincheclient.protobuf.Game.Answer.Type.SETTINGS;
-
 /**
- * Created by noboud_n on 23/11/2016.
+ * Created by noboud_n on 28/11/2016.
  */
-public class Settings {
+public class GameProcedure {
 
-    public boolean sendRequest(String command, List<String> arguments) {
+    public boolean sendRequest(String command, List<String> arguments, Game.Answer.Type type) {
         ChannelFuture lastWriteFuture = null;
 
         Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
-        futureAnswer.setType(SETTINGS)
+        futureAnswer.setType(type)
                 .setRequest(command)
                 .addAllArguments(arguments)
                 .setCode(100)
@@ -38,10 +36,16 @@ public class Settings {
         return true;
     }
 
-    public boolean request() {
+    public boolean request(Game.Answer.Type gameStep) {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String line = null;
         int i = 0;
+
+        if (gameStep == Game.Answer.Type.SETTINGS) {
+            System.out.println("Please, wait for your turn. Meanwhile, you can change your name or send a message to your partner and opponents.");
+        } else {
+            System.out.println("You can use the following commands : NAME, MSG, PLAY, LAST and QUIT. Please check the documentation for more informations.");
+        }
 
         for (;;) {
             i = 0;
@@ -60,15 +64,15 @@ public class Settings {
                             arguments.add(args);
                         } else if (command != null && !command.isEmpty() && command.equals("MSG") && i > 1) {
                             arguments.set(0, new StringBuilder()
-                                            .append(arguments.get(0))
-                                            .append(" ")
-                                            .append(args).toString());
+                                    .append(arguments.get(0))
+                                    .append(" ")
+                                    .append(args).toString());
                         } else {
                             arguments.add(args);
                         }
                         ++i;
                     }
-                    sendRequest(command, arguments);
+                    sendRequest(command, arguments, gameStep);
                 }
             } catch (IOException e) {
                 System.err.println("Could not get your request.");
