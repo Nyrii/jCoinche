@@ -2,7 +2,6 @@ package eu.epitech.jcoinche.jcoincheserver.game;
 
 import eu.epitech.jcoinche.jcoincheserver.protobuf.Game;
 import io.netty.channel.Channel;
-import io.netty.channel.group.ChannelGroup;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -65,7 +64,7 @@ public class CardManager {
             deckObjects.add(cards);
             Game.Answer answer = Game.Answer.newBuilder()
                     .setCards(cards)
-                    .setType(Game.Answer.Type.SETTINGS)
+                    .setType(Game.Answer.Type.STANDBY)
                     .setCode(200)
                     .setRequest("Cards have been distributed!")
                     .build();

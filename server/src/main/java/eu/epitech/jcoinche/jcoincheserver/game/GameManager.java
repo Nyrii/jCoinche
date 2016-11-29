@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import static eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.BIDDING;
 import static eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.GAME;
-import static eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.SETTINGS;
+import static eu.epitech.jcoinche.jcoincheserver.protobuf.Game.Answer.Type.STANDBY;
 
 /**
  * Created by Saursinet on 22/11/2016.
@@ -65,9 +65,9 @@ public class GameManager {
             if (c != arg0.channel()) {
 //                c.writeAndFlush("[" + arg0.channel().remoteAddress() + "] " + msg + "\r\n");
 //                c.writeAndFlush("[" + getNameFromSocket(arg0) + "] " + msg + "\n");
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(SETTINGS).setCode(300).build());
+                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(STANDBY).setCode(300).build());
             } else {
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(SETTINGS).setCode(300).build());
+                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(STANDBY).setCode(300).build());
 //                c.writeAndFlush("[you] " + msg + "\n");
             }
         }
@@ -75,7 +75,7 @@ public class GameManager {
 
     public void sendMessageToAllPersonInGame(String msg) {
         for (Object c: clientSocket) {
-            ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(SETTINGS).setCode(300).build());
+            ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(STANDBY).setCode(300).build());
         }
     }
 
@@ -145,7 +145,7 @@ public class GameManager {
             } else
                 ((Channel) c).writeAndFlush(Game.Answer.newBuilder()
                         .setRequest("et fils de pute tu reponds?")
-                        .setCode(200).setType(SETTINGS)
+                        .setCode(200).setType(STANDBY)
                         .setCards(getDeck(i))
                         .build());
             ++i;
@@ -157,7 +157,7 @@ public class GameManager {
         for (Object c : clientSocket) {
             ((Channel) c).writeAndFlush(Game.Answer.newBuilder()
                     .setRequest("Your name is " + nameClient.get(i))
-                    .setCode(200).setType(SETTINGS)
+                    .setCode(200).setType(STANDBY)
                     .build());
             ++i;
         }

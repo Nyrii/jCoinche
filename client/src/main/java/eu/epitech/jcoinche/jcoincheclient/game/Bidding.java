@@ -6,10 +6,7 @@ import eu.epitech.jcoinche.jcoincheclient.protobuf.Game;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static eu.epitech.jcoinche.jcoincheclient.protobuf.Game.Answer.Type.BIDDING;
 
@@ -70,15 +67,15 @@ public class Bidding {
                             System.out.println("An error occured : you have to do something or at least PASS. Would you like to bet then ? (y/n)");
                         }
                         line = in.readLine();
+                        System.out.println("line = " + line);
                         if (line != null && !line.isEmpty() && (line.toLowerCase().equals("y") || line.toLowerCase().equals("n"))) {
                             break;
                         }
                     } catch (IOException e) {
                         sendError("QUIT");
-                        throw new Exception("System error : Could not get the input.");
+                        throw new Exception("Cannot get the player's input.");
                     }
                 }
-
                 switch (line.toLowerCase()) {
                     case "y":
                         askAgain = bid();
@@ -87,7 +84,7 @@ public class Bidding {
                         System.out.println("If you do not bid, you have to choose one of these options (COINCHE, SURCOINCHE, PASS) : ");
                         Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
                         Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
-                        askAgain = askOtherOptions(futureAnswer, bidding, in.readLine());
+                        askAgain = askOtherOptions(bidding, in.readLine());
                         if (askAgain == true) {
                             futureAnswer.setBidding(bidding)
                                     .setType(BIDDING)
@@ -96,8 +93,8 @@ public class Bidding {
                         }
                         break;
                 }
-                i = 1;
-            }
+                    i = 1;
+                }
         } catch (IOException e) {
             sendError("QUIT");
             throw new Exception("Cannot get the player's input.");
@@ -178,7 +175,7 @@ public class Bidding {
         return false;
     }
 
-    public boolean askOtherOptions(Game.Answer.Builder futureAnswer, Game.Bidding.Builder bidding, String line) throws Exception {
+    public boolean askOtherOptions(Game.Bidding.Builder bidding, String line) throws Exception {
         bidding.setBid(false);
         // Get the other options
         if (line != null && !line.isEmpty()) {

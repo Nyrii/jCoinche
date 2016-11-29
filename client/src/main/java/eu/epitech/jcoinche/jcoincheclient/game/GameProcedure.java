@@ -16,12 +16,12 @@ import java.util.Scanner;
  */
 public class GameProcedure {
 
-    public boolean sendRequest(String command, List<String> arguments, Game.Answer.Type type) {
+    public boolean sendRequest(String command, List<String> arguments) {
         ChannelFuture lastWriteFuture = null;
 
         try {
             Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
-            futureAnswer.setType(type)
+            futureAnswer.setType(Game.Answer.Type.GAME)
                     .setRequest(command)
                     .addAllArguments(arguments)
                     .setCode(100)
@@ -41,15 +41,13 @@ public class GameProcedure {
         return true;
     }
 
-    public boolean request(Game.Answer.Type gameStep) {
+    public boolean request() {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String line = null;
         int i = 0;
-        NonblockingBufferedReader reader = null;
 
         try {
-            reader = new NonblockingBufferedReader(new BufferedReader(new InputStreamReader(System.in)));
-            while ((line = reader.readLine()) != null);
+            line = in.readLine();
             if (line != null && !line.isEmpty()) {
                 String[] commandLine = line.split("\\s+");
                 List<String> arguments = new ArrayList<>();
@@ -69,15 +67,11 @@ public class GameProcedure {
                     }
                     ++i;
                 }
-                sendRequest(command, arguments, gameStep);
-            } else {
-                sendRequest("NONE", null, gameStep);
+                sendRequest(command, arguments);
             }
         } catch (Exception e) {
             System.err.println("Could not send the request to the server.");
             return false;
-        } finally {
-            reader.close();
         }
         return true;
     }

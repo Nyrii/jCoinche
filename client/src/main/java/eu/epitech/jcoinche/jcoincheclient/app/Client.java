@@ -33,10 +33,6 @@ public class Client {
             @Override
             public void run() {
                 Game.Answer answer = SaveObject.get_answer();
-                Game.Answer.Type type = null;
-                if (answer != null) {
-                    type = answer.getType();
-                }
                 if (answer != null) {
                     Player player = new Player();
                     Bidding bidding = new Bidding();
@@ -55,12 +51,11 @@ public class Client {
 
                             case GAME:
                                 System.out.println("You can use the following commands : NAME, MSG, PLAY, LAST and QUIT. Please check the documentation for more informations.");
-                                procedure.request(Game.Answer.Type.GAME);
+                                procedure.request();
                                 break;
 
-                            case SETTINGS:
-                                System.out.println("Please, wait for your turn. Meanwhile, you can change your name or send a message to your partner and opponents.");
-                                procedure.request(Game.Answer.Type.SETTINGS);
+                            case STANDBY:
+                                System.out.println("Please, wait for your turn.");
                                 break;
                         }
                     } catch (Exception e) {
@@ -68,9 +63,7 @@ public class Client {
                         System.exit(84);
                     }
                 }
-                if (type != null && SaveObject.get_answer().getType().equals(type)) {
-                    SaveObject.set_answer(null);
-                }
+                SaveObject.set_answer(null);
             }
         }, 500, 500);
     }

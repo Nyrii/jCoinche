@@ -123,8 +123,8 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 }
                 break;
 
-            case SETTINGS:
-                arg0.writeAndFlush(Game.Answer.newBuilder().setType(Game.Answer.Type.SETTINGS).setCode(-1).setRequest(""));
+            case STANDBY:
+                arg0.writeAndFlush(Game.Answer.newBuilder().setType(Game.Answer.Type.STANDBY).setCode(-1).setRequest(""));
 
         }
     }
