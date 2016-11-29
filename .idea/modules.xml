@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/jCoinche.iml" filepath="$PROJECT_DIR$/.idea/jCoinche.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jCoinche.iml" filepath="$PROJECT_DIR$/jCoinche.iml" />
     </modules>
   </component>
 </project>
