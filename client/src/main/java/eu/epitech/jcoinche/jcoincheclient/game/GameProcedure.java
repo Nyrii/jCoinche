@@ -98,18 +98,20 @@ public class GameProcedure {
         return false;
     }
 
-    public boolean containsCommandsWithArgs(String command) {
+    public int containsCommandsWithArgs(String command) {
         String[] commands = {"MSG, NAME, PLAY"};
+        int i = 0;
 
         if (command == null || command.isEmpty()) {
-            return false;
+            return -1;
         }
         for (String tmpCommand : commands) {
             if (command.equals(tmpCommand)) {
-                return true;
+                return i;
             }
+            ++i;
         }
-        return false;
+        return -1;
     }
 
     public void sendMessage(String command) {
@@ -162,15 +164,15 @@ public class GameProcedure {
     public boolean request() {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String command = null;
-        int i = 0;
+        int index = -1;
 
         try {
             System.out.println("What do you want to do ? [MSG, NAME, PLAY, HAND, LAST_TRICK, QUIT] :");
             if (!isCommandValid((command = in.readLine()))) {
                 sendRequest(command, null);
                 return true;
-            } else if (containsCommandsWithArgs(command.toUpperCase())) {
-                // Array pointer functions.
+            } else if ((index = containsCommandsWithArgs(command.toUpperCase())) != -1) {
+                play(index, command);
             } else {
                 sendRequest(command.toUpperCase(), null);
             }
