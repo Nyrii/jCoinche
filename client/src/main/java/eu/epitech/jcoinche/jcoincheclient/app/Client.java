@@ -50,7 +50,7 @@ public class Client {
                                 break;
 
                             case GAME:
-                                System.out.println("You can use the following commands : NAME, MSG, PLAY, LAST and QUIT. Please check the documentation for more informations.");
+                                System.out.println("You can use the following commands : NAME, MSG, PLAY, DECK, LAST and QUIT. Please check the documentation for more informations.");
                                 procedure.request();
                                 break;
 

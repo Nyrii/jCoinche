@@ -56,8 +56,8 @@ public class BiddingTest {
 //            return;
 //        }
 
-        // ASK CONTRACT
         try {
+            // ASK CONTRACT
             assertEquals(true, bidding.askContract("capot", bidBuilder));
             assertEquals(true, bidding.askContract("generale", bidBuilder));
             assertEquals(true, bidding.askContract("CAPOT", bidBuilder));
@@ -79,71 +79,44 @@ public class BiddingTest {
             assertEquals(false, bidding.askContract("       ", bidBuilder));
             assertEquals(false, bidding.askContract("", bidBuilder));
             assertEquals(false, bidding.askContract(null, bidBuilder));
+
+
+
+            // ASK CARD SUIT
+            assertEquals(true, askCardSuit("HEARTS"));
+            assertEquals(true, askCardSuit("SPADES"));
+            assertEquals(true, askCardSuit("CLUBS"));
+            assertEquals(true, askCardSuit("DIAMONDS"));
+            assertEquals(true, askCardSuit("hearts"));
+            assertEquals(true, askCardSuit("spades"));
+            assertEquals(true, askCardSuit("clubs"));
+            assertEquals(true, askCardSuit("diamonds"));
+            assertEquals(false, askCardSuit("39282"));
+            assertEquals(false, askCardSuit("(*(*&@(*@"));
+            assertEquals(false, askCardSuit("       "));
+            assertEquals(false, askCardSuit(""));
+            assertEquals(false, askCardSuit(null));
+            assertEquals(false, askCardSuit("q w e r t y"));
+            assertEquals(false, askCardSuit("qwertyuiop asdfghjkl zxcvbn"));
+
+            // ASK OTHER OPTIONS
+            assertEquals(true, askOtherOptions("COINCHE"));
+            assertEquals(true, askOtherOptions("SURCOINCHE"));
+            assertEquals(true, askOtherOptions("PASS"));
+            assertEquals(true, askOtherOptions("coinche"));
+            assertEquals(true, askOtherOptions("surcoinche"));
+            assertEquals(true, askOtherOptions("pass"));
+            assertEquals(false, askOtherOptions("-19832"));
+            assertEquals(false, askOtherOptions("39804938"));
+            assertEquals(false, askOtherOptions("190839238324"));
+            assertEquals(false, askOtherOptions("q w e r t y"));
+            assertEquals(false, askOtherOptions("      "));
+            assertEquals(false, askOtherOptions(""));
+            assertEquals(false, askOtherOptions(")(*@()#)@*@!"));
+            assertEquals(false, askOtherOptions(null));
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        // ASK CARD SUIT
-        returnValue = askCardSuit("HEARTS");
-        assertEquals(true, returnValue);
-        returnValue = askCardSuit("SPADES");
-        assertEquals(true, returnValue);
-        returnValue = askCardSuit("CLUBS");
-        assertEquals(true, returnValue);
-        returnValue = askCardSuit("DIAMONDS");
-        assertEquals(true, returnValue);
-        returnValue = askCardSuit("hearts");
-        assertEquals(true, returnValue);
-        returnValue = askCardSuit("spades");
-        assertEquals(true, returnValue);
-        returnValue = askCardSuit("clubs");
-        assertEquals(true, returnValue);
-        returnValue = askCardSuit("diamonds");
-        assertEquals(true, returnValue);
-        returnValue = askCardSuit("39282");
-        assertEquals(false, returnValue);
-        returnValue = askCardSuit("(*(*&@(*@");
-        assertEquals(false, returnValue);
-        returnValue = askCardSuit("       ");
-        assertEquals(false, returnValue);
-        returnValue = askCardSuit("");
-        assertEquals(false, returnValue);
-        returnValue = askCardSuit(null);
-        assertEquals(false, returnValue);
-        returnValue = askCardSuit("q w e r t y");
-        assertEquals(false, returnValue);
-        returnValue = askCardSuit("qwertyuiop asdfghjkl zxcvbn");
-        assertEquals(false, returnValue);
-
-        // ASK OTHER OPTIONS
-        returnValue = askOtherOptions("COINCHE");
-        assertEquals(true, returnValue);
-        returnValue = askOtherOptions("SURCOINCHE");
-        assertEquals(true, returnValue);
-        returnValue = askOtherOptions("PASS");
-        assertEquals(true, returnValue);
-        returnValue = askOtherOptions("coinche");
-        assertEquals(true, returnValue);
-        returnValue = askOtherOptions("surcoinche");
-        assertEquals(true, returnValue);
-        returnValue = askOtherOptions("pass");
-        assertEquals(true, returnValue);
-        returnValue = askOtherOptions("-19832");
-        assertEquals(false, returnValue);
-        returnValue = askOtherOptions("39804938");
-        assertEquals(false, returnValue);
-        returnValue = askOtherOptions("190839238324");
-        assertEquals(false, returnValue);
-        returnValue = askOtherOptions("q w e r t y");
-        assertEquals(false, returnValue);
-        returnValue = askOtherOptions("      ");
-        assertEquals(false, returnValue);
-        returnValue = askOtherOptions("");
-        assertEquals(false, returnValue);
-        returnValue = askOtherOptions(")(*@()#)@*@!");
-        assertEquals(false, returnValue);
-        returnValue = askOtherOptions(null);
-        assertEquals(false, returnValue);
     }
 
 }
