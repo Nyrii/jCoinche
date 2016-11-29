@@ -112,6 +112,11 @@ public class GameManager {
         return answer;
     }
 
+    public Game.Answer interpreteGaming(ChannelHandlerContext ctx, Game.GameProgress game) {
+        Game.Answer answer = null;
+        return answer;
+    }
+
     public boolean isFullGame() {
         return nameClient.size() == 4 ? true : false;
     }
@@ -128,13 +133,21 @@ public class GameManager {
 
     public void askPlayerOneToBid() {
         int i = 0;
+        System.out.println("BIDDDDDDD");
         for (Object c : clientSocket) {
-            if (i == 0)
+            if (i == 0) {
                 ((Channel) c).writeAndFlush(Game.Answer.newBuilder()
                         .setRequest("Your turn, you are allowed to bid.")
                         .setCode(200).setType(BIDDING)
                         .setCards(getDeck(i))
-                .build());
+                        .build());
+                System.out.println("send");
+            } else
+                ((Channel) c).writeAndFlush(Game.Answer.newBuilder()
+                        .setRequest("et fils de pute tu reponds?")
+                        .setCode(200).setType(SETTINGS)
+                        .setCards(getDeck(i))
+                        .build());
             ++i;
         }
     }
@@ -145,7 +158,6 @@ public class GameManager {
             ((Channel) c).writeAndFlush(Game.Answer.newBuilder()
                     .setRequest("Your name is " + nameClient.get(i))
                     .setCode(200).setType(SETTINGS)
-                    .setCards(getDeck(i))
                     .build());
             ++i;
         }
@@ -161,12 +173,12 @@ public class GameManager {
         }
     }
 
-    public void getNextPlayerChannel() {
+    public void getNextPlayerChannel(Game.Answer.Type type, String msg) {
         turn = turn == 3 ? 0 : turn + 1;
         int i = 0;
         for (Object c : clientSocket) {
             if (i == turn)
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("Your turn, you are allowed to bid.").setCode(200).setType(BIDDING).setCards(getDeck(i)).build());
+                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("Your turn, " + msg).setCode(200).setType(type).setCards(getDeck(i)).build());
             ++i;
         }
     }

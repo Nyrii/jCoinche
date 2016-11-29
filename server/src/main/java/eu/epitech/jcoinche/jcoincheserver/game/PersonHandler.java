@@ -92,6 +92,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 System.out.println(answer.getPlayer());
                 arg0.writeAndFlush(gm.setName(arg0, answer.getPlayer().getName()));
                 gm.setPlay(gm.partyCanBegin());
+//                gm.advertAllPlayer();
                 if (gm.getPlay()) {
                     gm.giveCardToAllPlayers();
                     gm.askPlayerOneToBid();
@@ -105,7 +106,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                     Game.Answer ans = gm.interpreteBidding(arg0, answer.getBidding());
                     System.out.println(ans);
                     if (gm.getBid() && ans.getCode() < 400 && ans.getCode() != 203 && ans.getCode() != 202)
-                        gm.getNextPlayerChannel();
+                        gm.getNextPlayerChannel(Game.Answer.Type.BIDDING, "you are allowed to bid.");
                 } else if (gm.getGame()) {
                     gm.askPlayerOneToPlay();
                 }
@@ -114,8 +115,16 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
             case GAME:
                 System.out.println("game: ");
                 System.out.println(answer.getGame());
-
+                if (gm.getGame()) {
+                    Game.Answer ans = gm.interpreteGaming(arg0, answer.getGame());
+//                    System.out.println(ans);
+                    if (ans.getCode() < 400)
+                        gm.getNextPlayerChannel(Game.Answer.Type.GAME, "you have to play.");
+                }
                 break;
+
+            case SETTINGS:
+                arg0.writeAndFlush(Game.Answer.newBuilder().setType(Game.Answer.Type.SETTINGS).setCode(-1).setRequest(""));
 
         }
     }
