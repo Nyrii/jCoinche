@@ -92,7 +92,7 @@ message GameProgress {
         NAME = 1;
         MSG = 2;
         PLAY = 3;
-        DECK = 4;
+        HAND = 4;
         LAST_TRICK = 5;
         QUIT = 6;
         INVALID = 7;
