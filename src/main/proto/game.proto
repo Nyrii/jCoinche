@@ -4,25 +4,24 @@ package protobuf;
 // [END declaration]
 
 // [START java_declaration]
-option java_package = "eu.epitech.jcoinche.jcoincheclient.protobuf";
+option java_package = "eu.epitech.jcoinche.protobuf";
 option java_outer_classname = "Game";
 // [END java_declaration]
 
 // [START csharp_declaration]
-option csharp_namespace = "Google.Protobuf.jcoincheclient.protobuf";
+option csharp_namespace = "Google.Protobuf.jcoinche.protobuf";
 // [END csharp_declaration]
 
 // [START messages]
 message Answer {
     string request = 1;
-    repeated string arguments = 2;
     int32 code = 3;
     enum Type {
         NONE = 0;
         PLAYER = 1;
         BIDDING = 2;
         GAME = 3;
-        SETTINGS = 4;
+        STANDBY = 4;
     }
 
     // Identifies which field is filled in.
@@ -88,9 +87,18 @@ message Card {
 }
 
 message GameProgress {
-    string command = 1;
+    enum Command {
+        UNKNOWNCOMMAND = 0;
+        NAME = 1;
+        MSG = 2;
+        PLAY = 3;
+        DECK = 4;
+        LAST_TRICK = 5;
+        QUIT = 6;
+        INVALID = 7;
+    }
+    Command command = 1;
     repeated string arguments = 2;
-    Card card = 3;
 }
 
 message DistributionCard {

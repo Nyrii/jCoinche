@@ -34,9 +34,15 @@ public class GameProcedure {
 
         try {
             Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
+            Game.GameProgress.Builder gameProgress = Game.GameProgress.newBuilder();
+            if (isCommandValid(command)) {
+                gameProgress.setCommand(Game.GameProgress.Command.valueOf(command));
+            } else {
+                gameProgress.setCommand(Game.GameProgress.Command.INVALID);
+            }
+            gameProgress.addAllArguments(arguments);
             futureAnswer.setType(Game.Answer.Type.GAME)
-                    .setRequest(command)
-                    .addAllArguments(arguments)
+                    .setGame(gameProgress)
                     .setCode(100)
                     .build();
             lastWriteFuture = Connection.get_channel().writeAndFlush(futureAnswer);
@@ -49,6 +55,7 @@ public class GameProcedure {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Error : " + e.getMessage());
             return false;
         }
         return true;
