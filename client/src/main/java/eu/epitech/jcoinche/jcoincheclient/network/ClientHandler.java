@@ -1,6 +1,7 @@
 package eu.epitech.jcoinche.jcoincheclient.network;
 
 import eu.epitech.jcoinche.jcoincheclient.game.GameProcedure;
+import eu.epitech.jcoinche.jcoincheclient.game.SaveObject;
 import eu.epitech.jcoinche.jcoincheclient.protobuf.Game;
 import eu.epitech.jcoinche.jcoincheclient.game.Bidding;
 import eu.epitech.jcoinche.jcoincheclient.game.Player;
@@ -25,10 +26,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
 
         @Override
         public void channelRead0(ChannelHandlerContext arg0, Game.Answer answer) throws Exception {
-            Player player = new Player();
-            Bidding bidding = new Bidding();
-            GameProcedure procedure = new GameProcedure();
-
             if (answer.getCode() != -1 && answer.getCode() != 0 && !answer.getRequest().isEmpty()) {
                 String message = new StringBuilder()
                         .append(answer.getCode())
@@ -41,31 +38,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
                     System.err.println(message);
                 }
             }
-
-            try {
-                switch (answer.getType()) {
-
-                    case PLAYER:
-                        player.askInformations();
-                        break;
-
-                    case BIDDING:
-                        bidding.biddingProcess(answer);
-                        break;
-
-                    case GAME:
-                        procedure.request(Game.Answer.Type.GAME);
-                        break;
-
-                    case SETTINGS:
-                        procedure.request(Game.Answer.Type.SETTINGS);
-                        break;
-
-                }
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-                System.exit(84);
-            }
+            SaveObject.set_answer(answer);
         }
 //                // The connection is closed automatically on shutdown.
 //                Connection.get_group().shutdownGracefully();

@@ -14,26 +14,6 @@ import static org.junit.Assert.*;
  */
 public class BiddingTest {
 
-    public boolean askContract(String askedContract) {
-        if (askedContract != null && !askedContract.isEmpty()) {
-            for (Game.Bidding.Contract contract : Game.Bidding.Contract.values()) {
-                if (contract.name().equals(askedContract.toUpperCase()) && !askedContract.toUpperCase().equals("AMOUNT")) {
-                    return true;
-                }
-            }
-            try {
-                Integer amount = Integer.parseInt(askedContract);
-                if (amount < 80 || amount > 160) {
-                    return false;
-                }
-            } catch (NumberFormatException e) {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
     public boolean askCardSuit(String cardSuit) {
         if (cardSuit != null && !cardSuit.isEmpty()) {
             for (Game.Bidding.Options opt : Game.Bidding.Options.values()) {
@@ -64,60 +44,44 @@ public class BiddingTest {
     public void testBiddingContract() {
         boolean returnValue;
 
-        try {
+//        try {
             Bidding bidding = new Bidding();
             Game.Bidding.Builder bidBuilder = Game.Bidding.newBuilder();
 
-            String data = "CAPOT";
-            System.setIn(new ByteArrayInputStream(data.getBytes()));
-            Scanner scanner = new Scanner(System.in);
-            bidding.askContract(scanner.nextLine(), bidBuilder);
-        } catch (Exception e) {
-            return;
-        }
+//            String data = "CAPOT";
+//            System.setIn(new ByteArrayInputStream(data.getBytes()));
+//            Scanner scanner = new Scanner(System.in);
+//            bidding.askContract(scanner.nextLine(), bidBuilder);
+//        } catch (Exception e) {
+//            return;
+//        }
+
         // ASK CONTRACT
-        returnValue = askContract("capot");
-        assertEquals(true, returnValue);
-        returnValue = askContract("generale");
-        assertEquals(true, returnValue);
-        returnValue = askContract("CAPOT");
-        assertEquals(true, returnValue);
-        returnValue = askContract("GENERALE");
-        assertEquals(true, returnValue);
-        returnValue = askContract("80");
-        assertEquals(true, returnValue);
-        returnValue = askContract("160");
-        assertEquals(true, returnValue);
-        returnValue = askContract("99");
-        assertEquals(true, returnValue);
-        returnValue = askContract("153");
-        assertEquals(true, returnValue);
-        returnValue = askContract("121");
-        assertEquals(true, returnValue);
-        returnValue = askContract("AMOUNT");
-        assertEquals(false, returnValue);
-        returnValue = askContract("AMOUNT");
-        assertEquals(false, returnValue);
-        returnValue = askContract("test");
-        assertEquals(false, returnValue);
-        returnValue = askContract("q w e r t y");
-        assertEquals(false, returnValue);
-        returnValue = askContract("894798798759273");
-        assertEquals(false, returnValue);
-        returnValue = askContract("-43982794217482718902");
-        assertEquals(false, returnValue);
-        returnValue = askContract("-1");
-        assertEquals(false, returnValue);
-        returnValue = askContract("161");
-        assertEquals(false, returnValue);
-        returnValue = askContract("19892");
-        assertEquals(false, returnValue);
-        returnValue = askContract("       ");
-        assertEquals(false, returnValue);
-        returnValue = askContract("");
-        assertEquals(false, returnValue);
-        returnValue = askContract(null);
-        assertEquals(false, returnValue);
+        try {
+            assertEquals(true, bidding.askContract("capot", bidBuilder));
+            assertEquals(true, bidding.askContract("generale", bidBuilder));
+            assertEquals(true, bidding.askContract("CAPOT", bidBuilder));
+            assertEquals(true, bidding.askContract("GENERALE", bidBuilder));
+            assertEquals(true, bidding.askContract("80", bidBuilder));
+            assertEquals(true, bidding.askContract("160", bidBuilder));
+            assertEquals(true, bidding.askContract("99", bidBuilder));
+            assertEquals(true, bidding.askContract("153", bidBuilder));
+            assertEquals(true, bidding.askContract("121", bidBuilder));
+            assertEquals(true, bidding.askContract("-1", bidBuilder));
+            assertEquals(true, bidding.askContract("161", bidBuilder));
+            assertEquals(true, bidding.askContract("19892", bidBuilder));
+            assertEquals(false, bidding.askContract("AMOUNT", bidBuilder));
+            assertEquals(false, bidding.askContract("AMOUNT", bidBuilder));
+            assertEquals(false, bidding.askContract("test", bidBuilder));
+            assertEquals(false, bidding.askContract("q w e r t y", bidBuilder));
+            assertEquals(false, bidding.askContract("894798798759273", bidBuilder));
+            assertEquals(false, bidding.askContract("-43982794217482718902", bidBuilder));
+            assertEquals(false, bidding.askContract("       ", bidBuilder));
+            assertEquals(false, bidding.askContract("", bidBuilder));
+            assertEquals(false, bidding.askContract(null, bidBuilder));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // ASK CARD SUIT
         returnValue = askCardSuit("HEARTS");
@@ -146,9 +110,9 @@ public class BiddingTest {
         assertEquals(false, returnValue);
         returnValue = askCardSuit(null);
         assertEquals(false, returnValue);
-        returnValue = askContract("q w e r t y");
+        returnValue = askCardSuit("q w e r t y");
         assertEquals(false, returnValue);
-        returnValue = askContract("qwertyuiop asdfghjkl zxcvbn");
+        returnValue = askCardSuit("qwertyuiop asdfghjkl zxcvbn");
         assertEquals(false, returnValue);
 
         // ASK OTHER OPTIONS

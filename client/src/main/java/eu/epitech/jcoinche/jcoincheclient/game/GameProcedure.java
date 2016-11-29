@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by noboud_n on 28/11/2016.
@@ -44,15 +45,11 @@ public class GameProcedure {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String line = null;
         int i = 0;
-
-        if (gameStep == Game.Answer.Type.SETTINGS) {
-            System.out.println("Please, wait for your turn. Meanwhile, you can change your name or send a message to your partner and opponents.");
-        } else {
-            System.out.println("You can use the following commands : NAME, MSG, PLAY, LAST and QUIT. Please check the documentation for more informations.");
-        }
+        NonblockingBufferedReader reader = null;
 
         try {
-            line = in.readLine();
+            reader = new NonblockingBufferedReader(new BufferedReader(new InputStreamReader(System.in)));
+            while ((line = reader.readLine()) != null);
             if (line != null && !line.isEmpty()) {
                 String[] commandLine = line.split("\\s+");
                 List<String> arguments = new ArrayList<>();
@@ -73,13 +70,14 @@ public class GameProcedure {
                     ++i;
                 }
                 sendRequest(command, arguments, gameStep);
+            } else {
+                sendRequest("NONE", null, gameStep);
             }
-        } catch (IOException e) {
-            System.err.println("Could not get your request.");
-            return false;
         } catch (Exception e) {
             System.err.println("Could not send the request to the server.");
             return false;
+        } finally {
+            reader.close();
         }
         return true;
     }
