@@ -70,12 +70,10 @@ public class AnswerToClient {
     private static Game.Answer setResponseifBid(GameManager gm, ChannelHandlerContext ctx, Game.Bidding bidding, int contract) {
         int code;
         String str;
-        Game.Answer.Type type = BIDDING;
 
         if (bidding.getContract() == Game.Bidding.Contract.CAPOT) {
             code = 203;
             str = "Just annonce capot";
-            type = SETTINGS;
             gm.setCapot(true, ctx);
             gm.setMessage(gm.getNameFromClient(ctx) + " announced capot at " + bidding.getOption());
         } else if (bidding.getAmount() < 80) {
@@ -90,7 +88,6 @@ public class AnswerToClient {
         } else {
             code = 200;
             str = "Bidding okay";
-            type = SETTINGS;
             gm.setMessage(gm.getNameFromClient(ctx) + " announced a bidding with " + bidding.getAmount() + " at " + bidding.getOption());
             gm.setContract(bidding.getAmount(), ctx);
         }
@@ -98,14 +95,13 @@ public class AnswerToClient {
                 .setRequest(str)
                 .setCode(code)
                 .setCards(gm.getDeck(gm.getClientPosition(ctx)))
-                .setType(type)
+                .setType(BIDDING)
                 .build();
     }
 
     private static Game.Answer setResponseIfCoinche(GameManager gm, int contract, ChannelHandlerContext ctx) {
         int code;
         String str;
-        Game.Answer.Type type = BIDDING;
 
         if (gm.getCoinche()) {
             code = 400;
@@ -122,7 +118,6 @@ public class AnswerToClient {
         } else {
             gm.setCoinche(true, ctx);
             code = 201;
-            type = SETTINGS;
             str = "You just coinched the other player";
             gm.setMessage(gm.getNameFromClient(ctx) + " coinched the other team");
         }
@@ -130,14 +125,13 @@ public class AnswerToClient {
                 .setRequest(str)
                 .setCode(code)
                 .setCards(gm.getDeck(gm.getClientPosition(ctx)))
-                .setType(type)
+                .setType(BIDDING)
                 .build();
     }
 
     private static Game.Answer setResponseIfSurCoinche(GameManager gm, ChannelHandlerContext ctx) {
         int code;
         String str;
-        Game.Answer.Type type = BIDDING;
 
         if (gm.getSurCoinche()) {
             code = 400;
@@ -149,7 +143,6 @@ public class AnswerToClient {
         } else {
             gm.setSurCoinche(true, ctx);
             code = 202;
-            type = SETTINGS;
             str = "You just surcoinched the other player";
             gm.setMessage(gm.getNameFromClient(ctx) + " surcoinched");
         }
@@ -157,7 +150,7 @@ public class AnswerToClient {
                 .setRequest(str)
                 .setCode(code)
                 .setCards(gm.getDeck(gm.getClientPosition(ctx)))
-                .setType(type)
+                .setType(BIDDING)
                 .build();
     }
 
