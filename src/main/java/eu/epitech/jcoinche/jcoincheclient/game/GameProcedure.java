@@ -61,9 +61,9 @@ public class GameProcedure {
             }
             gameProgress.addAllArguments(arguments);
             futureAnswer.setType(GAME)
-                    .setGame(gameProgress)
-                    .setCode(100)
-                    .build();
+                        .setGame(gameProgress.build())
+                        .setCode(100)
+                        .build();
             if (Connection.get_channel() == null) {
                 System.err.println("Connection lost.");
                 return false;
@@ -154,7 +154,7 @@ public class GameProcedure {
             if (!sendRequest(command, arguments))
                 System.exit(84);
         } catch (IOException e) {
-            if (!sendRequest("NONE", null))
+            if (!sendRequest("NONE", new ArrayList<String>()))
                 System.exit(84);
             System.err.println("Could not get the user's input.");
         }
@@ -179,10 +179,10 @@ public class GameProcedure {
                     return;
                 }
             }
-            if (!sendRequest(command, null))
+            if (!sendRequest(command, new ArrayList<String>()))
                 System.exit(84);
         } catch (IOException e) {
-            if (!sendRequest("NONE", null))
+            if (!sendRequest("NONE", new ArrayList<String>()))
                 System.exit(84);
             System.err.println("Could not get the user's input.");
         }
@@ -195,13 +195,16 @@ public class GameProcedure {
 
         try {
             System.out.println("What do you want to do ? [MSG, NAME, PLAY, HAND, LAST_TRICK, QUIT] :");
-            if (!isCommandValid((command = in.readLine()))) {
-                if (!sendRequest(command, null))
+            command = in.readLine();
+            command = command.replaceAll("\\s", "");
+            command = command.toUpperCase();
+            if (!isCommandValid(command)) {
+                if (!sendRequest(command, new ArrayList<String>()))
                     System.exit(84);
             } else if ((index = containsCommandsWithArgs(command.toUpperCase())) != -1) {
                 play(index, command);
             } else {
-                if (!sendRequest(command.toUpperCase(), null))
+                if (!sendRequest(command.toUpperCase(), new ArrayList<String>()))
                     System.exit(84);
             }
         } catch (IOException e) {
