@@ -57,13 +57,42 @@ public class GameProcedure {
             if (isCommandValid(command)) {
                 gameProgress.setCommand(Game.GameProgress.Command.valueOf(command));
             } else {
-                gameProgress.setCommand(Game.GameProgress.Command.INVALID);
+                gameProgress.setCommand(Game.GameProgress.Command.INVALID_COMMAND);
             }
             gameProgress.addAllArguments(arguments);
             futureAnswer.setType(GAME)
                         .setGame(gameProgress.build())
                         .setCode(100)
                         .build();
+            if (Connection.get_channel() == null) {
+                System.err.println("Connection lost.");
+                return false;
+            }
+            Connection.get_channel().writeAndFlush(futureAnswer);
+        } catch (Exception e) {
+            System.err.println("Error : " + e.getMessage());
+            sendError("QUIT");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean sendRequestWithCard(String command, List<String> arguments, Game.Card card) {
+        try {
+            Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
+            Game.GameProgress.Builder gameProgress = Game.GameProgress.newBuilder();
+            if (isCommandValid(command)) {
+                gameProgress.setCommand(Game.GameProgress.Command.valueOf(command));
+            } else {
+                gameProgress.setCommand(Game.GameProgress.Command.INVALID_COMMAND);
+            }
+            gameProgress.addAllArguments(arguments)
+                        .setCard(card)
+                        .build();
+            futureAnswer.setType(GAME)
+                    .setGame(gameProgress)
+                    .setCode(100)
+                    .build();
             if (Connection.get_channel() == null) {
                 System.err.println("Connection lost.");
                 return false;
@@ -111,8 +140,8 @@ public class GameProcedure {
 
     public boolean isCardSuitValid(String cardSuit) {
         if (cardSuit != null && !cardSuit.isEmpty()) {
-            for (Game.Bidding.Options opt : Game.Bidding.Options.values()) {
-                if (opt.name().equals(cardSuit.toUpperCase()) && (!opt.name().equals("TA") || !opt.name().equals("SA"))) {
+            for (Game.Card.CardType cardType : Game.Card.CardType.values()) {
+                if (cardType.name().equals(cardSuit.toUpperCase())) {
                     return true;
                 }
             }
@@ -120,8 +149,40 @@ public class GameProcedure {
         return false;
     }
 
+    public Game.Card setCard(String cardValue, String cardSuit) {
+        Game.Card.Builder card = Game.Card.newBuilder();
+        boolean set = false;
+
+        if (cardValue != null && !cardValue.isEmpty()) {
+            for (Game.Card.CardValue cardType : Game.Card.CardValue.values()) {
+                if (cardType.name().equals(cardValue.toUpperCase())) {
+                    card.setCardValue(cardType);
+                    set = true;
+                    break;
+                }
+            }
+        }
+        if (!set)
+            card.setCardValue(Game.Card.CardValue.INVALID_VALUE);
+
+        set = false;
+        if (cardSuit != null && !cardSuit.isEmpty()) {
+            for (Game.Card.CardType cardType : Game.Card.CardType.values()) {
+                if (cardType.name().equals(cardSuit.toUpperCase())) {
+                    card.setCardType(cardType);
+                    set = true;
+                    break;
+                }
+            }
+        }
+        if (!set)
+            card.setCardType(Game.Card.CardType.INVALID_TYPE);
+
+        return card.build();
+    }
+
     public int containsCommandsWithArgs(String command) {
-        String[] commands = {"MSG, NAME, PLAY"};
+        String[] commands = {"MSG", "NAME", "PLAY"};
         int i = 0;
 
         if (command == null || command.isEmpty()) {
@@ -162,24 +223,30 @@ public class GameProcedure {
 
     public void playCard(String command) {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String arg;
+        String cardValue = "", cardSuit = "";
         List<String> arguments = new ArrayList<>();
 
         try {
             System.out.println("Choose a card you want to play [SEVEN, EIGHT, NINE, TEN, JACK...] :");
-            arg = in.readLine();
-            if (isCardValid(arg)) {
-                arguments.add(arg);
+            cardValue = in.readLine();
+            if (cardValue != null) {
+                cardValue = cardValue.replaceAll("\\s", "");
+                cardValue = cardValue.toUpperCase();
+            }
+            if (isCardValid(cardValue)) {
                 System.out.println("Precise the card suit of your card [HEARTS, SPADES, CLUBS, DIAMONDS] :");
-                arg = in.readLine();
-                if (isCardSuitValid(arg)) {
-                    arguments.add(arg);
-                    if (!sendRequest(command, arguments))
+                cardSuit = in.readLine();
+                if (cardSuit != null) {
+                    cardSuit = cardSuit.replaceAll("\\s", "");
+                    cardSuit = cardSuit.toUpperCase();
+                }
+                if (isCardSuitValid(cardSuit)) {
+                    if (!sendRequestWithCard(command, arguments, setCard(cardValue, cardSuit)))
                         System.exit(84);
                     return;
                 }
             }
-            if (!sendRequest(command, new ArrayList<String>()))
+            if (!sendRequestWithCard(command, new ArrayList<String>(), setCard(cardValue, cardSuit)))
                 System.exit(84);
         } catch (IOException e) {
             if (!sendRequest("NONE", new ArrayList<String>()))
@@ -198,7 +265,7 @@ public class GameProcedure {
             command = in.readLine();
             command = command.replaceAll("\\s", "");
             command = command.toUpperCase();
-            if (!isCommandValid(command)) {
+            if (!isCommandValid(command) && containsCommandsWithArgs(command.toUpperCase()) == -1) {
                 if (!sendRequest(command, new ArrayList<String>()))
                     System.exit(84);
             } else if ((index = containsCommandsWithArgs(command.toUpperCase())) != -1) {

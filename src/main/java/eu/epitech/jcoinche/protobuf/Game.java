@@ -3431,6 +3431,10 @@ public final class Game {
        * <code>DIAMONDS = 4;</code>
        */
       DIAMONDS(4),
+      /**
+       * <code>INVALID_TYPE = 5;</code>
+       */
+      INVALID_TYPE(5),
       UNRECOGNIZED(-1),
       ;
 
@@ -3454,6 +3458,10 @@ public final class Game {
        * <code>DIAMONDS = 4;</code>
        */
       public static final int DIAMONDS_VALUE = 4;
+      /**
+       * <code>INVALID_TYPE = 5;</code>
+       */
+      public static final int INVALID_TYPE_VALUE = 5;
 
 
       public final int getNumber() {
@@ -3479,6 +3487,7 @@ public final class Game {
           case 2: return SPADES;
           case 3: return CLUBS;
           case 4: return DIAMONDS;
+          case 5: return INVALID_TYPE;
           default: return null;
         }
       }
@@ -3572,6 +3581,10 @@ public final class Game {
        * <code>AS = 8;</code>
        */
       AS(8),
+      /**
+       * <code>INVALID_VALUE = 9;</code>
+       */
+      INVALID_VALUE(9),
       UNRECOGNIZED(-1),
       ;
 
@@ -3611,6 +3624,10 @@ public final class Game {
        * <code>AS = 8;</code>
        */
       public static final int AS_VALUE = 8;
+      /**
+       * <code>INVALID_VALUE = 9;</code>
+       */
+      public static final int INVALID_VALUE_VALUE = 9;
 
 
       public final int getNumber() {
@@ -3640,6 +3657,7 @@ public final class Game {
           case 6: return QUEEN;
           case 7: return KING;
           case 8: return AS;
+          case 9: return INVALID_VALUE;
           default: return null;
         }
       }
@@ -4175,6 +4193,19 @@ public final class Game {
      */
     com.google.protobuf.ByteString
         getArgumentsBytes(int index);
+
+    /**
+     * <code>optional .protobuf.Card card = 3;</code>
+     */
+    boolean hasCard();
+    /**
+     * <code>optional .protobuf.Card card = 3;</code>
+     */
+    eu.epitech.jcoinche.protobuf.Game.Card getCard();
+    /**
+     * <code>optional .protobuf.Card card = 3;</code>
+     */
+    eu.epitech.jcoinche.protobuf.Game.CardOrBuilder getCardOrBuilder();
   }
   /**
    * Protobuf type {@code protobuf.GameProgress}
@@ -4232,6 +4263,19 @@ public final class Game {
               arguments_.add(s);
               break;
             }
+            case 26: {
+              eu.epitech.jcoinche.protobuf.Game.Card.Builder subBuilder = null;
+              if (card_ != null) {
+                subBuilder = card_.toBuilder();
+              }
+              card_ = input.readMessage(eu.epitech.jcoinche.protobuf.Game.Card.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(card_);
+                card_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4268,33 +4312,37 @@ public final class Game {
        */
       UNKNOWNCOMMAND(0),
       /**
-       * <code>NAME = 1;</code>
+       * <code>NONE = 1;</code>
        */
-      NAME(1),
+      NONE(1),
       /**
-       * <code>MSG = 2;</code>
+       * <code>NAME = 2;</code>
        */
-      MSG(2),
+      NAME(2),
       /**
-       * <code>PLAY = 3;</code>
+       * <code>MSG = 3;</code>
        */
-      PLAY(3),
+      MSG(3),
       /**
-       * <code>HAND = 4;</code>
+       * <code>PLAY = 4;</code>
        */
-      HAND(4),
+      PLAY(4),
       /**
-       * <code>LAST_TRICK = 5;</code>
+       * <code>HAND = 5;</code>
        */
-      LAST_TRICK(5),
+      HAND(5),
       /**
-       * <code>QUIT = 6;</code>
+       * <code>LAST_TRICK = 6;</code>
        */
-      QUIT(6),
+      LAST_TRICK(6),
       /**
-       * <code>INVALID = 7;</code>
+       * <code>QUIT = 7;</code>
        */
-      INVALID(7),
+      QUIT(7),
+      /**
+       * <code>INVALID_COMMAND = 8;</code>
+       */
+      INVALID_COMMAND(8),
       UNRECOGNIZED(-1),
       ;
 
@@ -4303,33 +4351,37 @@ public final class Game {
        */
       public static final int UNKNOWNCOMMAND_VALUE = 0;
       /**
-       * <code>NAME = 1;</code>
+       * <code>NONE = 1;</code>
        */
-      public static final int NAME_VALUE = 1;
+      public static final int NONE_VALUE = 1;
       /**
-       * <code>MSG = 2;</code>
+       * <code>NAME = 2;</code>
        */
-      public static final int MSG_VALUE = 2;
+      public static final int NAME_VALUE = 2;
       /**
-       * <code>PLAY = 3;</code>
+       * <code>MSG = 3;</code>
        */
-      public static final int PLAY_VALUE = 3;
+      public static final int MSG_VALUE = 3;
       /**
-       * <code>HAND = 4;</code>
+       * <code>PLAY = 4;</code>
        */
-      public static final int HAND_VALUE = 4;
+      public static final int PLAY_VALUE = 4;
       /**
-       * <code>LAST_TRICK = 5;</code>
+       * <code>HAND = 5;</code>
        */
-      public static final int LAST_TRICK_VALUE = 5;
+      public static final int HAND_VALUE = 5;
       /**
-       * <code>QUIT = 6;</code>
+       * <code>LAST_TRICK = 6;</code>
        */
-      public static final int QUIT_VALUE = 6;
+      public static final int LAST_TRICK_VALUE = 6;
       /**
-       * <code>INVALID = 7;</code>
+       * <code>QUIT = 7;</code>
        */
-      public static final int INVALID_VALUE = 7;
+      public static final int QUIT_VALUE = 7;
+      /**
+       * <code>INVALID_COMMAND = 8;</code>
+       */
+      public static final int INVALID_COMMAND_VALUE = 8;
 
 
       public final int getNumber() {
@@ -4351,13 +4403,14 @@ public final class Game {
       public static Command forNumber(int value) {
         switch (value) {
           case 0: return UNKNOWNCOMMAND;
-          case 1: return NAME;
-          case 2: return MSG;
-          case 3: return PLAY;
-          case 4: return HAND;
-          case 5: return LAST_TRICK;
-          case 6: return QUIT;
-          case 7: return INVALID;
+          case 1: return NONE;
+          case 2: return NAME;
+          case 3: return MSG;
+          case 4: return PLAY;
+          case 5: return HAND;
+          case 6: return LAST_TRICK;
+          case 7: return QUIT;
+          case 8: return INVALID_COMMAND;
           default: return null;
         }
       }
@@ -4456,6 +4509,27 @@ public final class Game {
       return arguments_.getByteString(index);
     }
 
+    public static final int CARD_FIELD_NUMBER = 3;
+    private eu.epitech.jcoinche.protobuf.Game.Card card_;
+    /**
+     * <code>optional .protobuf.Card card = 3;</code>
+     */
+    public boolean hasCard() {
+      return card_ != null;
+    }
+    /**
+     * <code>optional .protobuf.Card card = 3;</code>
+     */
+    public eu.epitech.jcoinche.protobuf.Game.Card getCard() {
+      return card_ == null ? eu.epitech.jcoinche.protobuf.Game.Card.getDefaultInstance() : card_;
+    }
+    /**
+     * <code>optional .protobuf.Card card = 3;</code>
+     */
+    public eu.epitech.jcoinche.protobuf.Game.CardOrBuilder getCardOrBuilder() {
+      return getCard();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4473,6 +4547,9 @@ public final class Game {
       }
       for (int i = 0; i < arguments_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, arguments_.getRaw(i));
+      }
+      if (card_ != null) {
+        output.writeMessage(3, getCard());
       }
     }
 
@@ -4493,6 +4570,10 @@ public final class Game {
         size += dataSize;
         size += 1 * getArgumentsList().size();
       }
+      if (card_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getCard());
+      }
       memoizedSize = size;
       return size;
     }
@@ -4512,6 +4593,11 @@ public final class Game {
       result = result && command_ == other.command_;
       result = result && getArgumentsList()
           .equals(other.getArgumentsList());
+      result = result && (hasCard() == other.hasCard());
+      if (hasCard()) {
+        result = result && getCard()
+            .equals(other.getCard());
+      }
       return result;
     }
 
@@ -4527,6 +4613,10 @@ public final class Game {
       if (getArgumentsCount() > 0) {
         hash = (37 * hash) + ARGUMENTS_FIELD_NUMBER;
         hash = (53 * hash) + getArgumentsList().hashCode();
+      }
+      if (hasCard()) {
+        hash = (37 * hash) + CARD_FIELD_NUMBER;
+        hash = (53 * hash) + getCard().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -4650,6 +4740,12 @@ public final class Game {
 
         arguments_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (cardBuilder_ == null) {
+          card_ = null;
+        } else {
+          card_ = null;
+          cardBuilder_ = null;
+        }
         return this;
       }
 
@@ -4680,6 +4776,11 @@ public final class Game {
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.arguments_ = arguments_;
+        if (cardBuilder_ == null) {
+          result.card_ = card_;
+        } else {
+          result.card_ = cardBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4734,6 +4835,9 @@ public final class Game {
             arguments_.addAll(other.arguments_);
           }
           onChanged();
+        }
+        if (other.hasCard()) {
+          mergeCard(other.getCard());
         }
         onChanged();
         return this;
@@ -4898,6 +5002,123 @@ public final class Game {
         arguments_.add(value);
         onChanged();
         return this;
+      }
+
+      private eu.epitech.jcoinche.protobuf.Game.Card card_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          eu.epitech.jcoinche.protobuf.Game.Card, eu.epitech.jcoinche.protobuf.Game.Card.Builder, eu.epitech.jcoinche.protobuf.Game.CardOrBuilder> cardBuilder_;
+      /**
+       * <code>optional .protobuf.Card card = 3;</code>
+       */
+      public boolean hasCard() {
+        return cardBuilder_ != null || card_ != null;
+      }
+      /**
+       * <code>optional .protobuf.Card card = 3;</code>
+       */
+      public eu.epitech.jcoinche.protobuf.Game.Card getCard() {
+        if (cardBuilder_ == null) {
+          return card_ == null ? eu.epitech.jcoinche.protobuf.Game.Card.getDefaultInstance() : card_;
+        } else {
+          return cardBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .protobuf.Card card = 3;</code>
+       */
+      public Builder setCard(eu.epitech.jcoinche.protobuf.Game.Card value) {
+        if (cardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          card_ = value;
+          onChanged();
+        } else {
+          cardBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.Card card = 3;</code>
+       */
+      public Builder setCard(
+          eu.epitech.jcoinche.protobuf.Game.Card.Builder builderForValue) {
+        if (cardBuilder_ == null) {
+          card_ = builderForValue.build();
+          onChanged();
+        } else {
+          cardBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.Card card = 3;</code>
+       */
+      public Builder mergeCard(eu.epitech.jcoinche.protobuf.Game.Card value) {
+        if (cardBuilder_ == null) {
+          if (card_ != null) {
+            card_ =
+              eu.epitech.jcoinche.protobuf.Game.Card.newBuilder(card_).mergeFrom(value).buildPartial();
+          } else {
+            card_ = value;
+          }
+          onChanged();
+        } else {
+          cardBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.Card card = 3;</code>
+       */
+      public Builder clearCard() {
+        if (cardBuilder_ == null) {
+          card_ = null;
+          onChanged();
+        } else {
+          card_ = null;
+          cardBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.Card card = 3;</code>
+       */
+      public eu.epitech.jcoinche.protobuf.Game.Card.Builder getCardBuilder() {
+        
+        onChanged();
+        return getCardFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .protobuf.Card card = 3;</code>
+       */
+      public eu.epitech.jcoinche.protobuf.Game.CardOrBuilder getCardOrBuilder() {
+        if (cardBuilder_ != null) {
+          return cardBuilder_.getMessageOrBuilder();
+        } else {
+          return card_ == null ?
+              eu.epitech.jcoinche.protobuf.Game.Card.getDefaultInstance() : card_;
+        }
+      }
+      /**
+       * <code>optional .protobuf.Card card = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          eu.epitech.jcoinche.protobuf.Game.Card, eu.epitech.jcoinche.protobuf.Game.Card.Builder, eu.epitech.jcoinche.protobuf.Game.CardOrBuilder> 
+          getCardFieldBuilder() {
+        if (cardBuilder_ == null) {
+          cardBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              eu.epitech.jcoinche.protobuf.Game.Card, eu.epitech.jcoinche.protobuf.Game.Card.Builder, eu.epitech.jcoinche.protobuf.Game.CardOrBuilder>(
+                  getCard(),
+                  getParentForChildren(),
+                  isClean());
+          card_ = null;
+        }
+        return cardBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5879,23 +6100,25 @@ public final class Game {
       "AMOUNT\020\001\022\t\n\005CAPOT\020\002\022\014\n\010GENERALE\020\003\"]\n\007Opt" +
       "ions\022\021\n\rUNKNOWNOPTION\020\000\022\n\n\006HEARTS\020\001\022\n\n\006S" +
       "PADES\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\022\006\n\002TA\020\005" +
-      "\022\006\n\002SA\020\006\"\243\002\n\004Card\022)\n\010cardType\030\001 \001(\0162\027.pr" +
+      "\022\006\n\002SA\020\006\"\311\002\n\004Card\022)\n\010cardType\030\001 \001(\0162\027.pr" +
       "otobuf.Card.CardType\022+\n\tcardValue\030\002 \001(\0162" +
-      "\030.protobuf.Card.CardValue\"P\n\010CardType\022\023\n",
+      "\030.protobuf.Card.CardValue\"b\n\010CardType\022\023\n",
       "\017UNKNOWNCARDTYPE\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES" +
-      "\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\"q\n\tCardValue" +
-      "\022\024\n\020UNKNOWNCARDVALUE\020\000\022\t\n\005SEVEN\020\001\022\t\n\005EIG" +
-      "HT\020\002\022\010\n\004NINE\020\003\022\007\n\003TEN\020\004\022\010\n\004JACK\020\005\022\t\n\005QUE" +
-      "EN\020\006\022\010\n\004KING\020\007\022\006\n\002AS\020\010\"\277\001\n\014GameProgress\022" +
-      "/\n\007command\030\001 \001(\0162\036.protobuf.GameProgress" +
-      ".Command\022\021\n\targuments\030\002 \003(\t\"k\n\007Command\022\022" +
-      "\n\016UNKNOWNCOMMAND\020\000\022\010\n\004NAME\020\001\022\007\n\003MSG\020\002\022\010\n" +
-      "\004PLAY\020\003\022\010\n\004HAND\020\004\022\016\n\nLAST_TRICK\020\005\022\010\n\004QUI" +
-      "T\020\006\022\013\n\007INVALID\020\007\"A\n\020DistributionCard\022\017\n\007",
-      "partner\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.protobuf.C" +
-      "ardBH\n\034eu.epitech.jcoinche.protobufB\004Gam" +
-      "e\252\002!Google.Protobuf.jcoinche.protobufb\006p" +
-      "roto3"
+      "\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\022\020\n\014INVALID_T" +
+      "YPE\020\005\"\204\001\n\tCardValue\022\024\n\020UNKNOWNCARDVALUE\020" +
+      "\000\022\t\n\005SEVEN\020\001\022\t\n\005EIGHT\020\002\022\010\n\004NINE\020\003\022\007\n\003TEN" +
+      "\020\004\022\010\n\004JACK\020\005\022\t\n\005QUEEN\020\006\022\010\n\004KING\020\007\022\006\n\002AS\020" +
+      "\010\022\021\n\rINVALID_VALUE\020\t\"\357\001\n\014GameProgress\022/\n" +
+      "\007command\030\001 \001(\0162\036.protobuf.GameProgress.C" +
+      "ommand\022\021\n\targuments\030\002 \003(\t\022\034\n\004card\030\003 \001(\0132" +
+      "\016.protobuf.Card\"}\n\007Command\022\022\n\016UNKNOWNCOM" +
+      "MAND\020\000\022\010\n\004NONE\020\001\022\010\n\004NAME\020\002\022\007\n\003MSG\020\003\022\010\n\004P",
+      "LAY\020\004\022\010\n\004HAND\020\005\022\016\n\nLAST_TRICK\020\006\022\010\n\004QUIT\020" +
+      "\007\022\023\n\017INVALID_COMMAND\020\010\"A\n\020DistributionCa" +
+      "rd\022\017\n\007partner\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.prot" +
+      "obuf.CardBH\n\034eu.epitech.jcoinche.protobu" +
+      "fB\004Game\252\002!Google.Protobuf.jcoinche.proto" +
+      "bufb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5938,7 +6161,7 @@ public final class Game {
     internal_static_protobuf_GameProgress_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_GameProgress_descriptor,
-        new java.lang.String[] { "Command", "Arguments", });
+        new java.lang.String[] { "Command", "Arguments", "Card", });
     internal_static_protobuf_DistributionCard_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_protobuf_DistributionCard_fieldAccessorTable = new

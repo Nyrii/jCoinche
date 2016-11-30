@@ -70,6 +70,7 @@ message Card {
         SPADES = 2;
         CLUBS = 3;
         DIAMONDS = 4;
+        INVALID_TYPE = 5;
     }
     enum CardValue {
         UNKNOWNCARDVALUE = 0;
@@ -81,6 +82,7 @@ message Card {
         QUEEN = 6;
         KING = 7;
         AS = 8;
+        INVALID_VALUE = 9;
     }
     CardType cardType = 1;
     CardValue cardValue = 2;
@@ -89,16 +91,18 @@ message Card {
 message GameProgress {
     enum Command {
         UNKNOWNCOMMAND = 0;
-        NAME = 1;
-        MSG = 2;
-        PLAY = 3;
-        HAND = 4;
-        LAST_TRICK = 5;
-        QUIT = 6;
-        INVALID = 7;
+        NONE = 1;
+        NAME = 2;
+        MSG = 3;
+        PLAY = 4;
+        HAND = 5;
+        LAST_TRICK = 6;
+        QUIT = 7;
+        INVALID_COMMAND = 8;
     }
     Command command = 1;
     repeated string arguments = 2;
+    Card card = 3;
 }
 
 message DistributionCard {
