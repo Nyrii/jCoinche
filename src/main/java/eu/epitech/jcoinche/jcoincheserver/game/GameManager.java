@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.STANDBY;
+import static eu.epitech.jcoinche.protobuf.Game.GameProgress.Command.*;
 
 /**
  * Created by Saursinet on 22/11/2016.
@@ -17,6 +18,7 @@ public class GameManager {
 
     ArrayList clientSocket = new ArrayList();
     ArrayList nameClient = new ArrayList();
+    ArrayList lastTrick = new ArrayList();
     boolean play = false;
     private int turn = -1;
     private int personWhoBet = -1;
@@ -60,17 +62,22 @@ public class GameManager {
         return ((String) nameClient.get(i));
     }
 
-    public void sendMessageToAllPersonInGame(ChannelHandlerContext arg0, String msg) {
+    public Game.Answer sendMessageToAllPersonInGame(ChannelHandlerContext ctx, String msg) {
         for (Object c: clientSocket) {
-            if (c != arg0.channel()) {
+            if (c != ctx.channel()) {
 //                c.writeAndFlush("[" + arg0.channel().remoteAddress() + "] " + msg + "\r\n");
 //                c.writeAndFlush("[" + getNameFromSocket(arg0) + "] " + msg + "\n");
                 ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(STANDBY).setCode(300).build());
             } else {
                 ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(STANDBY).setCode(300).build());
-//                c.writeAndFlush("[you] " + msg + "\n");
             }
         }
+        return Game.Answer.newBuilder()
+                .setRequest("The command is invalid")
+                .setCode(400)
+                .setCards(getDeck(getClientPosition(ctx)))
+                .setType(GAME)
+                .build();
     }
 
     public void sendMessageToAllPersonInGame(String msg) {
@@ -114,7 +121,63 @@ public class GameManager {
 
     public Game.Answer interpreteGaming(ChannelHandlerContext ctx, Game.GameProgress game) {
         Game.Answer answer = null;
+
+        if (game.getCommand() == Game.GameProgress.Command.MSG) {
+            answer = sendMessageToAllPersonInGame(ctx, game.getArguments(0));
+        } else if (game.getCommand() == Game.GameProgress.Command.NAME) {
+            answer = setName(ctx, game.getArguments(0));
+            answer = Game.Answer.newBuilder()
+                        .setRequest(answer.getRequest())
+                        .setCode(answer.getCode())
+                        .setCards(getDeck(getClientPosition(ctx)))
+                        .setType(GAME)
+                        .build();
+        } else if (game.getCommand() == PLAY) {
+            System.out.println("Player just play " + game.getArgumentsList());
+            answer = Game.Answer.newBuilder()
+                    .setRequest("for now not implemented")
+                    .setCode(200)
+                    .setCards(getDeck(getClientPosition(ctx)))
+                    .setType(GAME)
+                    .build();
+        } else if (game.getCommand() == HAND) {
+            sendHandToPlayer(ctx);
+        } else if (game.getCommand() == LAST_TRICK) {
+            showLastTrick(ctx);
+        } else if (game.getCommand() == INVALID) {
+            sendInvalidCommand(ctx);
+        } else {
+            //user just quit
+            System.out.println("User quit");
+        }
         return answer;
+    }
+
+    private Game.Answer sendInvalidCommand(ChannelHandlerContext ctx) {
+        return Game.Answer.newBuilder()
+                .setRequest("The command is invalid")
+                .setCode(400)
+                .setCards(getDeck(getClientPosition(ctx)))
+                .setType(GAME)
+                .build();
+    }
+
+    private Game.Answer showLastTrick(ChannelHandlerContext ctx) {
+        return Game.Answer.newBuilder()
+                .setRequest("There is the last trick played :" + lastTrick.toString())
+                .setCode(301)
+                .setCards(getDeck(getClientPosition(ctx)))
+                .setType(GAME)
+                .build();
+    }
+
+    private Game.Answer sendHandToPlayer(ChannelHandlerContext ctx) {
+        return Game.Answer.newBuilder()
+                .setRequest("There is your hand")
+                .setCode(300)
+                .setCards(getDeck(getClientPosition(ctx)))
+                .setType(GAME)
+                .build();
     }
 
     public boolean isFullGame() {
