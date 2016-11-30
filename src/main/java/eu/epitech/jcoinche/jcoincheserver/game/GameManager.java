@@ -133,19 +133,11 @@ public class GameManager {
 
     public void askPlayerOneToBid() {
         int i = 0;
-        System.out.println("BIDDDDDDD");
         for (Object c : clientSocket) {
-            if (i == 0) {
+            if (i == 0)
                 ((Channel) c).writeAndFlush(Game.Answer.newBuilder()
                         .setRequest("Your turn, you are allowed to bid.")
                         .setCode(200).setType(BIDDING)
-                        .setCards(getDeck(i))
-                        .build());
-                System.out.println("send");
-            } else
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder()
-                        .setRequest("et fils de pute tu reponds?")
-                        .setCode(200).setType(STANDBY)
                         .setCards(getDeck(i))
                         .build());
             ++i;
