@@ -17,16 +17,20 @@ public class Player {
 
     private void sendError(String error) {
         Game.Answer answer = Game.Answer.newBuilder()
-                .setRequest(error)
+                .setRequest(error == null ? "" : error)
                 .setCode(-1)
                 .setType(PLAYER)
                 .build();
+        if (Connection.get_channel() == null) {
+            System.err.println("Connection lost.");
+            return;
+        }
         Connection.get_channel().writeAndFlush(answer);
         try {
             Connection.get_channel().closeFuture().sync();
         } catch (InterruptedException e) {
             System.err.println("Could not close the socket properly... exiting the client...");
-            System.exit(84);
+            return;
         }
     }
 
@@ -41,7 +45,6 @@ public class Player {
                 try {
                     line = in.readLine();
                 } catch (IOException e) {
-                    e.printStackTrace();
                     sendError("QUIT");
                     throw new Exception("System error : Could not get the input.");
                 }
@@ -52,6 +55,10 @@ public class Player {
                                         .setType(PLAYER)
                                         .setPlayer(Game.Player.newBuilder().setName(line).build())
                                         .build();
+                    if (Connection.get_channel() == null) {
+                        System.err.println("Connection lost.");
+                        System.exit(84);
+                    }
                     lastWriteFuture = Connection.get_channel().writeAndFlush(answer);
                     // Wait until all messages are flushed.
                     if (lastWriteFuture != null) {

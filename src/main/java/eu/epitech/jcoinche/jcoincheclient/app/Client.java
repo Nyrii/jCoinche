@@ -7,6 +7,9 @@ import eu.epitech.jcoinche.jcoincheclient.game.SaveObject;
 import eu.epitech.jcoinche.jcoincheclient.network.Connection;
 import eu.epitech.jcoinche.protobuf.Game;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.util.TimerTask;
 
@@ -18,11 +21,24 @@ import java.util.TimerTask;
 public class Client {
     public static void main(String[] args) {
         Connection connection = new Connection();
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        boolean isValid = false;
+
         try {
-            connection.requestHostAndPort();
+            while (!isValid) {
+                System.out.println("Please type the server's host :");
+                if ((isValid = connection.requestHost(in.readLine())) == false)
+                    System.err.println("An error occured, please type a valid host :");
+            }
+            isValid = false;
+            while (!isValid) {
+                System.out.println("Please type the server's port :");
+                if ((isValid = connection.requestPort(in.readLine())) == false)
+                    System.err.println("An error occured, please type a valid port :");
+            }
             System.out.println("Waiting for the server's answer...");
             connection.connect();
-        } catch (ConnectException e) {
+        } catch (IOException e) {
             System.err.println(e.getMessage());
             System.exit(84);
         }

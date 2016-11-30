@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
+import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
+
 /**
  * Created by noboud_n on 28/11/2016.
  */
@@ -28,10 +31,26 @@ public class GameProcedure {
     public void play(int index, String command) {
         playActions[index].play(command);
     }
+    public void sendError(String error) {
+        Game.Answer answer = Game.Answer.newBuilder()
+                .setRequest(error == null ? "" : error)
+                .setCode(-1)
+                .setType(GAME)
+                .build();
+        if (Connection.get_channel() == null) {
+            System.err.println("Connection lost.");
+            return;
+        }
+        Connection.get_channel().writeAndFlush(answer);
+        try {
+            Connection.get_channel().closeFuture().sync();
+        } catch (Exception e) {
+            System.err.println("Could not close the socket properly... exiting the client...");
+            return;
+        }
+    }
 
     public boolean sendRequest(String command, List<String> arguments) {
-        ChannelFuture lastWriteFuture = null;
-
         try {
             Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
             Game.GameProgress.Builder gameProgress = Game.GameProgress.newBuilder();
@@ -41,21 +60,18 @@ public class GameProcedure {
                 gameProgress.setCommand(Game.GameProgress.Command.INVALID);
             }
             gameProgress.addAllArguments(arguments);
-            futureAnswer.setType(Game.Answer.Type.GAME)
+            futureAnswer.setType(GAME)
                     .setGame(gameProgress)
                     .setCode(100)
                     .build();
-            lastWriteFuture = Connection.get_channel().writeAndFlush(futureAnswer);
-            if (lastWriteFuture != null) {
-                try {
-                    lastWriteFuture.sync();
-                } catch (Exception e) {
-                    System.err.println("Could not send the last request");
-                    return false;
-                }
+            if (Connection.get_channel() == null) {
+                System.err.println("Connection lost.");
+                return false;
             }
+            Connection.get_channel().writeAndFlush(futureAnswer);
         } catch (Exception e) {
             System.err.println("Error : " + e.getMessage());
+            sendError("QUIT");
             return false;
         }
         return true;
@@ -122,7 +138,7 @@ public class GameProcedure {
 
     public void sendMessage(String command) {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String line = null;
+        String line;
         List<String> arguments = new ArrayList<>();
 
         try {
@@ -135,16 +151,18 @@ public class GameProcedure {
             if (isArgumentValid(line)) {
                 arguments.add(line);
             }
-            sendRequest(command, arguments);
+            if (!sendRequest(command, arguments))
+                System.exit(84);
         } catch (IOException e) {
-            sendRequest("NONE", null);
+            if (!sendRequest("NONE", null))
+                System.exit(84);
             System.err.println("Could not get the user's input.");
         }
     }
 
     public void playCard(String command) {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String arg = null;
+        String arg;
         List<String> arguments = new ArrayList<>();
 
         try {
@@ -156,39 +174,38 @@ public class GameProcedure {
                 arg = in.readLine();
                 if (isCardSuitValid(arg)) {
                     arguments.add(arg);
-                    sendRequest(command, arguments);
+                    if (!sendRequest(command, arguments))
+                        System.exit(84);
                     return;
                 }
             }
-            sendRequest(command, null);
+            if (!sendRequest(command, null))
+                System.exit(84);
         } catch (IOException e) {
-            sendRequest("NONE", null);
+            if (!sendRequest("NONE", null))
+                System.exit(84);
             System.err.println("Could not get the user's input.");
         }
     }
 
-    public boolean request() {
+    public void request() {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String command = null;
-        int index = -1;
+        String command;
+        int index;
 
         try {
             System.out.println("What do you want to do ? [MSG, NAME, PLAY, HAND, LAST_TRICK, QUIT] :");
             if (!isCommandValid((command = in.readLine()))) {
-                sendRequest(command, null);
-                return true;
+                if (!sendRequest(command, null))
+                    System.exit(84);
             } else if ((index = containsCommandsWithArgs(command.toUpperCase())) != -1) {
                 play(index, command);
             } else {
-                sendRequest(command.toUpperCase(), null);
+                if (!sendRequest(command.toUpperCase(), null))
+                    System.exit(84);
             }
         } catch (IOException e) {
             System.err.println("Could not get the input.");
-            return false;
-        } catch (Exception e) {
-            System.err.println("Could not send the request to the server.");
-            return false;
         }
-        return true;
     }
 }

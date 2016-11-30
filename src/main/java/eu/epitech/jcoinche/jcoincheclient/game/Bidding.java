@@ -15,26 +15,34 @@ import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
  */
 public class Bidding {
 
-    private void sendError(String error) {
+    public void sendError(String error) {
         Game.Answer answer = Game.Answer.newBuilder()
-                            .setRequest(error)
+                            .setRequest(error == null ? "" : error)
                             .setCode(-1)
                             .setType(BIDDING)
                             .build();
+        if (Connection.get_channel() == null) {
+            System.err.println("Connection lost.");
+            return;
+        }
         Connection.get_channel().writeAndFlush(answer);
         try {
             Connection.get_channel().closeFuture().sync();
         } catch (Exception e) {
             System.err.println("Could not close the socket properly... exiting the client...");
-            System.exit(84);
+            return;
         }
     }
 
 
-    private boolean printCards(Game.Answer answer) {
+    public boolean printCards(Game.Answer answer) {
+        if (answer == null) {
+            System.err.println("Cannot get the informations contained in the answer.");
+            return false;
+        }
         List<Game.Card> deck = Cards.sortCardsByTypeAndValue(answer.getCards());
-        if (deck == null) {
-            System.out.println("Your hand is empty");
+        if (deck == null || deck.isEmpty()) {
+            System.err.println("Your hand is empty");
             return false;
         }
         System.out.println("Here are your cards : ");
@@ -47,6 +55,16 @@ public class Bidding {
             System.out.println(entireCard);
         }
         return true;
+    }
+
+    public boolean doesUserWantToBet(String line) {
+        if (line != null && !line.isEmpty()) {
+            line = line.replaceAll("\\s+","");
+        }
+        if (line != null && !line.isEmpty() && (line.toLowerCase().equals("y") || line.toLowerCase().equals("n"))) {
+            return true;
+        }
+        return false;
     }
 
     public void biddingProcess(Game.Answer answer) throws Exception {
@@ -66,14 +84,11 @@ public class Bidding {
                         } else if (i > 0) {
                             System.out.println("An error occured : you have to do something or at least PASS. Would you like to bet then ? (y/n)");
                         }
-                        line = in.readLine();
-                        System.out.println("line = " + line);
-                        if (line != null && !line.isEmpty() && (line.toLowerCase().equals("y") || line.toLowerCase().equals("n"))) {
+                        if (doesUserWantToBet((line = in.readLine())) == true) {
                             break;
                         }
                     } catch (IOException e) {
-                        sendError("QUIT");
-                        throw new Exception("Cannot get the player's input.");
+                        System.err.println("Could not get the player's input.");
                     }
                 }
                 switch (line.toLowerCase()) {
@@ -84,11 +99,15 @@ public class Bidding {
                         System.out.println("If you do not bid, you have to choose one of these options (COINCHE, SURCOINCHE, PASS) : ");
                         Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
                         Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
-                        askAgain = askOtherOptions(bidding, in.readLine());
+                        askAgain = askOtherOptions(in.readLine(), bidding);
                         if (askAgain == true) {
                             futureAnswer.setBidding(bidding)
                                     .setType(BIDDING)
                                     .build();
+                            if (Connection.get_channel() == null) {
+                                System.err.println("Connection lost.");
+                                System.exit(84);
+                            }
                             Connection.get_channel().writeAndFlush(futureAnswer);
                         }
                         break;
@@ -96,11 +115,10 @@ public class Bidding {
                     i = 1;
                 }
         } catch (IOException e) {
-            sendError("QUIT");
-            throw new Exception("Cannot get the player's input.");
+            System.err.println("Could not get the player's input.");
         } catch (Exception e) {
             sendError("QUIT");
-            throw new Exception("Cannot get the player's informations.");
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -124,12 +142,14 @@ public class Bidding {
             futureAnswer.setType(BIDDING)
                     .setBidding(bidding)
                     .build();
+            if (Connection.get_channel() == null) {
+                throw new Exception("Connection lost");
+            }
             Connection.get_channel().writeAndFlush(futureAnswer);
         } catch (IOException e) {
-            sendError("QUIT");
-            throw new Exception("Cannot get the player's input.");
+            System.err.println("Cannot get the player's input.");
+            return false;
         } catch (Exception e) {
-            sendError("QUIT");
             throw new Exception("Cannot get the player's bidding wishes.");
         }
         return true;
@@ -139,6 +159,7 @@ public class Bidding {
     public boolean askContract(String line, Game.Bidding.Builder bidding) throws Exception {
         // Get the contract of the bid
         if (line != null && !line.isEmpty()) {
+            line = line.replaceAll("\\s+","");
             bidding.setBid(true);
             for (Game.Bidding.Contract contract : Game.Bidding.Contract.values()) {
                 if (contract.name().equals(line.toUpperCase()) && !line.toUpperCase().equals("AMOUNT")) {
@@ -165,6 +186,7 @@ public class Bidding {
 
         // Get the card suit of the contract
         if (line != null && !line.isEmpty()) {
+            line = line.replaceAll("\\s+","");
             for (Game.Bidding.Options opt : Game.Bidding.Options.values()) {
                 if (opt.name().equals(line.toUpperCase())) {
                     bidding.setOption(Game.Bidding.Options.valueOf(line.toUpperCase()));
@@ -175,10 +197,11 @@ public class Bidding {
         return false;
     }
 
-    public boolean askOtherOptions(Game.Bidding.Builder bidding, String line) throws Exception {
+    public boolean askOtherOptions(String line, Game.Bidding.Builder bidding) throws Exception {
         bidding.setBid(false);
         // Get the other options
         if (line != null && !line.isEmpty()) {
+            line = line.replaceAll("\\s+","");
             switch (line.toUpperCase()) {
                 case "COINCHE":
                     bidding.setCoinche(true);

@@ -76,49 +76,40 @@ public class Connection {
         this._secureSocket = _secureSocket;
     }
 
-    public void requestHostAndPort() throws ConnectException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String host = null;
-        String port = null;
-        try {
-            System.out.println("Please type the server's host :");
-            host = in.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new ConnectException("Could not get the host.");
+    public boolean requestHost(String host) {
+        if (host == null || host.isEmpty()) {
+            return false;
         }
-        try {
-            System.out.println("Please type the server's port :");
-            port = in.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new ConnectException("Could not get the port.");
+        set_host(host.replaceAll("\\s", ""));
+        return true;
+    }
+
+    public boolean requestPort(String port) {
+        if (port == null || port.isEmpty()) {
+            return false;
         }
-        if (host == null || port == null || host.isEmpty() || port.isEmpty()) {
-            throw new ConnectException("Invalid port or/and host.");
-        }
-        set_host(host);
-        set_port(port);
+        set_port(port.replaceAll("\\s", ""));
+        return true;
     }
 
     public void connect() throws ConnectException {
         try {
-            _secureSocket = SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build();
+            set_secureSocket(SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build());
         } catch (SSLException e) {
             String error = new StringBuilder()
                             .append("Could not create a socket.")
                             .toString();
             throw new ConnectException(error);
         }
-        _group = new NioEventLoopGroup();
-        _bootstrap = new Bootstrap();
+        set_group(new NioEventLoopGroup());
+        set_bootstrap(new Bootstrap());
         _bootstrap.group(_group)
             .channel(NioSocketChannel.class)
             .handler(new ClientInitializer(_secureSocket));
 
         // Start the connection attempt.
         try {
-            _channel = _bootstrap.connect(System.getProperty("host", HOST), Integer.parseInt(System.getProperty("port", PORT))).sync().channel();
+            set_channel(_bootstrap.connect(System.getProperty("host", HOST), Integer.parseInt(System.getProperty("port", PORT))).sync().channel());
         } catch (InterruptedException e) {
             String error = new StringBuilder()
                             .append("Connection interrupted. Could not create a channel to connect to the server.")

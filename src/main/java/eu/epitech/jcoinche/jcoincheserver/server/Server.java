@@ -15,12 +15,13 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
  */
 public class Server {
     static final int PORT = Integer.parseInt(System.getProperty("port", "4242"));
+    static EventLoopGroup gameGroup = null;
 
-    public static void main(String[] args) throws Exception {
+    public static void launchServer() throws Exception {
         SelfSignedCertificate ssc = new SelfSignedCertificate();
         SslContext sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
 
-        EventLoopGroup gameGroup = new NioEventLoopGroup(1);
+        gameGroup = new NioEventLoopGroup(1);
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(gameGroup)
@@ -29,7 +30,20 @@ public class Server {
                     .childHandler(new ServerInitializer(sslCtx));
             b.bind(PORT).sync().channel().closeFuture().sync();
         } finally {
-            gameGroup.shutdownGracefully();
+            shutDownServer();
+        }
+    }
+
+    public static void shutDownServer() {
+        gameGroup.shutdownGracefully();
+    }
+
+    public static void main(String[] args) {
+        try {
+            launchServer();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(84);
         }
     }
 

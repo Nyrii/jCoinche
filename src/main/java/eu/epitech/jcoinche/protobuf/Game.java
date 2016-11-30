@@ -4280,9 +4280,9 @@ public final class Game {
        */
       PLAY(3),
       /**
-       * <code>DECK = 4;</code>
+       * <code>HAND = 4;</code>
        */
-      DECK(4),
+      HAND(4),
       /**
        * <code>LAST_TRICK = 5;</code>
        */
@@ -4315,9 +4315,9 @@ public final class Game {
        */
       public static final int PLAY_VALUE = 3;
       /**
-       * <code>DECK = 4;</code>
+       * <code>HAND = 4;</code>
        */
-      public static final int DECK_VALUE = 4;
+      public static final int HAND_VALUE = 4;
       /**
        * <code>LAST_TRICK = 5;</code>
        */
@@ -4354,7 +4354,7 @@ public final class Game {
           case 1: return NAME;
           case 2: return MSG;
           case 3: return PLAY;
-          case 4: return DECK;
+          case 4: return HAND;
           case 5: return LAST_TRICK;
           case 6: return QUIT;
           case 7: return INVALID;
@@ -5890,7 +5890,7 @@ public final class Game {
       "/\n\007command\030\001 \001(\0162\036.protobuf.GameProgress" +
       ".Command\022\021\n\targuments\030\002 \003(\t\"k\n\007Command\022\022" +
       "\n\016UNKNOWNCOMMAND\020\000\022\010\n\004NAME\020\001\022\007\n\003MSG\020\002\022\010\n" +
-      "\004PLAY\020\003\022\010\n\004DECK\020\004\022\016\n\nLAST_TRICK\020\005\022\010\n\004QUI" +
+      "\004PLAY\020\003\022\010\n\004HAND\020\004\022\016\n\nLAST_TRICK\020\005\022\010\n\004QUI" +
       "T\020\006\022\013\n\007INVALID\020\007\"A\n\020DistributionCard\022\017\n\007",
       "partner\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.protobuf.C" +
       "ardBH\n\034eu.epitech.jcoinche.protobufB\004Gam" +

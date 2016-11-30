@@ -60,7 +60,7 @@ public class AnswerToClient {
                     .build();
         } else {
             return Game.Answer.newBuilder()
-                    .setRequest("nickname contains invalid characters or is too short.")
+                    .setRequest("Nickname contains invalid characters or is too short.")
                     .setCode(402)
                     .setType(PLAYER)
                     .build();
@@ -73,12 +73,12 @@ public class AnswerToClient {
 
         if (bidding.getContract() == Game.Bidding.Contract.CAPOT) {
             code = 203;
-            str = "Just annonce capot";
+            str = "Just annonced capot";
             gm.setCapot(true, ctx);
             gm.setMessage(gm.getNameFromClient(ctx) + " announced capot at " + bidding.getOption());
         } else if (bidding.getAmount() < 80) {
             code = 400;
-            str = "Bidding to low, minimum is 81";
+            str = "Bidding to low, minimum is 80";
         } else if (bidding.getAmount() > 160) {
             code = 400;
             str = "Bidding to high, maximum is 160 or capot";
@@ -139,7 +139,7 @@ public class AnswerToClient {
         } else if (gm.getPersonWhoBet() != gm.getClientPosition(ctx)) {
             code = 400;
             System.out.println("person who bet = " + gm.getPersonWhoBet() + "  et pos = " + gm.getClientPosition(ctx) + " name :" + gm.getNameFromClient(ctx));
-            str = "You cannot surcoinche if it's not you who bet at first";
+            str = "You cannot surcoinche if you didn't bet at first";
         } else {
             gm.setSurCoinche(true, ctx);
             code = 202;
