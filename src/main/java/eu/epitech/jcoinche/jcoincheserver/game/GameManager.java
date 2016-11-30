@@ -165,6 +165,7 @@ public class GameManager {
 
     public void askPlayerOneToPlay() {
         int i = 0;
+        System.out.println("send invite to play");
         for (Object c : clientSocket) {
             if (i == 0)
                 ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("Your turn, you have to play.").setCode(200).setType(GAME)
@@ -252,10 +253,12 @@ public class GameManager {
     }
 
     public void checkIfPartyCanRun() {
+        System.out.println("enter checkif party can run");
         if ((contract != -1 && nbTurnInactive == 4) ||
                 capot || surCoinche) {
             bidding = false;
             game = true;
+            System.out.println("just put game to true");
         } else if (contract == -1 && nbTurnInactive == 4) {
             bidding = true;
             cm = new CardManager();

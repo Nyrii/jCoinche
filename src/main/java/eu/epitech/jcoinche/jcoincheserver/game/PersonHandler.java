@@ -107,7 +107,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                     System.out.println(ans);
                     if (gm.getBid() && ans.getCode() < 400 && ans.getCode() != 203 && ans.getCode() != 202)
                         gm.getNextPlayerChannel(Game.Answer.Type.BIDDING, "you are allowed to bid.");
-                } else if (gm.getGame()) {
+                } if (gm.getGame()) {
                     gm.askPlayerOneToPlay();
                 }
                 break;
