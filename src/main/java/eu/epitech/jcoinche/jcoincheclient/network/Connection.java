@@ -101,7 +101,7 @@ public class Connection {
                             .toString();
             throw new ConnectException(error);
         }
-        set_group(new NioEventLoopGroup());
+        set_group(new NioEventLoopGroup(1));
         set_bootstrap(new Bootstrap());
         _bootstrap.group(_group)
             .channel(NioSocketChannel.class)

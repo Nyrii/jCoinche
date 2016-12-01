@@ -34,14 +34,24 @@ public class Player {
         }
     }
 
+    public void sendName(String name) {
+        Game.Answer answer = Game.Answer.newBuilder()
+                .setType(PLAYER)
+                .setPlayer(Game.Player.newBuilder().setName(name).build())
+                .build();
+        if (Connection.get_channel() == null) {
+            System.err.println("Connection lost.");
+            System.exit(84);
+        }
+        Connection.get_channel().writeAndFlush(answer);
+    }
+
     public void askInformations() throws Exception {
         try {
-            ChannelFuture lastWriteFuture = null;
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             String line = null;
 
             for (;;) {
-                line = null;
                 try {
                     line = in.readLine();
                 } catch (IOException e) {
@@ -50,25 +60,7 @@ public class Player {
                 }
 
                 if (line != null && !line.isEmpty() && line.trim().length() > 0) {
-                    // Sends the received line to the server.
-                    Game.Answer answer = Game.Answer.newBuilder()
-                                        .setType(PLAYER)
-                                        .setPlayer(Game.Player.newBuilder().setName(line).build())
-                                        .build();
-                    if (Connection.get_channel() == null) {
-                        System.err.println("Connection lost.");
-                        System.exit(84);
-                    }
-                    lastWriteFuture = Connection.get_channel().writeAndFlush(answer);
-                    // Wait until all messages are flushed.
-                    if (lastWriteFuture != null) {
-                        try {
-                            lastWriteFuture.sync();
-                        } catch (InterruptedException e) {
-                            sendError("QUIT");
-                            throw new Exception("Could not send the player's informations to the server.");
-                        }
-                    }
+                    sendName(line);
                     break;
                 } else {
                     System.out.println("Your name is invalid, please enter a new one : ");
