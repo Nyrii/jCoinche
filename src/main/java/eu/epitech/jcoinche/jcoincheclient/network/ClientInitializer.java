@@ -29,7 +29,9 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
         // and accept any invalid certificates in the client side.
         // You will need something more complicated to identify both
         // and server in the real world.
-        pipeline.addLast(sslCtx.newHandler(ch.alloc(), Connection.HOST, Integer.parseInt(System.getProperty("port", Connection.PORT))));
+        if (sslCtx != null) {
+            pipeline.addLast(sslCtx.newHandler(ch.alloc(), Connection.HOST, Integer.parseInt(System.getProperty("port", Connection.PORT))));
+        }
 
         // On top of the SSL handler, add the text line codec.
         pipeline.addLast ("frameDecoder", new ProtobufVarint32FrameDecoder ());

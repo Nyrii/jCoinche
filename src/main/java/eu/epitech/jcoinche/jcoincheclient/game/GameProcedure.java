@@ -203,10 +203,13 @@ public class GameProcedure {
         List<String> arguments = new ArrayList<>();
 
         try {
+            if (SaveObject.get_answer().getType() != Game.Answer.Type.GAME) {
+                return;
+            }
             if (command.equals("MSG")) {
-                System.out.println("Enter the message you want to display to the other users :");
+                System.out.println("Enter the message you want to display to the other users or any key if you've been notified of the game's end or the bidding's end :");
             } else {
-                System.out.println("Enter your new name :");
+                System.out.println("Enter your new name or type any key if you've been notified of the game's end or the bidding's end");
             }
             line = in.readLine();
             if (isArgumentValid(line)) {
@@ -227,14 +230,20 @@ public class GameProcedure {
         List<String> arguments = new ArrayList<>();
 
         try {
-            System.out.println("Choose a card you want to play [SEVEN, EIGHT, NINE, TEN, JACK...] :");
+            if (SaveObject.get_answer().getType() != Game.Answer.Type.GAME) {
+                    return;
+            }
+            System.out.println("Choose a card you want to play [SEVEN, EIGHT, NINE, TEN, JACK...] or any key if you've been notified of the game's end or the bidding's end :");
             cardValue = in.readLine();
             if (cardValue != null) {
                 cardValue = cardValue.replaceAll("\\s", "");
                 cardValue = cardValue.toUpperCase();
             }
             if (isCardValid(cardValue)) {
-                System.out.println("Precise the card suit of your card [HEARTS, SPADES, CLUBS, DIAMONDS] :");
+                if (SaveObject.get_answer().getType() != Game.Answer.Type.GAME) {
+                    return;
+                }
+                System.out.println("Precise the card suit of your card [HEARTS, SPADES, CLUBS, DIAMONDS] or any key if you've been notified of the game's end or the bidding's end :");
                 cardSuit = in.readLine();
                 if (cardSuit != null) {
                     cardSuit = cardSuit.replaceAll("\\s", "");
@@ -261,7 +270,10 @@ public class GameProcedure {
         int index;
 
         try {
-            System.out.println("What do you want to do ? [MSG, NAME, PLAY, HAND, LAST_TRICK, QUIT] :");
+            if (SaveObject.get_answer().getType() != Game.Answer.Type.GAME) {
+                return;
+            }
+            System.out.println("What do you want to do ? [MSG, NAME, PLAY, HAND, LAST_TRICK, QUIT] or any key if you've been notified of the game's end or the bidding's end :");
             command = in.readLine();
             command = command.replaceAll("\\s", "");
             command = command.toUpperCase();

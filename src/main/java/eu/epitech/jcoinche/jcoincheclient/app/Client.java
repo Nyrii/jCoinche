@@ -69,17 +69,15 @@ public class Client {
                                 System.out.println("You can use the following commands : NAME, MSG, PLAY, DECK, LAST and QUIT. Please check the documentation for more informations.");
                                 procedure.request();
                                 break;
-
-                            case STANDBY:
-                                System.out.println("Please, wait for your turn.");
-                                break;
                         }
                     } catch (Exception e) {
                         System.err.println(e.getMessage());
                         System.exit(84);
                     }
                 }
-                SaveObject.set_answer(null);
+                if (answer != null && answer.equals(SaveObject.get_answer())) {
+                    SaveObject.set_answer(null);
+                }
             }
         }, 500, 500);
     }
