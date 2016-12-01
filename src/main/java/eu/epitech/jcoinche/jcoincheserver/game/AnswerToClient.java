@@ -73,6 +73,7 @@ public class AnswerToClient {
 
         if (bidding.getContract() == Game.Bidding.Contract.CAPOT) {
             code = 203;
+            gm.setAtout(bidding.getOption());
             str = "Just annonced capot";
             gm.setCapot(true, ctx);
             gm.setMessage(gm.getNameFromClient(ctx) + " announced capot at " + bidding.getOption());
@@ -90,6 +91,7 @@ public class AnswerToClient {
             str = "Bidding okay";
             gm.setMessage(gm.getNameFromClient(ctx) + " announced a bidding with " + bidding.getAmount() + " at " + bidding.getOption());
             gm.setContract(bidding.getAmount(), ctx);
+            gm.setAtout(bidding.getOption());
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)

@@ -5,11 +5,12 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
-import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
-import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.STANDBY;
+import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.*;
+import static eu.epitech.jcoinche.protobuf.Game.Card.CardValue.*;
 import static eu.epitech.jcoinche.protobuf.Game.GameProgress.Command.*;
+import static eu.epitech.jcoinche.protobuf.Game.GameProgress.Command.valueOf;
 
 /**
  * Created by Saursinet on 22/11/2016.
@@ -19,6 +20,7 @@ public class GameManager {
     ArrayList clientSocket = new ArrayList();
     ArrayList nameClient = new ArrayList();
     ArrayList lastTrick = new ArrayList();
+    ArrayList currentTrick = new ArrayList();
     boolean play = false;
     private int turn = -1;
     private int personWhoBet = -1;
@@ -31,13 +33,34 @@ public class GameManager {
     private boolean capot = false;
     private boolean bidding = false;
     private boolean game = false;
+    Game.Bidding.Options atout = Game.Bidding.Options.UNKNOWNOPTION;
     private int nbTurnInactive = 0;
     private int scoreTeam1 = 0;
     private int scoreTeam2 = 0;
     CardManager cm = new CardManager();
     private String message = "";
 
-    public GameManager() {}
+    HashMap valueCardsAtout = new HashMap();
+    HashMap valueCards = new HashMap();
+
+    public GameManager() {
+        valueCards.put(SEVEN, 0);
+        valueCards.put(EIGHT, 0);
+        valueCards.put(NINE, 0);
+        valueCards.put(JACK, 2);
+        valueCards.put(QUEEN, 3);
+        valueCards.put(KING, 4);
+        valueCards.put(TEN, 10);
+        valueCards.put(AS, 19);
+        valueCardsAtout.put(SEVEN, 0);
+        valueCardsAtout.put(EIGHT, 0);
+        valueCardsAtout.put(QUEEN, 2);
+        valueCardsAtout.put(KING, 3);
+        valueCardsAtout.put(TEN, 5);
+        valueCardsAtout.put(AS, 7);
+        valueCardsAtout.put(NINE, 9);
+        valueCardsAtout.put(JACK, 14);
+    }
 
     public void addClient(String name, ChannelHandlerContext ctx) {
         clientSocket.add(ctx.channel());
@@ -64,17 +87,12 @@ public class GameManager {
 
     public Game.Answer sendMessageToAllPersonInGame(ChannelHandlerContext ctx, String msg) {
         for (Object c: clientSocket) {
-            if (c != ctx.channel()) {
-//                c.writeAndFlush("[" + arg0.channel().remoteAddress() + "] " + msg + "\r\n");
-//                c.writeAndFlush("[" + getNameFromSocket(arg0) + "] " + msg + "\n");
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(STANDBY).setCode(300).build());
-            } else {
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(STANDBY).setCode(300).build());
-            }
+            if (c != ctx.channel())
+                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("[" + getNameFromSocket(ctx) + "] " +msg).setType(STANDBY).setCode(300).build());
         }
         return Game.Answer.newBuilder()
-                .setRequest("The command is invalid")
-                .setCode(400)
+                .setRequest("Message send")
+                .setCode(300)
                 .setCards(getDeck(getClientPosition(ctx)))
                 .setType(GAME)
                 .build();
@@ -133,24 +151,131 @@ public class GameManager {
                         .setType(GAME)
                         .build();
         } else if (game.getCommand() == PLAY) {
-            System.out.println("Player just play " + game.getArgumentsList());
+            Game.DistributionCard deck = getDeck(getClientPosition(ctx));
+            boolean found = false;
+            for (Game.Card card : deck.getCardList()) {
+                if (card.getCardType() == game.getCard().getCardType() &&
+                        card.getCardValue() == game.getCard().getCardValue())
+                    found = true;
+            }
+            String msg;
+            int code = 400;
+            if (game.getCard().getCardType() == Game.Card.CardType.INVALID_TYPE)
+                msg = "Wrong Card that type doesn't exist.";
+            else if (game.getCard().getCardValue() == Game.Card.CardValue.INVALID_VALUE)
+                msg = "Wrong Card that value doesn't exist.";
+            else if (!found)
+                msg = "This Card doesn't belong to you.";
+            else if (!checkValidityOfMovement(ctx, game.getCard()))
+                msg = "Invalid movement";
+            else {
+                deleteCardFromDeck(game.getCard(), deck);
+                msg = "Turn okay";
+                code = 200;
+            }
+            answer = Game.Answer.newBuilder()
+                    .setRequest(msg)
+                    .setCode(code)
+                    .setCards(getDeck(getClientPosition(ctx)))
+                    .setType(GAME)
+                    .build();
+        } else if (game.getCommand() == HAND) {
+            answer = sendHandToPlayer(ctx);
+        } else if (game.getCommand() == LAST_TRICK) {
+            answer = showLastTrick(ctx);
+        } else if (game.getCommand() == INVALID_COMMAND) {
+            answer = sendInvalidCommand(ctx);
+        } else {
+            //user just quit
+            System.out.println("User quit");
             answer = Game.Answer.newBuilder()
                     .setRequest("for now not implemented")
                     .setCode(200)
                     .setCards(getDeck(getClientPosition(ctx)))
                     .setType(GAME)
                     .build();
-        } else if (game.getCommand() == HAND) {
-            sendHandToPlayer(ctx);
-        } else if (game.getCommand() == LAST_TRICK) {
-            showLastTrick(ctx);
-        } else if (game.getCommand() == INVALID) {
-            sendInvalidCommand(ctx);
-        } else {
-            //user just quit
-            System.out.println("User quit");
         }
         return answer;
+    }
+
+    private void deleteCardFromDeck(Game.Card card, Game.DistributionCard deck) {
+        for (Object cards : deck.getCardList()) {
+            if (card.getCardType() == ((Game.Card) cards).getCardType() &&
+                    card.getCardValue() == ((Game.Card) cards).getCardValue()) {
+                deck.getCardList().remove(cards);
+                return ;
+            }
+        }
+    }
+
+    private boolean isAtout(Game.Card card) {
+        return card.getCardType() == Game.Card.CardType.valueOf(atout.toString());
+    }
+
+    private boolean hasOneTypeOfCard(ChannelHandlerContext ctx, Game.Card.CardType type) {
+        Game.DistributionCard deck = getDeck(getClientPosition(ctx));
+        for (Game.Card card : deck.getCardList()) {
+            if (card.getCardType() == type)
+                return true;
+        }
+        return false;
+    }
+
+    private boolean checkValidityOfMovement(ChannelHandlerContext ctx, Game.Card card) {
+        if (currentTrick.size() == 0)
+            return true;
+        if (isAtout((Game.Card) currentTrick.get(0))) {
+            if (isAtout(card)) {
+                if (!isBiggerValueAtout(biggestCardInTrickAtout(currentTrick).getCardValue(), card.getCardValue()))
+                    if (!checkIfPlayerCannotGoUp(biggestCardInTrickAtout(currentTrick), getDeck(getClientPosition(ctx))))
+                        return false;
+            } else if (hasOneTypeOfCard(ctx, Game.Card.CardType.valueOf(atout.toString())))
+                return false;
+        } else {
+            if (((Game.Card) currentTrick.get(0)).getCardType() != card.getCardType()) {
+                if (hasOneTypeOfCard(ctx, ((Game.Card) currentTrick.get(0)).getCardType()))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkIfPlayerCannotGoUp(Game.Card card, Game.DistributionCard deck) {
+        for (Object cardPlayer : deck.getCardList()) {
+            if (isAtout((Game.Card) cardPlayer) && isBiggerValueAtout(((Game.Card) cardPlayer).getCardValue(), card.getCardValue()))
+                return false;
+        }
+        return true;
+    }
+
+    private Game.Card biggestCardInTrick(ArrayList currentTrick) {
+        Game.Card firstCard = ((Game.Card) currentTrick.get(0));
+
+        for (Object card : currentTrick) {
+            if (((Game.Card) card).getCardType() == firstCard.getCardType() &&
+                    isBiggerValue(((Game.Card) card).getCardValue(), firstCard.getCardValue()))
+                firstCard = (Game.Card) card;
+        }
+        return firstCard;
+    }
+
+    private Game.Card biggestCardInTrickAtout(ArrayList currentTrick) {
+        Game.Card firstCard = ((Game.Card) currentTrick.get(0));
+
+        for (Object card : currentTrick) {
+            if (((Game.Card) card).getCardType() == firstCard.getCardType() &&
+                    isBiggerValueAtout(((Game.Card) card).getCardValue(), firstCard.getCardValue()))
+                firstCard = (Game.Card) card;
+        }
+        return firstCard;
+    }
+
+    private boolean isBiggerValue(Game.Card.CardValue cardValue, Game.Card.CardValue value) {
+        return ((int) valueCards.get(cardValue)) > ((int) valueCards.get(value));
+    }
+
+    private boolean isBiggerValueAtout(Game.Card.CardValue cardValue, Game.Card.CardValue value) {
+        return ((int) valueCardsAtout.get(cardValue)) > ((int) valueCardsAtout.get(value));
     }
 
     private Game.Answer sendInvalidCommand(ChannelHandlerContext ctx) {
@@ -173,7 +298,7 @@ public class GameManager {
 
     private Game.Answer sendHandToPlayer(ChannelHandlerContext ctx) {
         return Game.Answer.newBuilder()
-                .setRequest("There is your hand")
+                .setRequest("There is your hand" + getDeck(getClientPosition(ctx)).toString())
                 .setCode(300)
                 .setCards(getDeck(getClientPosition(ctx)))
                 .setType(GAME)
@@ -329,5 +454,9 @@ public class GameManager {
 
     public String getNameFromClient(ChannelHandlerContext ctx) {
         return (String) nameClient.get(getClientPosition(ctx));
+    }
+
+    public void setAtout(Game.Bidding.Options atout) {
+        this.atout = atout;
     }
 }
