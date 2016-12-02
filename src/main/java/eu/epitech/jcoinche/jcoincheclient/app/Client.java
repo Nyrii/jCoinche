@@ -58,7 +58,7 @@ public class Client {
                         switch (answer.getType()) {
 
                             case PLAYER:
-                                player.askInformations();
+                                while (!player.askInformations());
                                 break;
 
                             case BIDDING:

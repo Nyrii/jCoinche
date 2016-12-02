@@ -16,60 +16,62 @@ import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.PLAYER;
 public class Player {
 
     private void sendError(String error) {
-        Game.Answer answer = Game.Answer.newBuilder()
-                .setRequest(error == null ? "" : error)
-                .setCode(-1)
-                .setType(PLAYER)
-                .build();
-        if (Connection.get_channel() == null) {
-            System.err.println("Connection lost.");
-            return;
-        }
-        Connection.get_channel().writeAndFlush(answer);
         try {
+            Game.Answer answer = Game.Answer.newBuilder()
+                    .setRequest(error == null ? "" : error)
+                    .setCode(-1)
+                    .setType(PLAYER)
+                    .build();
+            if (Connection.get_channel() == null) {
+                return;
+            }
+            Connection.get_channel().writeAndFlush(answer);
             Connection.get_channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            System.err.println("Could not close the socket properly... exiting the client...");
-            return;
-        }
-    }
-
-    public void sendName(String name) {
-        Game.Answer answer = Game.Answer.newBuilder()
-                .setType(PLAYER)
-                .setPlayer(Game.Player.newBuilder().setName(name).build())
-                .build();
-        if (Connection.get_channel() == null) {
-            System.err.println("Connection lost.");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
             System.exit(84);
         }
-        Connection.get_channel().writeAndFlush(answer);
     }
 
-    public void askInformations() throws Exception {
+    public boolean sendName(String name) throws Exception {
+        try {
+            Game.Answer answer = Game.Answer.newBuilder()
+                    .setType(PLAYER)
+                    .setPlayer(Game.Player.newBuilder().setName(name).build())
+                    .build();
+            if (Connection.get_channel() == null) {
+                throw new Exception("Connection lost.");
+            }
+            Connection.get_channel().writeAndFlush(answer);
+        } catch (Exception e) {
+            System.err.println("Could not send the player's name to the server.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean askInformations() {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             String line = null;
 
-            for (;;) {
-                try {
-                    line = in.readLine();
-                } catch (IOException e) {
-                    sendError("QUIT");
-                    throw new Exception("System error : Could not get the input.");
-                }
+            try {
+                line = in.readLine();
+            } catch (IOException e) {
+                return false;
+            }
 
-                if (line != null && !line.isEmpty() && line.trim().length() > 0) {
-                    sendName(line);
-                    break;
-                } else {
-                    System.out.println("Your name is invalid, please enter a new one : ");
-                }
+            if (line != null && !line.isEmpty() && line.trim().length() > 0) {
+                return (sendName(line));
+            } else {
+                System.out.println("Your name is invalid, please enter a new one : ");
             }
         } catch (Exception e) {
             sendError("QUIT");
-            throw new Exception("Cannot get the player's informations.");
+            System.err.println(e.getMessage());
+            System.exit(84);
         }
+        return false;
     }
 
 }

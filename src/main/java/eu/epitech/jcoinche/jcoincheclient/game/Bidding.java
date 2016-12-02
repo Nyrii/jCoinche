@@ -15,22 +15,24 @@ import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
  */
 public class Bidding {
 
+    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
     public void sendError(String error) {
-        Game.Answer answer = Game.Answer.newBuilder()
-                            .setRequest(error == null ? "" : error)
-                            .setCode(-1)
-                            .setType(BIDDING)
-                            .build();
-        if (Connection.get_channel() == null) {
-            System.err.println("Connection lost.");
-            return;
-        }
-        Connection.get_channel().writeAndFlush(answer);
         try {
+            Game.Answer answer = Game.Answer.newBuilder()
+                    .setRequest(error == null ? "" : error)
+                    .setCode(-1)
+                    .setType(BIDDING)
+                    .build();
+            if (Connection.get_channel() == null) {
+                System.err.println("Connection lost.");
+                return;
+            }
+            Connection.get_channel().writeAndFlush(answer);
             Connection.get_channel().closeFuture().sync();
         } catch (Exception e) {
-            System.err.println("Could not close the socket properly... exiting the client...");
-            return;
+            System.err.println(e.getMessage());
+            System.exit(84);
         }
     }
 
@@ -67,23 +69,47 @@ public class Bidding {
         return false;
     }
 
-    public void biddingProcess(Game.Answer answer) throws Exception {
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            String line = null;
-            boolean askAgain = false;
-            int i = 0;
+    public void bidBeginning(boolean errorOccured, Game.Answer answer) {
+        if (!errorOccured) {
+            printCards(answer);
+            System.out.println("Would you like to bet ? (y/n)");
+        } else if (errorOccured) {
+            System.out.println("An error occured : you have to do something or at least PASS. Would you like to bet then ? (y/n)");
+        }
+    }
 
-            while (!askAgain) {
-                line = null;
+    public boolean sendBiddingAction(boolean stopAsking, Game.Bidding.Builder bidding) {
+        Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
+
+        try {
+            if (stopAsking == true) {
+                futureAnswer.setBidding(bidding)
+                        .setType(BIDDING)
+                        .build();
+                if (Connection.get_channel() == null) {
+                    System.err.println("Connection lost.");
+                    System.exit(84);
+                }
+                Connection.get_channel().writeAndFlush(futureAnswer);
+                return true;
+            }
+        } catch (Exception e) {
+            System.err.println("Could not send the request to the server.");
+            return false;
+        }
+        return false;
+    }
+
+    public void biddingProcess(Game.Answer answer) {
+        try {
+            boolean stopAsking = false;
+            boolean errorOccured = false;
+
+            while (!stopAsking) {
+                String line = null;
                 while (line == null || line.isEmpty() || (line.toLowerCase() != "y" && line.toLowerCase() != "n")) {
                     try {
-                        if (i == 0) {
-                            printCards(answer);
-                            System.out.println("Would you like to bet ? (y/n)");
-                        } else if (i > 0) {
-                            System.out.println("An error occured : you have to do something or at least PASS. Would you like to bet then ? (y/n)");
-                        }
+                        bidBeginning(errorOccured, answer);
                         if (doesUserWantToBet((line = in.readLine())) == true) {
                             break;
                         }
@@ -93,50 +119,31 @@ public class Bidding {
                 }
                 switch (line.toLowerCase()) {
                     case "y":
-                        askAgain = bid();
+                        stopAsking = bid();
                         break;
                     case "n":
                         System.out.println("If you do not bid, you have to choose one of these options (COINCHE, SURCOINCHE, PASS) : ");
-                        Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
                         Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
-                        askAgain = askOtherOptions(in.readLine(), bidding);
-                        if (askAgain == true) {
-                            futureAnswer.setBidding(bidding)
-                                    .setType(BIDDING)
-                                    .build();
-                            if (Connection.get_channel() == null) {
-                                System.err.println("Connection lost.");
-                                System.exit(84);
-                            }
-                            Connection.get_channel().writeAndFlush(futureAnswer);
-                        }
+                        stopAsking = askOtherOptions(in.readLine(), bidding);
+                        stopAsking = sendBiddingAction(stopAsking, bidding);
                         break;
                 }
-                    i = 1;
-                }
+                errorOccured = true;
+            }
         } catch (IOException e) {
             System.err.println("Could not get the player's input.");
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             sendError("QUIT");
-            throw new Exception(e.getMessage());
+            System.exit(84);
         }
     }
 
 
-    public boolean bid() throws Exception {
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
-            Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
+    public boolean setBiddingAndSend(Game.Bidding.Builder bidding) throws Exception {
+        Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
 
-            System.out.println("Choose an option (x as an integer to announce the value of your contract, \"CAPOT\", \"GENERALE\") :");
-            if (askContract(in.readLine(), bidding) == false) {
-                return false;
-            }
-            System.out.println("Choose a card suit (HEARTS, SPADES, CLUBS, DIAMONDS, TA or SA) :");
-            if (askCardSuit(in.readLine(), bidding) == false) {
-                return false;
-            }
+        try {
             bidding.setCoinche(false);
             bidding.setSurcoinche(false);
             futureAnswer.setType(BIDDING)
@@ -146,11 +153,34 @@ public class Bidding {
                 throw new Exception("Connection lost");
             }
             Connection.get_channel().writeAndFlush(futureAnswer);
+        } catch (Exception e) {
+            System.err.println("Could not send the bidding request to the server.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean bid() throws Exception {
+        try {
+            Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
+
+            System.out.println("Choose an option (x as an integer to announce the value of your contract, \"CAPOT\", \"GENERALE\") :");
+            if (!askContract(in.readLine(), bidding)) {
+                return false;
+            }
+            System.out.println("Choose a card suit (HEARTS, SPADES, CLUBS, DIAMONDS, TA or SA) :");
+            if (!askCardSuit(in.readLine(), bidding)) {
+                return false;
+            }
+            setBiddingAndSend(bidding);
+
         } catch (IOException e) {
             System.err.println("Cannot get the player's input.");
             return false;
         } catch (Exception e) {
-            throw new Exception("Cannot get the player's bidding wishes.");
+            sendError("QUIT");
+            System.err.println(e.getMessage());
+            System.exit(84);
         }
         return true;
     }

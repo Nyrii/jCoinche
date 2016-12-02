@@ -31,18 +31,19 @@ public class GameProcedure {
     public void play(int index, String command) {
         playActions[index].play(command);
     }
+
     public void sendError(String error) {
-        Game.Answer answer = Game.Answer.newBuilder()
-                .setRequest(error == null ? "" : error)
-                .setCode(-1)
-                .setType(GAME)
-                .build();
-        if (Connection.get_channel() == null) {
-            System.err.println("Connection lost.");
-            return;
-        }
-        Connection.get_channel().writeAndFlush(answer);
         try {
+            Game.Answer answer = Game.Answer.newBuilder()
+                    .setRequest(error == null ? "" : error)
+                    .setCode(-1)
+                    .setType(GAME)
+                    .build();
+            if (Connection.get_channel() == null) {
+                System.err.println("Connection lost.");
+                return;
+            }
+            Connection.get_channel().writeAndFlush(answer);
             Connection.get_channel().closeFuture().sync();
         } catch (Exception e) {
             System.err.println("Could not close the socket properly... exiting the client...");
