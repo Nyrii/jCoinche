@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
+import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.LEAVE;
 
 /**
  * Created by noboud_n on 21/11/2016.
@@ -16,26 +17,6 @@ import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
 public class Bidding {
 
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
-    public void sendError(String error) {
-        try {
-            Game.Answer answer = Game.Answer.newBuilder()
-                    .setRequest(error == null ? "" : error)
-                    .setCode(-1)
-                    .setType(BIDDING)
-                    .build();
-            if (Connection.get_channel() == null) {
-                System.err.println("Connection lost.");
-                return;
-            }
-            Connection.get_channel().writeAndFlush(answer);
-            Connection.get_channel().closeFuture().sync();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            System.exit(84);
-        }
-    }
-
 
     public boolean printCards(Game.Answer answer) {
         if (answer == null) {
@@ -134,7 +115,7 @@ public class Bidding {
             System.err.println("Could not get the player's input.");
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            sendError("QUIT");
+            LeaveGame.leave();
             System.exit(84);
         }
     }
@@ -178,7 +159,7 @@ public class Bidding {
             System.err.println("Cannot get the player's input.");
             return false;
         } catch (Exception e) {
-            sendError("QUIT");
+            LeaveGame.leave();
             System.err.println(e.getMessage());
             System.exit(84);
         }

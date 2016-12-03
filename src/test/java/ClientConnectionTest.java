@@ -1,5 +1,6 @@
 import eu.epitech.jcoinche.jcoincheclient.network.Connection;
 import eu.epitech.jcoinche.jcoincheserver.server.Server;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.ConnectException;

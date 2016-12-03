@@ -273,6 +273,10 @@ public final class Game {
        * <code>GAME = 3;</code>
        */
       GAME(3),
+      /**
+       * <code>LEAVE = 4;</code>
+       */
+      LEAVE(4),
       UNRECOGNIZED(-1),
       ;
 
@@ -292,6 +296,10 @@ public final class Game {
        * <code>GAME = 3;</code>
        */
       public static final int GAME_VALUE = 3;
+      /**
+       * <code>LEAVE = 4;</code>
+       */
+      public static final int LEAVE_VALUE = 4;
 
 
       public final int getNumber() {
@@ -316,6 +324,7 @@ public final class Game {
           case 1: return PLAYER;
           case 2: return BIDDING;
           case 3: return GAME;
+          case 4: return LEAVE;
           default: return null;
         }
       }
@@ -6074,41 +6083,42 @@ public final class Game {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\ngame.proto\022\010protobuf\"\230\002\n\006Answer\022\017\n\007req" +
+      "\n\ngame.proto\022\010protobuf\"\243\002\n\006Answer\022\017\n\007req" +
       "uest\030\001 \001(\t\022\014\n\004code\030\003 \001(\005\022#\n\004type\030\004 \001(\0162\025" +
       ".protobuf.Answer.Type\022 \n\006player\030\005 \001(\0132\020." +
       "protobuf.Player\022\"\n\007bidding\030\006 \001(\0132\021.proto" +
       "buf.Bidding\022$\n\004game\030\007 \001(\0132\026.protobuf.Gam" +
       "eProgress\022)\n\005cards\030\010 \001(\0132\032.protobuf.Dist" +
-      "ributionCard\"3\n\004Type\022\010\n\004NONE\020\000\022\n\n\006PLAYER" +
-      "\020\001\022\013\n\007BIDDING\020\002\022\010\n\004GAME\020\003\"\026\n\006Player\022\014\n\004n" +
-      "ame\030\001 \001(\t\"\327\002\n\007Bidding\022\013\n\003bid\030\001 \001(\010\022\016\n\006am" +
-      "ount\030\002 \001(\005\022,\n\010contract\030\003 \001(\0162\032.protobuf.",
-      "Bidding.Contract\022)\n\006option\030\004 \001(\0162\031.proto" +
-      "buf.Bidding.Options\022\017\n\007coinche\030\005 \001(\010\022\022\n\n" +
-      "surcoinche\030\006 \001(\010\022\014\n\004pass\030\007 \001(\010\"D\n\010Contra" +
-      "ct\022\023\n\017UNKNOWNCONTRACT\020\000\022\n\n\006AMOUNT\020\001\022\t\n\005C" +
-      "APOT\020\002\022\014\n\010GENERALE\020\003\"]\n\007Options\022\021\n\rUNKNO" +
-      "WNOPTION\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CL" +
-      "UBS\020\003\022\014\n\010DIAMONDS\020\004\022\006\n\002TA\020\005\022\006\n\002SA\020\006\"\311\002\n\004" +
-      "Card\022)\n\010cardType\030\001 \001(\0162\027.protobuf.Card.C" +
-      "ardType\022+\n\tcardValue\030\002 \001(\0162\030.protobuf.Ca" +
-      "rd.CardValue\"b\n\010CardType\022\023\n\017UNKNOWNCARDT",
-      "YPE\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002\022\t\n\005CLUBS\020\003" +
-      "\022\014\n\010DIAMONDS\020\004\022\020\n\014INVALID_TYPE\020\005\"\204\001\n\tCar" +
-      "dValue\022\024\n\020UNKNOWNCARDVALUE\020\000\022\t\n\005SEVEN\020\001\022" +
-      "\t\n\005EIGHT\020\002\022\010\n\004NINE\020\003\022\007\n\003TEN\020\004\022\010\n\004JACK\020\005\022" +
-      "\t\n\005QUEEN\020\006\022\010\n\004KING\020\007\022\006\n\002AS\020\010\022\021\n\rINVALID_" +
-      "VALUE\020\t\"\357\001\n\014GameProgress\022/\n\007command\030\001 \001(" +
-      "\0162\036.protobuf.GameProgress.Command\022\021\n\targ" +
-      "uments\030\002 \003(\t\022\034\n\004card\030\003 \001(\0132\016.protobuf.Ca" +
-      "rd\"}\n\007Command\022\022\n\016UNKNOWNCOMMAND\020\000\022\010\n\004NON" +
-      "E\020\001\022\010\n\004NAME\020\002\022\007\n\003MSG\020\003\022\010\n\004PLAY\020\004\022\010\n\004HAND",
-      "\020\005\022\016\n\nLAST_TRICK\020\006\022\010\n\004QUIT\020\007\022\023\n\017INVALID_" +
-      "COMMAND\020\010\"A\n\020DistributionCard\022\017\n\007partner" +
-      "\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.protobuf.CardBH\n\034" +
-      "eu.epitech.jcoinche.protobufB\004Game\252\002!Goo" +
-      "gle.Protobuf.jcoinche.protobufb\006proto3"
+      "ributionCard\">\n\004Type\022\010\n\004NONE\020\000\022\n\n\006PLAYER" +
+      "\020\001\022\013\n\007BIDDING\020\002\022\010\n\004GAME\020\003\022\t\n\005LEAVE\020\004\"\026\n\006" +
+      "Player\022\014\n\004name\030\001 \001(\t\"\327\002\n\007Bidding\022\013\n\003bid\030" +
+      "\001 \001(\010\022\016\n\006amount\030\002 \001(\005\022,\n\010contract\030\003 \001(\0162",
+      "\032.protobuf.Bidding.Contract\022)\n\006option\030\004 " +
+      "\001(\0162\031.protobuf.Bidding.Options\022\017\n\007coinch" +
+      "e\030\005 \001(\010\022\022\n\nsurcoinche\030\006 \001(\010\022\014\n\004pass\030\007 \001(" +
+      "\010\"D\n\010Contract\022\023\n\017UNKNOWNCONTRACT\020\000\022\n\n\006AM" +
+      "OUNT\020\001\022\t\n\005CAPOT\020\002\022\014\n\010GENERALE\020\003\"]\n\007Optio" +
+      "ns\022\021\n\rUNKNOWNOPTION\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPA" +
+      "DES\020\002\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\022\006\n\002TA\020\005\022\006" +
+      "\n\002SA\020\006\"\311\002\n\004Card\022)\n\010cardType\030\001 \001(\0162\027.prot" +
+      "obuf.Card.CardType\022+\n\tcardValue\030\002 \001(\0162\030." +
+      "protobuf.Card.CardValue\"b\n\010CardType\022\023\n\017U",
+      "NKNOWNCARDTYPE\020\000\022\n\n\006HEARTS\020\001\022\n\n\006SPADES\020\002" +
+      "\022\t\n\005CLUBS\020\003\022\014\n\010DIAMONDS\020\004\022\020\n\014INVALID_TYP" +
+      "E\020\005\"\204\001\n\tCardValue\022\024\n\020UNKNOWNCARDVALUE\020\000\022" +
+      "\t\n\005SEVEN\020\001\022\t\n\005EIGHT\020\002\022\010\n\004NINE\020\003\022\007\n\003TEN\020\004" +
+      "\022\010\n\004JACK\020\005\022\t\n\005QUEEN\020\006\022\010\n\004KING\020\007\022\006\n\002AS\020\010\022" +
+      "\021\n\rINVALID_VALUE\020\t\"\357\001\n\014GameProgress\022/\n\007c" +
+      "ommand\030\001 \001(\0162\036.protobuf.GameProgress.Com" +
+      "mand\022\021\n\targuments\030\002 \003(\t\022\034\n\004card\030\003 \001(\0132\016." +
+      "protobuf.Card\"}\n\007Command\022\022\n\016UNKNOWNCOMMA" +
+      "ND\020\000\022\010\n\004NONE\020\001\022\010\n\004NAME\020\002\022\007\n\003MSG\020\003\022\010\n\004PLA",
+      "Y\020\004\022\010\n\004HAND\020\005\022\016\n\nLAST_TRICK\020\006\022\010\n\004QUIT\020\007\022" +
+      "\023\n\017INVALID_COMMAND\020\010\"A\n\020DistributionCard" +
+      "\022\017\n\007partner\030\001 \001(\t\022\034\n\004card\030\002 \003(\0132\016.protob" +
+      "uf.CardBH\n\034eu.epitech.jcoinche.protobufB" +
+      "\004Game\252\002!Google.Protobuf.jcoinche.protobu" +
+      "fb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

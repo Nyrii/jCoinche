@@ -1,9 +1,11 @@
 import eu.epitech.jcoinche.jcoincheclient.game.Bidding;
+import eu.epitech.jcoinche.jcoincheclient.game.LeaveGame;
 import eu.epitech.jcoinche.jcoincheclient.network.Connection;
 import eu.epitech.jcoinche.jcoincheserver.server.Server;
 import eu.epitech.jcoinche.protobuf.Game;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class BiddingTest {
         };
 
         one.start();
-        bidding.sendError("QUIT");
+        LeaveGame.leave();
         connection = new Connection();
         connection.requestHost("0");
         connection.requestPort("4242");
@@ -164,7 +166,7 @@ public class BiddingTest {
     }
 
     @Test
-    public void testPrintCards() {
+    public void testBidBeginning() {
         // PRINT CARDS
         ArrayList cardList = new ArrayList();
         ArrayList typeCardList = new ArrayList();
@@ -201,6 +203,10 @@ public class BiddingTest {
         }
         Game.DistributionCard cards = Game.DistributionCard.newBuilder().addAllCard(tmp).build();
         Game.Answer answer = Game.Answer.newBuilder().setCards(cards).build();
+        bidding.bidBeginning(true, answer);
+        bidding.bidBeginning(false, answer);
+        bidding.bidBeginning(true, null);
+        bidding.bidBeginning(false, answer);
         assertEquals(false, bidding.printCards(null));
         assertEquals(true, bidding.printCards(answer));
         tmp.clear();
@@ -210,10 +216,8 @@ public class BiddingTest {
     }
 
     @Test
-    public void testSendError() {
-        bidding.sendError(null);
-        bidding.sendError("Test");
-        bidding.sendError("Test number 2");
+    public void testLeaveGame() {
+        LeaveGame.leave();
     }
 
 }
