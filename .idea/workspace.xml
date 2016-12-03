@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17885c25-2742-4754-883a-6fe761de16c4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TODO" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/GameManagerTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/AnswerToClient.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/AnswerToClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/CardManager.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/CardManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/GameManager.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/GameManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/PersonHandler.java" afterPath="$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/PersonHandler.java" />
     </list>
     <ignored path="jCoinche.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,7 +28,7 @@
     <favorites_list name="jCoinche" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.40921986">
+    <splitter split-orientation="horizontal" split-proportion="0.54539007">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="GameManagerTest.java" pinned="false" current-in-tab="false">
@@ -48,7 +43,17 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="PersonHandler.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="CardManager.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/CardManager.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="294">
+                  <caret line="70" column="35" selection-start-line="66" selection-start-column="12" selection-end-line="70" selection-end-column="35" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="PersonHandler.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/PersonHandler.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="387">
@@ -68,38 +73,25 @@
           <file leaf-file-name="GameManager.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/GameManager.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="174">
-                  <caret line="222" column="2" selection-start-line="222" selection-start-column="2" selection-end-line="222" selection-end-column="2" />
+                <state relative-caret-position="744">
+                  <caret line="224" column="0" selection-start-line="224" selection-start-column="0" selection-end-line="224" selection-end-column="0" />
                   <folding>
-                    <element signature="e#19597#19598#0" expanded="true" />
-                    <element signature="e#19647#19648#0" expanded="true" />
-                    <element signature="e#19712#19713#0" expanded="true" />
-                    <element signature="e#19761#19762#0" expanded="true" />
-                    <element signature="e#20129#20130#0" expanded="true" />
-                    <element signature="e#20154#20155#0" expanded="true" />
-                    <element signature="e#20185#20186#0" expanded="true" />
-                    <element signature="e#20211#20212#0" expanded="true" />
-                    <element signature="e#20248#20249#0" expanded="true" />
-                    <element signature="e#20280#20281#0" expanded="true" />
-                    <element signature="e#20308#20309#0" expanded="true" />
-                    <element signature="e#20335#20336#0" expanded="true" />
-                    <element signature="e#20377#20378#0" expanded="true" />
-                    <element signature="e#20412#20413#0" expanded="true" />
-                    <element signature="e#20464#20465#0" expanded="true" />
-                    <element signature="e#20500#20501#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="CardManager.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/CardManager.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="189">
-                  <caret line="63" column="38" selection-start-line="63" selection-start-column="38" selection-end-line="63" selection-end-column="38" />
-                  <folding>
-                    <element signature="e#6888#6889#0" expanded="true" />
-                    <element signature="e#6930#6931#0" expanded="true" />
+                    <element signature="e#19942#19943#0" expanded="true" />
+                    <element signature="e#19992#19993#0" expanded="true" />
+                    <element signature="e#20057#20058#0" expanded="true" />
+                    <element signature="e#20106#20107#0" expanded="true" />
+                    <element signature="e#20474#20475#0" expanded="true" />
+                    <element signature="e#20499#20500#0" expanded="true" />
+                    <element signature="e#20530#20531#0" expanded="true" />
+                    <element signature="e#20556#20557#0" expanded="true" />
+                    <element signature="e#20593#20594#0" expanded="true" />
+                    <element signature="e#20625#20626#0" expanded="true" />
+                    <element signature="e#20653#20654#0" expanded="true" />
+                    <element signature="e#20680#20681#0" expanded="true" />
+                    <element signature="e#20722#20723#0" expanded="true" />
+                    <element signature="e#20757#20758#0" expanded="true" />
+                    <element signature="e#20809#20810#0" expanded="true" />
+                    <element signature="e#20845#20846#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -108,8 +100,8 @@
           <file leaf-file-name="TODO" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/TODO">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="30">
-                  <caret line="2" column="80" selection-start-line="2" selection-start-column="80" selection-end-line="2" selection-end-column="80" />
+                <state relative-caret-position="45">
+                  <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
                   <folding />
                 </state>
               </provider>
@@ -983,8 +975,23 @@
       <option name="presentableId" value="Default" />
       <updated>1480449520957</updated>
       <workItem from="1480449522148" duration="147000" />
-      <workItem from="1480593779333" duration="24666000" />
+      <workItem from="1480593779333" duration="25265000" />
     </task>
+    <task id="LOCAL-00001" summary="Server deal with game but just a little problem about delete and score!">
+      <created>1480729331238</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1480729331238</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update todo file">
+      <created>1480729364623</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1480729364623</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1020,11 +1027,11 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24813000" />
+    <option name="totallyTimeSpent" value="25412000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1097" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1033,11 +1040,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299285" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38610828" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38610828" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39938712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24920128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24920128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1067,14 +1074,14 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39938712" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39938712" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32890704" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38610828" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299285" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38610828" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39938712" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24920128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1092,6 +1099,11 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Server deal with game but just a little problem about delete and score!" />
+    <MESSAGE value="update todo file" />
+    <option name="LAST_COMMIT_MESSAGE" value="update todo file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1231,14 +1243,14 @@
         <state relative-caret-position="186">
           <caret line="4523" column="0" selection-start-line="4523" selection-start-column="0" selection-end-line="4523" selection-end-column="0" />
           <folding>
-            <element signature="e#110189#110190#0" expanded="true" />
-            <element signature="e#110230#110231#0" expanded="true" />
-            <element signature="e#114522#114523#0" expanded="true" />
-            <element signature="e#114563#114564#0" expanded="true" />
-            <element signature="e#172097#172098#0" expanded="true" />
-            <element signature="e#172123#172124#0" expanded="true" />
-            <element signature="e#172614#172615#0" expanded="true" />
-            <element signature="e#172651#172652#0" expanded="true" />
+            <element signature="e#110189#110190#0" expanded="false" />
+            <element signature="e#110230#110231#0" expanded="false" />
+            <element signature="e#114522#114523#0" expanded="false" />
+            <element signature="e#114563#114564#0" expanded="false" />
+            <element signature="e#172097#172098#0" expanded="false" />
+            <element signature="e#172123#172124#0" expanded="false" />
+            <element signature="e#172614#172615#0" expanded="false" />
+            <element signature="e#172651#172652#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1336,14 +1348,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TODO">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="80" selection-start-line="2" selection-start-column="80" selection-end-line="2" selection-end-column="80" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/AnswerToClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="657">
@@ -1352,38 +1356,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/TODO">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/CardManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="63" column="38" selection-start-line="63" selection-start-column="38" selection-end-line="63" selection-end-column="38" />
-          <folding>
-            <element signature="e#6888#6889#0" expanded="true" />
-            <element signature="e#6930#6931#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="294">
+          <caret line="70" column="35" selection-start-line="66" selection-start-column="12" selection-end-line="70" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/eu/epitech/jcoinche/jcoincheserver/game/GameManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="222" column="2" selection-start-line="222" selection-start-column="2" selection-end-line="222" selection-end-column="2" />
+        <state relative-caret-position="744">
+          <caret line="224" column="0" selection-start-line="224" selection-start-column="0" selection-end-line="224" selection-end-column="0" />
           <folding>
-            <element signature="e#19597#19598#0" expanded="true" />
-            <element signature="e#19647#19648#0" expanded="true" />
-            <element signature="e#19712#19713#0" expanded="true" />
-            <element signature="e#19761#19762#0" expanded="true" />
-            <element signature="e#20129#20130#0" expanded="true" />
-            <element signature="e#20154#20155#0" expanded="true" />
-            <element signature="e#20185#20186#0" expanded="true" />
-            <element signature="e#20211#20212#0" expanded="true" />
-            <element signature="e#20248#20249#0" expanded="true" />
-            <element signature="e#20280#20281#0" expanded="true" />
-            <element signature="e#20308#20309#0" expanded="true" />
-            <element signature="e#20335#20336#0" expanded="true" />
-            <element signature="e#20377#20378#0" expanded="true" />
-            <element signature="e#20412#20413#0" expanded="true" />
-            <element signature="e#20464#20465#0" expanded="true" />
-            <element signature="e#20500#20501#0" expanded="true" />
+            <element signature="e#19942#19943#0" expanded="true" />
+            <element signature="e#19992#19993#0" expanded="true" />
+            <element signature="e#20057#20058#0" expanded="true" />
+            <element signature="e#20106#20107#0" expanded="true" />
+            <element signature="e#20474#20475#0" expanded="true" />
+            <element signature="e#20499#20500#0" expanded="true" />
+            <element signature="e#20530#20531#0" expanded="true" />
+            <element signature="e#20556#20557#0" expanded="true" />
+            <element signature="e#20593#20594#0" expanded="true" />
+            <element signature="e#20625#20626#0" expanded="true" />
+            <element signature="e#20653#20654#0" expanded="true" />
+            <element signature="e#20680#20681#0" expanded="true" />
+            <element signature="e#20722#20723#0" expanded="true" />
+            <element signature="e#20757#20758#0" expanded="true" />
+            <element signature="e#20809#20810#0" expanded="true" />
+            <element signature="e#20845#20846#0" expanded="true" />
           </folding>
         </state>
       </provider>

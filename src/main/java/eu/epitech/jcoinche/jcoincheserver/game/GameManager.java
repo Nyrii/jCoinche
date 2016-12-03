@@ -7,6 +7,8 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static eu.epitech.jcoinche.jcoincheserver.game.CardManager.cardGames;
+import static eu.epitech.jcoinche.jcoincheserver.game.CardManager.deckObjects;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.*;
 import static eu.epitech.jcoinche.protobuf.Game.Card.CardValue.*;
 import static eu.epitech.jcoinche.protobuf.Game.GameProgress.Command.*;
@@ -180,8 +182,7 @@ public class GameManager {
                     msg = "Invalid movement";
                 else {
                     currentTrick.add(game.getCard());
-                    deleteCardFromDeck(game.getCard(), deck);
-                    setDeck(clientPosition, deck);
+                    deleteCardFromDeck(game.getCard(), deck, clientPosition);
                     msg = "Turn okay";
                     code = 200;
                 }
@@ -211,16 +212,20 @@ public class GameManager {
         return answer;
     }
 
-    private void deleteCardFromDeck(Game.Card card, Game.DistributionCard deck) {
-        int i = 0;
+    private void deleteCardFromDeck(Game.Card card, Game.DistributionCard deck, int clientPosition) {
+        ArrayList tmp = new ArrayList();
         for (Object cards : deck.getCardList()) {
-            if (card.getCardType() == ((Game.Card) cards).getCardType() &&
-                    card.getCardValue() == ((Game.Card) cards).getCardValue()) {
-                break ;
+            if (!(card.getCardType() == ((Game.Card) cards).getCardType() &&
+                    card.getCardValue() == ((Game.Card) cards).getCardValue()) ){
+                tmp.add(cards);
             }
-            ++i;
         }
-//        deck.getCardList().remove(i);
+        setDeck(clientPosition, deck);
+        Game.DistributionCard cards = Game.DistributionCard
+                .newBuilder()
+                .addAllCard(tmp)
+                .build();
+        setDeck(clientPosition, cards);
     }
 
     private boolean isAtout(Game.Card card) {
