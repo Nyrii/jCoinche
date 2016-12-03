@@ -369,6 +369,7 @@ public class GameManager {
 
     public void getNextPlayerChannel(Game.Answer.Type type, String msg) {
         turn = turn == 3 ? 0 : turn + 1;
+        System.out.println("turn = " + turn);
         if (type == GAME) {
             if (turn == 0) {
                 endLastTrick();
@@ -500,7 +501,7 @@ public class GameManager {
 
     public void checkIfPartyCanRun() {
         System.out.println("enter checkif party can run");
-        if ((contract != -1 && nbTurnInactive == 4) ||
+        if ((contract != -1 && nbTurnInactive == 3) ||
                 capot || surCoinche) {
             bidding = false;
             game = true;
@@ -509,6 +510,7 @@ public class GameManager {
             bidding = true;
             cm = new CardManager();
             turn = 3;
+            cm.generateCardForAllPlayer();
             cm.giveCardToAllPlayers(clientSocket);
             sendMessageToAllPersonInGame("Nobody put a contract we will give new cards.");
         }

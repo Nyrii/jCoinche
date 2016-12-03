@@ -60,9 +60,6 @@ public class CardManager {
             }
             cardGames.add(tmp);
         }
-
-        // I have to remove card from deck and list
-
         for (int j = 0; j < 4; j++) {
             Game.DistributionCard cards = Game.DistributionCard
                     .newBuilder()
