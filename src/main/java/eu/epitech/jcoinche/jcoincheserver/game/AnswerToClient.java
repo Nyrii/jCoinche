@@ -56,7 +56,7 @@ public class AnswerToClient {
             return Game.Answer.newBuilder()
                     .setRequest("Nickname changed")
                     .setCode(200)
-                    .setType(STANDBY)
+                    .setType(NONE)
                     .build();
         } else {
             return Game.Answer.newBuilder()
@@ -170,7 +170,7 @@ public class AnswerToClient {
             answer = Game.Answer.newBuilder()
                     .setRequest("You just pass your turn!")
                     .setCode(205)
-                    .setType(STANDBY)
+                    .setType(NONE)
                     .setCards(gm.getDeck(gm.getClientPosition(ctx)))
                     .build();
             gm.addInactiveTurn(gm.getNbTurnInactive() + 1);

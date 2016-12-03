@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
 
-    static ArrayList gameRunning = new ArrayList();
+    private static ArrayList gameRunning = new ArrayList();
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
@@ -75,11 +75,13 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
     public void channelRead0(ChannelHandlerContext arg0, Game.Answer answer) throws Exception {
         GameManager gm = getGameFromChannel(arg0);
 
+        System.out.println(arg0);
+
         if (gm == null)
             return ;
         if (answer.getCode() == -1) {
             if (gm != null)
-                 gm.sendMessageToAllPersonInGame(arg0, " just quit the game");
+                 gm.sendMessageToAllPersonInGame(gm.getClientPosition(arg0), " just quit the game");
             System.out.println(arg0.channel().remoteAddress() + " just quit the game");
             arg0.close();
             return ;
@@ -90,9 +92,9 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
             case PLAYER:
                 System.out.println("player: ");
                 System.out.println(answer.getPlayer());
-                arg0.writeAndFlush(gm.setName(arg0, answer.getPlayer().getName()));
+                gm.setChannelHandlerContext(arg0);
+                arg0.writeAndFlush(gm.setName(answer.getPlayer().getName()));
                 gm.setPlay(gm.partyCanBegin());
-//                gm.advertAllPlayer();
                 if (gm.getPlay()) {
                     gm.giveCardToAllPlayers();
                     gm.askPlayerOneToBid();
@@ -107,7 +109,8 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                     System.out.println(ans);
                     if (gm.getBid() && ans.getCode() < 400 && ans.getCode() != 203 && ans.getCode() != 202)
                         gm.getNextPlayerChannel(Game.Answer.Type.BIDDING, "you are allowed to bid.");
-                } if (gm.getGame()) {
+                }
+                if (gm.getGame()) {
                     gm.askPlayerOneToPlay();
                 }
                 break;
@@ -116,8 +119,14 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 System.out.println("game: ");
                 System.out.println(answer.getGame());
                 if (gm.getGame()) {
-                    Game.Answer ans = gm.interpreteGaming(arg0, answer.getGame());
-//                    System.out.println(ans);
+                    gm.setChannelHandlerContext(arg0);
+                    Game.Answer ans = gm.interpreteGaming(gm.getClientPosition(arg0), answer.getGame());
+                    System.out.println("end of interprete Gaming with");
+                    System.out.println(ans);
+                    if (gm.getEnd()) {
+                        gameRunning.remove(gm);
+                        break;
+                    }
                     if (ans.getCode() < 300)
                         gm.getNextPlayerChannel(Game.Answer.Type.GAME, "you have to play.");
                     else
@@ -125,8 +134,8 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 }
                 break;
 
-            case STANDBY:
-                arg0.writeAndFlush(Game.Answer.newBuilder().setType(Game.Answer.Type.STANDBY).setCode(-1).setRequest(""));
+            case NONE:
+                arg0.writeAndFlush(Game.Answer.newBuilder().setType(Game.Answer.Type.NONE).setCode(-1).setRequest(""));
 
         }
     }
@@ -143,6 +152,10 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 return ((GameManager) gm);
         }
         return null;
+    }
+
+    public GameManager getGm() {
+        return (GameManager) gameRunning.get(0);
     }
 
 }
