@@ -26,6 +26,7 @@ public class GameManager {
     ArrayList currentTrick = new ArrayList();
     boolean play = false;
     private int turn = -1;
+    private int turnPos = -1;
     private int turnPersonToPlay = -1;
     private int personWhoBet = -1;
     private int personWhoCoinche = -1;
@@ -138,7 +139,7 @@ public class GameManager {
                     .setRequest("It's not your turn")
                     .setCode(400)
                     .setCards(getDeck(getClientPosition(ctx)))
-                    .setType(BIDDING)
+                    .setType(Game.Answer.Type.NONE)
                     .build();
         }
         ctx.writeAndFlush(answer);
@@ -160,10 +161,13 @@ public class GameManager {
                         .setType(GAME)
                         .build();
         } else if (game.getCommand() == PLAY) {
+            Game.Answer.Type type = GAME;
             String msg;
             int code = 400;
             if (turn != clientPosition) {
+                System.out.println("turn = " + turn);
                 msg = "Not your turn to play";
+                type = Game.Answer.Type.NONE;
             } else {
                 Game.DistributionCard deck = getDeck(clientPosition);
                 boolean found = false;
@@ -185,14 +189,19 @@ public class GameManager {
                     deleteCardFromDeck(game.getCard(), deck, clientPosition);
                     msg = "Turn okay";
                     code = 200;
+                    type = Game.Answer.Type.NONE;
                 }
             }
             answer = Game.Answer.newBuilder()
                     .setRequest(msg)
                     .setCode(code)
                     .setCards(getDeck(clientPosition))
-                    .setType(GAME)
+                    .setType(type)
                     .build();
+            if (code < 300)
+                ((Channel) clientSocket.get(clientPosition)).writeAndFlush(answer);
+            if (code == 200)
+                sendMessageToAllPersonInGame(clientPosition, "played " + game.getCard());
         } else if (game.getCommand() == HAND) {
             answer = sendHandToPlayer(clientPosition);
         } else if (game.getCommand() == LAST_TRICK) {
@@ -275,7 +284,8 @@ public class GameManager {
 
         for (Object card : currentTrick) {
             if (((Game.Card) card).getCardType() == firstCard.getCardType() &&
-                    isBiggerValue(((Game.Card) card).getCardValue(), firstCard.getCardValue()))
+                    (isBiggerValue(((Game.Card) card).getCardValue(), firstCard.getCardValue()) ||
+                    isAtout((Game.Card) card)))
                 firstCard = (Game.Card) card;
         }
         return firstCard;
@@ -369,9 +379,8 @@ public class GameManager {
 
     public void getNextPlayerChannel(Game.Answer.Type type, String msg) {
         turn = turn == 3 ? 0 : turn + 1;
-        System.out.println("turn = " + turn);
         if (type == GAME) {
-            if (turn == 0) {
+            if (turn == turnPos) {
                 endLastTrick();
             }
         }
@@ -394,6 +403,8 @@ public class GameManager {
         posPlayer -= index;
         posPlayer = posPlayer < 0 ? posPlayer + 4 : posPlayer;
         sendMessageToAllPersonInGame(nameClient.get(posPlayer) + ": won the last trick");
+        turn = posPlayer;
+        turnPos = turn;
         if (posPlayer == 0 || posPlayer == 3)
             scoreTeam1 += numberPointOfTrick(currentTrick);
         else
@@ -505,6 +516,11 @@ public class GameManager {
                 capot || surCoinche) {
             bidding = false;
             game = true;
+            if (turnPersonToPlay != -1)
+                turn = turnPersonToPlay;
+            else
+                turn = 0;
+            turnPos = turn;
             System.out.println("just put game to true");
         } else if (contract == -1 && nbTurnInactive == 4) {
             bidding = true;

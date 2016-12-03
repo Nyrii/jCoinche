@@ -181,7 +181,7 @@ public class AnswerToClient {
                     .build();
             gm.addInactiveTurn(gm.getNbTurnInactive() + 1);
             pastInElse = true;
-            gm.setMessage(" just pass it's turn.");
+            gm.setMessage("just pass it's turn.");
         }
         if (!pastInElse)
             gm.addInactiveTurn(0);
