@@ -198,7 +198,9 @@ public class CardManager {
     }
 
     public static Game.DistributionCard getDeckFromPosition(int pos) {
-        return (Game.DistributionCard) deckObjects.get(pos);
+        if (deckObjects.size() > pos)
+            return (Game.DistributionCard) deckObjects.get(pos);
+        return Game.DistributionCard.newBuilder().build();
     }
 
     public static void setDeckWithPosition(int pos, Game.DistributionCard deck) {

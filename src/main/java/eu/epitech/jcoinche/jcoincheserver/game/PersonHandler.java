@@ -131,12 +131,18 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                         gm.getNextPlayerChannel(Game.Answer.Type.GAME, "you have to play.");
                     else
                         arg0.writeAndFlush(ans);
+                    if (gm.getBid())
+                        gm.getNextPlayerChannel(Game.Answer.Type.BIDDING, "you may bid.");
                 }
                 break;
 
             case NONE:
                 arg0.writeAndFlush(Game.Answer.newBuilder().setType(Game.Answer.Type.NONE).setCode(-1).setRequest(""));
 
+
+            case LEAVE:
+                //deal with game
+                gm.deleteClient(gm.getClientPosition(arg0));
         }
     }
 

@@ -1,4 +1,4 @@
 Saursinet:
-    -delete card in deck
     -check when all persons play non atout who can win (first colour played only)
+    -check if atout is always good
     -deal with the score too!

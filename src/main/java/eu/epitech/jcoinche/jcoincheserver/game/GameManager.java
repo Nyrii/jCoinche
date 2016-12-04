@@ -7,13 +7,10 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static eu.epitech.jcoinche.jcoincheserver.game.CardManager.cardGames;
-import static eu.epitech.jcoinche.jcoincheserver.game.CardManager.deckObjects;
-import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.*;
+import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
+import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
 import static eu.epitech.jcoinche.protobuf.Game.Card.CardValue.*;
 import static eu.epitech.jcoinche.protobuf.Game.GameProgress.Command.*;
-import static eu.epitech.jcoinche.protobuf.Game.GameProgress.Command.NONE;
-import static eu.epitech.jcoinche.protobuf.Game.GameProgress.Command.valueOf;
 
 /**
  * Created by Saursinet on 22/11/2016.
@@ -384,6 +381,9 @@ public class GameManager {
                 endLastTrick();
             }
         }
+        if (type == GAME && bidding) {
+            return ;
+        }
         int i = 0;
         for (Object c : clientSocket) {
             if (i == turn)
@@ -423,6 +423,10 @@ public class GameManager {
             for (Object channel : clientSocket) {
                 ((ChannelHandlerContext) channel).close();
             }
+        }
+        if (getDeck(0).getCardList().size() == 0) {
+            game = false;
+            bidding = true;
         }
     }
 
@@ -574,5 +578,12 @@ public class GameManager {
 
     public void setCurrentTrick(ArrayList trick) {
         currentTrick = trick;
+    }
+
+    public void deleteClient(int clientPosition) {
+        bidding = false;
+        game = false;
+        clientSocket.remove(clientPosition);
+        nameClient.remove(clientPosition);
     }
 }
