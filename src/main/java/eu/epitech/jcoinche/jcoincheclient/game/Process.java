@@ -2,7 +2,7 @@ package eu.epitech.jcoinche.jcoincheclient.game;
 
 import eu.epitech.jcoinche.jcoincheclient.network.Connection;
 import eu.epitech.jcoinche.protobuf.Game;
-import io.netty.channel.ChannelFuture;
+import io.netty.channel.Channel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,30 +10,32 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
-import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.LEAVE;
 
 /**
- * Created by noboud_n on 28/11/2016.
+ * Created by noboud_n on 04/12/2016.
  */
-public class GameProcedure {
+public class Process {
 
     interface PlayAction {
         void play(String command);
     }
 
-    private PlayAction[] playActions = new PlayAction[] {
-            new PlayAction() { public void play(String command) { sendMessage(command); } },
-            new PlayAction() { public void play(String command) { sendMessage(command); } },
-            new PlayAction() { public void play(String command) { playCard(command); } },
+    private Process.PlayAction[] playActions = new Process.PlayAction[] {
+            new Process.PlayAction() { public void play(String command) { sendMessage(command, new BufferedReader(new InputStreamReader(System.in))); } },
+            new Process.PlayAction() { public void play(String command) { sendMessage(command, new BufferedReader(new InputStreamReader(System.in))); } },
+            new Process.PlayAction() { public void play(String command) { playCard(command, new BufferedReader(new InputStreamReader(System.in))); } },
     };
 
     public void play(int index, String command) {
         playActions[index].play(command);
     }
 
-    public boolean sendRequest(String command, List<String> arguments) {
+    public boolean sendRequest(String command, List<String> arguments, Channel channel) {
+
+        if (channel == null) {
+            return false;
+        }
         try {
             Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
             Game.GameProgress.Builder gameProgress = Game.GameProgress.newBuilder();
@@ -44,14 +46,10 @@ public class GameProcedure {
             }
             gameProgress.addAllArguments(arguments);
             futureAnswer.setType(GAME)
-                        .setGame(gameProgress.build())
-                        .setCode(100)
-                        .build();
-            if (Connection.get_channel() == null) {
-                System.err.println("Connection lost.");
-                return false;
-            }
-            Connection.get_channel().writeAndFlush(futureAnswer);
+                    .setGame(gameProgress.build())
+                    .setCode(100)
+                    .build();
+            channel.writeAndFlush(futureAnswer);
         } catch (Exception e) {
             System.err.println("Error : " + e.getMessage());
             LeaveGame.leave();
@@ -60,7 +58,10 @@ public class GameProcedure {
         return true;
     }
 
-    public boolean sendRequestWithCard(String command, List<String> arguments, Game.Card card) {
+    public boolean sendRequestWithCard(String command, List<String> arguments, Game.Card card, Channel channel) {
+        if (channel == null) {
+            return false;
+        }
         try {
             Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
             Game.GameProgress.Builder gameProgress = Game.GameProgress.newBuilder();
@@ -70,17 +71,13 @@ public class GameProcedure {
                 gameProgress.setCommand(Game.GameProgress.Command.INVALID_COMMAND);
             }
             gameProgress.addAllArguments(arguments)
-                        .setCard(card)
-                        .build();
+                    .setCard(card)
+                    .build();
             futureAnswer.setType(GAME)
                     .setGame(gameProgress)
                     .setCode(100)
                     .build();
-            if (Connection.get_channel() == null) {
-                System.err.println("Connection lost.");
-                return false;
-            }
-            Connection.get_channel().writeAndFlush(futureAnswer);
+            channel.writeAndFlush(futureAnswer);
         } catch (Exception e) {
             System.err.println("Error : " + e.getMessage());
             LeaveGame.leave();
@@ -180,8 +177,7 @@ public class GameProcedure {
         return -1;
     }
 
-    public void sendMessage(String command) {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    public void sendMessage(String command, BufferedReader in) {
         String line;
         List<String> arguments = new ArrayList<>();
 
@@ -198,23 +194,22 @@ public class GameProcedure {
             if (isArgumentValid(line)) {
                 arguments.add(line);
             }
-            if (!sendRequest(command, arguments))
+            if (!sendRequest(command, arguments, Connection.get_channel()))
                 System.exit(84);
         } catch (IOException e) {
-            if (!sendRequest("NONE", new ArrayList<String>()))
+            if (!sendRequest("NONE", new ArrayList<String>(), Connection.get_channel()))
                 System.exit(84);
             System.err.println("Could not get the user's input.");
         }
     }
 
-    public void playCard(String command) {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    public void playCard(String command, BufferedReader in) {
         String cardValue = "", cardSuit = "";
         List<String> arguments = new ArrayList<>();
 
         try {
             if (SaveObject.get_answer().getType() != Game.Answer.Type.GAME) {
-                    return;
+                return;
             }
             System.out.println("Choose a card you want to play [SEVEN, EIGHT, NINE, TEN, JACK...] or any key if you've been notified of the game's end or the bidding's end :");
             cardValue = in.readLine();
@@ -233,15 +228,15 @@ public class GameProcedure {
                     cardSuit = cardSuit.toUpperCase();
                 }
                 if (isCardSuitValid(cardSuit)) {
-                    if (!sendRequestWithCard(command, arguments, setCard(cardValue, cardSuit)))
+                    if (!sendRequestWithCard(command, arguments, setCard(cardValue, cardSuit), Connection.get_channel()))
                         System.exit(84);
                     return;
                 }
             }
-            if (!sendRequestWithCard(command, new ArrayList<String>(), setCard(cardValue, cardSuit)))
+            if (!sendRequestWithCard(command, new ArrayList<String>(), setCard(cardValue, cardSuit), Connection.get_channel()))
                 System.exit(84);
         } catch (IOException e) {
-            if (!sendRequest("NONE", new ArrayList<String>()))
+            if (!sendRequest("NONE", new ArrayList<String>(), Connection.get_channel()))
                 System.exit(84);
             System.err.println("Could not get the user's input.");
         }
@@ -261,12 +256,12 @@ public class GameProcedure {
             command = command.replaceAll("\\s", "");
             command = command.toUpperCase();
             if (!isCommandValid(command) && containsCommandsWithArgs(command.toUpperCase()) == -1) {
-                if (!sendRequest(command, new ArrayList<String>()))
+                if (!sendRequest(command, new ArrayList<String>(), Connection.get_channel()))
                     System.exit(84);
             } else if ((index = containsCommandsWithArgs(command.toUpperCase())) != -1) {
                 play(index, command);
             } else {
-                if (!sendRequest(command.toUpperCase(), new ArrayList<String>()))
+                if (!sendRequest(command.toUpperCase(), new ArrayList<String>(), Connection.get_channel()))
                     System.exit(84);
             }
         } catch (IOException e) {

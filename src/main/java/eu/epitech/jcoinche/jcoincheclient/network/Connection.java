@@ -9,6 +9,7 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -93,28 +94,15 @@ public class Connection {
     }
 
     public void connect() throws ConnectException {
-        try {
-            set_secureSocket(SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build());
-        } catch (SSLException e) {
-            String error = new StringBuilder()
-                            .append("Could not create a socket.")
-                            .toString();
-            throw new ConnectException(error);
-        }
-        set_group(new NioEventLoopGroup());
-        set_bootstrap(new Bootstrap());
-        _bootstrap.group(_group)
-            .channel(NioSocketChannel.class)
-            .handler(new ClientInitializer(_secureSocket));
-
         // Start the connection attempt.
         try {
-            set_channel(_bootstrap.connect(System.getProperty("host", HOST), Integer.parseInt(System.getProperty("port", PORT))).sync().channel());
-        } catch (InterruptedException e) {
-            String error = new StringBuilder()
-                            .append("Connection interrupted. Could not create a channel to connect to the server.")
-                            .toString();
-            throw new ConnectException(error);
+            set_secureSocket(SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build());
+            set_group(new NioEventLoopGroup());
+            set_bootstrap(new Bootstrap());
+            get_bootstrap().group(get_group())
+                    .channel(NioSocketChannel.class)
+                    .handler(new ClientInitializer(get_secureSocket()));
+            set_channel(_bootstrap.connect(System.getProperty("host", get_host()), Integer.parseInt(System.getProperty("port", get_port()))).sync().channel());
         } catch (Exception e) {
             String error = new StringBuilder()
                             .append("Could not connect to host \"")

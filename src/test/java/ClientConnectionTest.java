@@ -1,5 +1,6 @@
 import eu.epitech.jcoinche.jcoincheclient.network.Connection;
 import eu.epitech.jcoinche.jcoincheserver.server.Server;
+import org.junit.AfterClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ public class ClientConnectionTest {
 
     private static Thread serverThread;
     private static Server server = null;
-    Connection connection = new Connection();
+    private static Connection connection = new Connection();
 
     @Test
     public void testRequestHost() {
@@ -49,18 +50,20 @@ public class ClientConnectionTest {
             connection.connect();
         } catch (ConnectException e) {
             System.err.println(e.getMessage());
+            connection = null;
+            return;
         }
 
         serverThread = new Thread() {
             public void run() {
                 server = new Server();
                 try {
-                    if (!serverThread.isInterrupted()) {
+                    if (serverThread != null) {
                         server.launchServer();
                     }
                 } catch (Exception e) {
-                    serverThread.interrupt();
-                    e.printStackTrace();
+                    if (serverThread != null && !serverThread.isInterrupted())
+                        serverThread.interrupt();
                 }
             }
         };
@@ -69,7 +72,11 @@ public class ClientConnectionTest {
         try {
             sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            if (serverThread != null && !serverThread.isInterrupted()) {
+                serverThread.interrupt();
+            }
+            connection = null;
+            return;
         }
 
         try {
@@ -79,6 +86,12 @@ public class ClientConnectionTest {
         } catch (ConnectException e) {
             System.err.println(e.getMessage());
         }
-        serverThread.interrupt();
+    }
+
+    @AfterClass
+    public static void quitServer() {
+        if (serverThread != null && !serverThread.interrupted())
+            serverThread.interrupt();
+        System.out.println("Interruption of server in ClientConnectionTest");
     }
 }

@@ -12,6 +12,9 @@ import java.util.List;
  */
 public class Cards {
     public static List<Game.Card> sortCardsByTypeAndValue(Game.DistributionCard cards) {
+        if (cards == null) {
+            return null;
+        }
         List<Game.Card> deck = new ArrayList<Game.Card>(cards.getCardList());
         Collections.sort(deck, new Comparator<Game.Card>() {
             @Override

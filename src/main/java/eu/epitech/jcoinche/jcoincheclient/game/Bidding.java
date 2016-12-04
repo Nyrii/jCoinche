@@ -1,22 +1,19 @@
 package eu.epitech.jcoinche.jcoincheclient.game;
 
-import eu.epitech.jcoinche.jcoincheclient.network.Connection;
 import eu.epitech.jcoinche.protobuf.Game;
+import io.netty.channel.Channel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
-import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.LEAVE;
+import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.PLAYER;
 
 /**
  * Created by noboud_n on 21/11/2016.
  */
 public class Bidding {
-
-    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     public boolean printCards(Game.Answer answer) {
         if (answer == null) {
@@ -40,14 +37,16 @@ public class Bidding {
         return true;
     }
 
-    public boolean doesUserWantToBet(String line) {
+    public int doesUserWantToBet(String line) {
         if (line != null && !line.isEmpty()) {
             line = line.replaceAll("\\s+","");
         }
-        if (line != null && !line.isEmpty() && (line.toLowerCase().equals("y") || line.toLowerCase().equals("n"))) {
-            return true;
+        if (line != null && !line.isEmpty() && (line.toLowerCase().equals("y"))) {
+            return 1;
+        } else if (line != null && !line.isEmpty() && (line.toLowerCase().equals("n"))) {
+            return 0;
         }
-        return false;
+        return -1;
     }
 
     public void bidBeginning(boolean errorOccured, Game.Answer answer) {
@@ -59,89 +58,60 @@ public class Bidding {
         }
     }
 
-    public boolean sendBiddingAction(boolean stopAsking, Game.Bidding.Builder bidding) {
+    public boolean sendBiddingAction(boolean stopAsking, Game.Bidding.Builder bidding, Channel channel) throws Exception {
         Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
 
+        if (channel == null) {
+            throw new Exception("Connection lost.");
+        }
         try {
             if (stopAsking == true) {
                 futureAnswer.setBidding(bidding)
                         .setType(BIDDING)
                         .build();
-                if (Connection.get_channel() == null) {
-                    System.err.println("Connection lost.");
-                    System.exit(84);
-                }
-                Connection.get_channel().writeAndFlush(futureAnswer);
+                channel.writeAndFlush(futureAnswer);
                 return true;
             }
         } catch (Exception e) {
-            System.err.println("Could not send the request to the server.");
-            return false;
+            throw new Exception("Could not send the non-bidding action to the server");
         }
         return false;
     }
 
-    public void biddingProcess(Game.Answer answer) {
+    public int biddingProcess(Game.Answer answer, BufferedReader in, boolean errorOccured) {
         try {
-            boolean stopAsking = false;
-            boolean errorOccured = false;
-
-            while (!stopAsking) {
-                String line = null;
-                while (line == null || line.isEmpty() || (line.toLowerCase() != "y" && line.toLowerCase() != "n")) {
-                    try {
-                        bidBeginning(errorOccured, answer);
-                        if (doesUserWantToBet((line = in.readLine())) == true) {
-                            break;
-                        }
-                    } catch (IOException e) {
-                        System.err.println("Could not get the player's input.");
-                    }
-                }
-                switch (line.toLowerCase()) {
-                    case "y":
-                        stopAsking = bid();
-                        break;
-                    case "n":
-                        System.out.println("If you do not bid, you have to choose one of these options (COINCHE, SURCOINCHE, PASS) : ");
-                        Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
-                        stopAsking = askOtherOptions(in.readLine(), bidding);
-                        stopAsking = sendBiddingAction(stopAsking, bidding);
-                        break;
-                }
-                errorOccured = true;
-            }
+            bidBeginning(errorOccured, answer);
+            return doesUserWantToBet(in.readLine());
         } catch (IOException e) {
             System.err.println("Could not get the player's input.");
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            LeaveGame.leave();
-            System.exit(84);
         }
+        return -1;
     }
 
 
-    public boolean setBiddingAndSend(Game.Bidding.Builder bidding) throws Exception {
+    public boolean setBiddingAndSend(Game.Bidding.Builder bidding, Channel channel) throws Exception {
         Game.Answer.Builder futureAnswer = Game.Answer.newBuilder();
 
+        if (channel == null) {
+            throw new Exception("Connection lost.");
+        }
         try {
             bidding.setCoinche(false);
             bidding.setSurcoinche(false);
             futureAnswer.setType(BIDDING)
                     .setBidding(bidding)
                     .build();
-            if (Connection.get_channel() == null) {
-                throw new Exception("Connection lost");
-            }
-            Connection.get_channel().writeAndFlush(futureAnswer);
+            channel.writeAndFlush(futureAnswer);
         } catch (Exception e) {
-            System.err.println("Could not send the bidding request to the server.");
-            return false;
+            throw new Exception("Could not send the bidding action to the server.");
         }
         return true;
     }
 
-    public boolean bid() throws Exception {
+    public boolean bid(BufferedReader in, Channel channel) throws Exception {
+        if (channel == null) {
+            throw new Exception("Connection lost.");
+        }
         try {
             Game.Bidding.Builder bidding = Game.Bidding.newBuilder();
 
@@ -153,7 +123,7 @@ public class Bidding {
             if (!askCardSuit(in.readLine(), bidding)) {
                 return false;
             }
-            setBiddingAndSend(bidding);
+            setBiddingAndSend(bidding, channel);
 
         } catch (IOException e) {
             System.err.println("Cannot get the player's input.");
@@ -193,8 +163,6 @@ public class Bidding {
 
 
     public boolean askCardSuit(String line, Game.Bidding.Builder bidding) throws Exception {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
         // Get the card suit of the contract
         if (line != null && !line.isEmpty()) {
             line = line.replaceAll("\\s+","");

@@ -1,16 +1,22 @@
 import eu.epitech.jcoinche.jcoincheclient.game.Bidding;
+import eu.epitech.jcoinche.jcoincheclient.game.Cards;
 import eu.epitech.jcoinche.jcoincheclient.game.LeaveGame;
 import eu.epitech.jcoinche.jcoincheclient.network.Connection;
 import eu.epitech.jcoinche.jcoincheserver.server.Server;
 import eu.epitech.jcoinche.protobuf.Game;
+import io.netty.channel.Channel;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
+import static java.lang.Thread.sleep;
 import static org.junit.Assert.*;
 
 /**
@@ -18,11 +24,11 @@ import static org.junit.Assert.*;
  */
 public class BiddingTest {
 
-    private static Connection connection;
+    private static Connection connection = null;
     private static Thread one;
     private static Server server = null;
-    private static Bidding bidding = new Bidding();
-    Game.Bidding.Builder bidBuilder = Game.Bidding.newBuilder();
+    private Bidding bidding = new Bidding();
+    private Game.Bidding.Builder bidBuilder = Game.Bidding.newBuilder();
 
     @BeforeClass
     public static void launchServer() {
@@ -30,18 +36,27 @@ public class BiddingTest {
             public void run() {
                 server = new Server();
                 try {
-                    if (!one.isInterrupted()) {
-//                        server.launchServer();
+                    if (one != null) {
+                        server.launchServer();
                     }
                 } catch (Exception e) {
-                    one.interrupt();
-                    e.printStackTrace();
+                    if (one != null && !one.isInterrupted())
+                        one.interrupt();
                 }
             }
         };
 
         one.start();
         LeaveGame.leave();
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            if (one != null && !one.isInterrupted()) {
+                one.interrupt();
+            }
+            connection = null;
+            return;
+        }
         connection = new Connection();
         connection.requestHost("0");
         connection.requestPort("4242");
@@ -49,6 +64,8 @@ public class BiddingTest {
             connection.connect();
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            connection = null;
+            return;
         }
     }
 
@@ -141,25 +158,25 @@ public class BiddingTest {
     public void testUserBet() {
         try {
             // DOES USER WANT TO BET
-            assertEquals(true, bidding.doesUserWantToBet("y"));
-            assertEquals(true, bidding.doesUserWantToBet("Y"));
-            assertEquals(true, bidding.doesUserWantToBet("n"));
-            assertEquals(true, bidding.doesUserWantToBet("N"));
-            assertEquals(false, bidding.doesUserWantToBet(null));
-            assertEquals(false, bidding.doesUserWantToBet(""));
-            assertEquals(false, bidding.doesUserWantToBet("        "));
-            assertEquals(true, bidding.doesUserWantToBet("        y"));
-            assertEquals(true, bidding.doesUserWantToBet("        n"));
-            assertEquals(true, bidding.doesUserWantToBet("        y   "));
-            assertEquals(true, bidding.doesUserWantToBet("        n    "));
-            assertEquals(true, bidding.doesUserWantToBet("        Y    "));
-            assertEquals(true, bidding.doesUserWantToBet("        N    "));
-            assertEquals(true, bidding.doesUserWantToBet("        Y"));
-            assertEquals(true, bidding.doesUserWantToBet("        N"));
-            assertEquals(true, bidding.doesUserWantToBet("Y    "));
-            assertEquals(true, bidding.doesUserWantToBet("N    "));
-            assertEquals(false, bidding.doesUserWantToBet("fdiojfij 32 n"));
-            assertEquals(false, bidding.doesUserWantToBet("@(*$)(@*"));
+            assertEquals(1, bidding.doesUserWantToBet("y"));
+            assertEquals(1, bidding.doesUserWantToBet("Y"));
+            assertEquals(0, bidding.doesUserWantToBet("n"));
+            assertEquals(0, bidding.doesUserWantToBet("N"));
+            assertEquals(-1, bidding.doesUserWantToBet(null));
+            assertEquals(-1, bidding.doesUserWantToBet(""));
+            assertEquals(-1, bidding.doesUserWantToBet("        "));
+            assertEquals(1, bidding.doesUserWantToBet("        y"));
+            assertEquals(0, bidding.doesUserWantToBet("        n"));
+            assertEquals(1, bidding.doesUserWantToBet("        y   "));
+            assertEquals(0, bidding.doesUserWantToBet("        n    "));
+            assertEquals(1, bidding.doesUserWantToBet("        Y    "));
+            assertEquals(0, bidding.doesUserWantToBet("        N    "));
+            assertEquals(1, bidding.doesUserWantToBet("        Y"));
+            assertEquals(0, bidding.doesUserWantToBet("        N"));
+            assertEquals(1, bidding.doesUserWantToBet("Y    "));
+            assertEquals(0, bidding.doesUserWantToBet("N    "));
+            assertEquals(-1, bidding.doesUserWantToBet("fdiojfij 32 n"));
+            assertEquals(-1, bidding.doesUserWantToBet("@(*$)(@*"));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -216,14 +233,99 @@ public class BiddingTest {
     }
 
     @Test
+    public void testSendBiddingAction() {
+        if (connection == null)
+            return;
+        try {
+            assertEquals(true, bidding.sendBiddingAction(true, bidBuilder, connection.get_channel()));
+            assertEquals(false, bidding.sendBiddingAction(false, bidBuilder, connection.get_channel()));
+            assertEquals(false, bidding.sendBiddingAction(true, null, connection.get_channel()));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        try {
+            assertEquals(false, bidding.sendBiddingAction(true, bidBuilder, null));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testSetBiddingAndSend() {
+        if (connection == null)
+            return;
+        try {
+            assertEquals(true, bidding.setBiddingAndSend(bidBuilder, connection.get_channel()));
+            assertEquals(false, bidding.setBiddingAndSend(null, connection.get_channel()));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        try {
+            assertEquals(false, bidding.setBiddingAndSend(bidBuilder, null));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testBiddingProcess() {
+        Game.Answer answer = Game.Answer.newBuilder().setType(BIDDING).build();
+        BufferedReader bufferedReader = Mockito.mock(BufferedReader.class);
+        try {
+            Mockito.when(bufferedReader.readLine()).thenReturn("n", "PASS");
+            assertEquals(0, bidding.biddingProcess(answer, bufferedReader, true));
+            Mockito.when(bufferedReader.readLine()).thenReturn("y");
+            assertEquals(1, bidding.biddingProcess(answer, bufferedReader, false));
+            Mockito.when(bufferedReader.readLine()).thenReturn("test");
+            assertEquals(-1, bidding.biddingProcess(answer, bufferedReader, false));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+    }
+
+    @Test
+    public void testBid() {
+        if (connection == null)
+            return;
+        BufferedReader bufferedReader = Mockito.mock(BufferedReader.class);
+        try {
+            Mockito.when(bufferedReader.readLine()).thenReturn("90", "ta");
+            assertEquals(true, bidding.bid(bufferedReader, connection.get_channel()));
+            Mockito.when(bufferedReader.readLine()).thenReturn("capot", "test");
+            assertEquals(false, bidding.bid(bufferedReader, connection.get_channel()));
+            Mockito.when(bufferedReader.readLine()).thenReturn("test", "hearts");
+            assertEquals(false, bidding.bid(bufferedReader, connection.get_channel()));
+            Mockito.when(bufferedReader.readLine()).thenReturn("hearts", "test");
+            assertEquals(false, bidding.bid(bufferedReader, connection.get_channel()));
+            Mockito.when(bufferedReader.readLine()).thenReturn("test", "test");
+            assertEquals(false, bidding.bid(bufferedReader, connection.get_channel()));
+            Mockito.when(bufferedReader.readLine()).thenReturn("CAPOT", "SPADES");
+            assertEquals(true, bidding.bid(bufferedReader, connection.get_channel()));
+            Mockito.when(bufferedReader.readLine()).thenReturn("89", "DIAMONDS");
+            assertEquals(true, bidding.bid(bufferedReader, connection.get_channel()));
+            Mockito.when(bufferedReader.readLine()).thenReturn("110", "di a mo nds    ");
+            assertEquals(true, bidding.bid(bufferedReader, connection.get_channel()));
+            Mockito.when(bufferedReader.readLine()).thenReturn(null);
+            assertEquals(false, bidding.bid(bufferedReader, connection.get_channel()));
+            Mockito.when(bufferedReader.readLine()).thenReturn("generale", "CLUBS");
+            assertEquals(false, bidding.bid(bufferedReader, null));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+    }
+
+    @Test
     public void testLeaveGame() {
         LeaveGame.leave();
     }
 
-//    @AfterClass
-//    public static void quitServer() {
-//        one.interrupt();
-//        System.out.println("interruption of server");
-//    }
+    @AfterClass
+    public static void quitServer() {
+        if (one != null && !one.interrupted())
+            one.interrupt();
+        System.out.println("Interruption of server in Bidding");
+    }
 
 }

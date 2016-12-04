@@ -1,9 +1,7 @@
 package eu.epitech.jcoinche.jcoincheclient.app;
 
-import eu.epitech.jcoinche.jcoincheclient.game.Bidding;
-import eu.epitech.jcoinche.jcoincheclient.game.GameProcedure;
-import eu.epitech.jcoinche.jcoincheclient.game.Player;
-import eu.epitech.jcoinche.jcoincheclient.game.SaveObject;
+import eu.epitech.jcoinche.jcoincheclient.game.*;
+import eu.epitech.jcoinche.jcoincheclient.game.Process;
 import eu.epitech.jcoinche.jcoincheclient.network.Connection;
 import eu.epitech.jcoinche.protobuf.Game;
 
@@ -38,6 +36,9 @@ public class Client {
             }
             System.out.println("Waiting for the server's answer...");
             connection.connect();
+        } catch (ConnectException e) {
+            System.err.println(e.getMessage());
+            System.exit(84);
         } catch (IOException e) {
             System.err.println(e.getMessage());
             System.exit(84);
@@ -52,26 +53,44 @@ public class Client {
                 if (answer != null) {
                     Player player = new Player();
                     Bidding bidding = new Bidding();
-                    GameProcedure procedure = new GameProcedure();
+                    Process process = new Process();
 
                     try {
                         switch (answer.getType()) {
 
                             case PLAYER:
-                                while (!player.askInformations());
+                                while (!player.askInformations(in, Connection.get_channel()));
                                 break;
 
                             case BIDDING:
-                                bidding.biddingProcess(answer);
+                                boolean isBidEffective = false;
+                                boolean errorOccured = false;
+                                while (!isBidEffective) {
+                                    switch (bidding.biddingProcess(answer, in, errorOccured)) {
+                                        case 1:
+                                            isBidEffective = bidding.bid(in, Connection.get_channel());
+                                            break;
+                                        case 0:
+                                            System.out.println("If you do not bid, you have to choose one of these options (COINCHE, SURCOINCHE, PASS) : ");
+                                            Game.Bidding.Builder bidBuilder = Game.Bidding.newBuilder();
+                                            isBidEffective = bidding.sendBiddingAction(bidding.askOtherOptions(in.readLine(), bidBuilder), bidBuilder, Connection.get_channel());
+                                            break;
+                                        case -1:
+                                            isBidEffective = false;
+                                            break;
+                                    }
+                                    errorOccured = !isBidEffective;
+                                }
                                 break;
 
                             case GAME:
                                 System.out.println("You can use the following commands : NAME, MSG, PLAY, DECK, LAST and QUIT. Please check the documentation for more informations.");
-                                procedure.request();
+                                process.request();
                                 break;
                         }
                     } catch (Exception e) {
                         System.err.println(e.getMessage());
+                        LeaveGame.leave();
                         System.exit(84);
                     }
                 }

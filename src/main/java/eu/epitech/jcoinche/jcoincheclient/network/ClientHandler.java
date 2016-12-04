@@ -1,10 +1,7 @@
 package eu.epitech.jcoinche.jcoincheclient.network;
 
-import eu.epitech.jcoinche.jcoincheclient.game.GameProcedure;
 import eu.epitech.jcoinche.jcoincheclient.game.SaveObject;
 import eu.epitech.jcoinche.protobuf.Game;
-import eu.epitech.jcoinche.jcoincheclient.game.Bidding;
-import eu.epitech.jcoinche.jcoincheclient.game.Player;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
