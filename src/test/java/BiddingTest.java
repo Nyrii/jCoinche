@@ -220,4 +220,10 @@ public class BiddingTest {
         LeaveGame.leave();
     }
 
+    @AfterClass
+    public static void quitServer() {
+        one.interrupt();
+        System.out.println("interruption of server");
+    }
+
 }

@@ -79,5 +79,6 @@ public class ClientConnectionTest {
         } catch (ConnectException e) {
             System.err.println(e.getMessage());
         }
+        serverThread.interrupt();
     }
 }

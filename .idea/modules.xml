@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/jCoinche.iml" filepath="$PROJECT_DIR$/jCoinche.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jcoinche.iml" filepath="$PROJECT_DIR$/jcoinche.iml" />
     </modules>
   </component>
 </project>
