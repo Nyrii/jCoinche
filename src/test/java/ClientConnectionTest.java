@@ -65,7 +65,7 @@ public class ClientConnectionTest {
             }
         };
 
-        serverThread.start();
+//        serverThread.start();
         try {
             sleep(1000);
         } catch (InterruptedException e) {

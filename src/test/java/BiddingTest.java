@@ -31,7 +31,7 @@ public class BiddingTest {
                 server = new Server();
                 try {
                     if (!one.isInterrupted()) {
-                        server.launchServer();
+//                        server.launchServer();
                     }
                 } catch (Exception e) {
                     one.interrupt();
@@ -220,10 +220,10 @@ public class BiddingTest {
         LeaveGame.leave();
     }
 
-    @AfterClass
-    public static void quitServer() {
-        one.interrupt();
-        System.out.println("interruption of server");
-    }
+//    @AfterClass
+//    public static void quitServer() {
+//        one.interrupt();
+//        System.out.println("interruption of server");
+//    }
 
 }
