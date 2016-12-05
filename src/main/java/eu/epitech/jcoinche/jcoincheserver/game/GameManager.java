@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
+import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.NONE;
 import static eu.epitech.jcoinche.protobuf.Game.Card.CardValue.*;
 import static eu.epitech.jcoinche.protobuf.Game.GameProgress.Command.*;
 
@@ -95,6 +96,21 @@ public class GameManager {
         for (Object c: clientSocket) {
             if (i != clientPosition)
                 ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("[" + nameClient.get(clientPosition) + "] " +msg).setType(Game.Answer.Type.NONE).setCode(300).build());
+            ++i;
+        }
+        return Game.Answer.newBuilder()
+                .setRequest("Message send")
+                .setCode(300)
+                .setCards(getDeck(clientPosition))
+                .setType(GAME)
+                .build();
+    }
+
+    public Game.Answer sendMessageToAllPersonToInteract(int clientPosition, String msg) {
+        int i = 0;
+        for (Object c: clientSocket) {
+            if (i != clientPosition)
+                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(Game.Answer.Type.GAME).setCode(0).build());
             ++i;
         }
         return Game.Answer.newBuilder()
@@ -379,7 +395,7 @@ public class GameManager {
         turnPersonToPlay = turnPersonToPlay == 3 ? 0 : turnPersonToPlay + 1;
         for (Object c : clientSocket) {
             if (i == turnPersonToPlay)
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("Your turn, you have to play.").setCode(200).setType(GAME)
+                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("Your turn, you have to play.").setCode(200).setType(NONE)
                         .setCards(getDeck(i)).build());
             ++i;
         }
@@ -387,12 +403,12 @@ public class GameManager {
 
     public void getNextPlayerChannel(Game.Answer.Type type, String msg) {
         turn = turn == 3 ? 0 : turn + 1;
-        if (type == GAME) {
+        if (type == NONE) {
             if (turn == turnPos) {
                 endLastTrick();
             }
         }
-        if (type == GAME && bidding) {
+        if (type == NONE && bidding) {
             return ;
         }
         int i = 0;
@@ -409,7 +425,16 @@ public class GameManager {
             index = currentTrick.indexOf(biggestCardInTrickAtout(currentTrick));
         } else {
             index = currentTrick.indexOf(biggestCardInTrick(currentTrick));
+            boolean isAtout = false;
+            for (Object card : currentTrick) {
+                if (((Game.Card) card).getCardType() == Game.Card.CardType.valueOf(atout.toString())) {
+                    isAtout = true;
+                }
+            }
+            if (isAtout)
+                index = currentTrick.indexOf(biggestCardInTrickAtout(currentTrick));
         }
+        System.out.println("index of win card is " + index);
         int posPlayer = turn;
         posPlayer -= index;
         posPlayer = posPlayer < 0 ? posPlayer + 4 : posPlayer;
@@ -532,6 +557,16 @@ public class GameManager {
                 capot || surCoinche) {
             bidding = false;
             game = true;
+            while (turn < 4) {
+                ((Channel) clientSocket.get(turn)).writeAndFlush(
+                Game.Answer.newBuilder()
+                        .setRequest("You may change your or send message or do what you want! Enjoy!")
+                        .setCode(200)
+                        .setCards(getDeck(turn))
+                        .setType(GAME)
+                        .build());
+                ++turn;
+            }
             if (turnPersonToPlay != -1)
                 turn = turnPersonToPlay;
             else

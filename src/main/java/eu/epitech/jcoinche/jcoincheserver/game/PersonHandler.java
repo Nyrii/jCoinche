@@ -75,7 +75,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
     public void channelRead0(ChannelHandlerContext arg0, Game.Answer answer) throws Exception {
         GameManager gm = getGameFromChannel(arg0);
 
-        System.out.println(arg0);
+        System.err.println("Begin " + arg0);
 
         if (gm == null)
             return ;
@@ -112,6 +112,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 }
                 if (gm.getGame()) {
                     gm.askPlayerOneToPlay();
+                    gm.sendMessageToAllPersonToInteract(gm.getClientPosition(arg0), "You may interact with server");
                 }
                 break;
 
@@ -127,17 +128,20 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                         gameRunning.remove(gm);
                         break;
                     }
-                    if (ans.getCode() < 300)
-                        gm.getNextPlayerChannel(Game.Answer.Type.GAME, "you have to play.");
-                    else
+                    if (ans.getCode() < 300) {
+                        gm.getNextPlayerChannel(Game.Answer.Type.NONE, "You have to play.");
+                    }
+                    else {
                         arg0.writeAndFlush(ans);
+                    }
+                    gm.sendMessageToAllPersonToInteract(gm.getClientPosition(arg0), "You may interact with server");
                     if (gm.getBid())
                         gm.getNextPlayerChannel(Game.Answer.Type.BIDDING, "you may bid.");
                 }
                 break;
 
             case NONE:
-                arg0.writeAndFlush(Game.Answer.newBuilder().setType(Game.Answer.Type.NONE).setCode(-1).setRequest(""));
+                arg0.writeAndFlush(Game.Answer.newBuilder().setType(Game.Answer.Type.GAME).setCode(-1).setRequest(""));
 
 
             case LEAVE:
@@ -145,6 +149,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 gm.deleteClient(gm.getClientPosition(arg0));
                 arg0.close();
         }
+        System.err.println("end " + arg0);
     }
 
     @Override

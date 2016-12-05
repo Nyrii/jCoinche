@@ -77,6 +77,7 @@ public class AnswerToClient {
             gm.setAtout(bidding.getOption());
             str = "Just annonced capot";
             gm.setCapot(true, ctx);
+            typeAnswer = GAME;
             gm.setMessage(gm.getNameFromClient(ctx) + " announced capot at " + bidding.getOption());
         } else if (bidding.getAmount() < 80) {
             code = 400;
@@ -93,7 +94,7 @@ public class AnswerToClient {
             gm.setMessage(gm.getNameFromClient(ctx) + " announced a bidding with " + bidding.getAmount() + " at " + bidding.getOption());
             gm.setContract(bidding.getAmount(), ctx);
             gm.setAtout(bidding.getOption());
-            typeAnswer = NONE;
+            typeAnswer = GAME;
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)
@@ -125,7 +126,7 @@ public class AnswerToClient {
             code = 201;
             str = "You just coinched the other player";
             gm.setMessage(gm.getNameFromClient(ctx) + " coinched the other team");
-            typeAnswer = NONE;
+            typeAnswer = GAME;
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)
@@ -152,7 +153,7 @@ public class AnswerToClient {
             code = 202;
             str = "You just surcoinched the other player";
             gm.setMessage(gm.getNameFromClient(ctx) + " surcoinched");
-            typeAnswer = NONE;
+            typeAnswer = GAME;
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)
@@ -176,7 +177,7 @@ public class AnswerToClient {
             answer = Game.Answer.newBuilder()
                     .setRequest("You just pass your turn!")
                     .setCode(205)
-                    .setType(NONE)
+                    .setType(GAME)
                     .setCards(gm.getDeck(gm.getClientPosition(ctx)))
                     .build();
             gm.addInactiveTurn(gm.getNbTurnInactive() + 1);
