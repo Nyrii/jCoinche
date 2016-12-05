@@ -306,12 +306,14 @@ public class GameManager {
     private Game.Card biggestCardInTrick(ArrayList currentTrick) {
         Game.Card firstCard = ((Game.Card) currentTrick.get(0));
 
+        System.err.println("first card = " + firstCard);
         for (Object card : currentTrick) {
             if (((Game.Card) card).getCardType() == firstCard.getCardType() &&
                     (isBiggerValue(((Game.Card) card).getCardValue(), firstCard.getCardValue()) ||
                     isAtout((Game.Card) card)))
                 firstCard = (Game.Card) card;
         }
+        System.err.println("--------------->now first card = " + firstCard);
         return firstCard;
     }
 
@@ -434,10 +436,18 @@ public class GameManager {
             if (isAtout)
                 index = currentTrick.indexOf(biggestCardInTrickAtout(currentTrick));
         }
-        System.out.println("index of win card is " + index);
-        int posPlayer = turn;
-        posPlayer -= index;
-        posPlayer = posPlayer < 0 ? posPlayer + 4 : posPlayer;
+        System.err.println("");
+        System.err.println(currentTrick);
+        System.err.println("");
+        System.err.println("");
+        System.err.println("index of win card is " + index);
+        System.err.println("");
+        System.err.println("");
+        System.err.println("");
+        System.err.println("");
+        System.err.println("");
+        int posPlayer = (index + turn) % 4;
+        System.out.println("pos player after calcul = " + posPlayer);
         sendMessageToAllPersonInGame(nameClient.get(posPlayer) + ": won the last trick");
         turn = posPlayer;
         turnPos = turn;
