@@ -1,12 +1,10 @@
 package eu.epitech.jcoinche.jcoincheclient.game;
 
-import eu.epitech.jcoinche.jcoincheclient.network.Connection;
 import eu.epitech.jcoinche.protobuf.Game;
 import io.netty.channel.Channel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,21 +16,20 @@ import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
 public class Process {
 
     interface PlayAction {
-        void play(String command);
+        void play(String command, BufferedReader in, Channel channel);
     }
 
     private Process.PlayAction[] playActions = new Process.PlayAction[] {
-            new Process.PlayAction() { public void play(String command) { sendMessage(command, new BufferedReader(new InputStreamReader(System.in))); } },
-            new Process.PlayAction() { public void play(String command) { sendMessage(command, new BufferedReader(new InputStreamReader(System.in))); } },
-            new Process.PlayAction() { public void play(String command) { playCard(command, new BufferedReader(new InputStreamReader(System.in))); } },
+            new Process.PlayAction() { public void play(String command, BufferedReader in, Channel channel) { sendMessage(command, in, channel); } },
+            new Process.PlayAction() { public void play(String command, BufferedReader in, Channel channel) { sendMessage(command, in, channel); } },
+            new Process.PlayAction() { public void play(String command, BufferedReader in, Channel channel) { playCard(command, in, channel); } },
     };
 
-    public void play(int index, String command) {
-        playActions[index].play(command);
+    public void play(int index, String command, BufferedReader in, Channel channel) {
+        playActions[index].play(command, in, channel);
     }
 
     public boolean sendRequest(String command, List<String> arguments, Channel channel) {
-
         if (channel == null) {
             return false;
         }
@@ -177,7 +174,7 @@ public class Process {
         return -1;
     }
 
-    public void sendMessage(String command, BufferedReader in) {
+    public void sendMessage(String command, BufferedReader in, Channel channel) {
         String line;
         List<String> arguments = new ArrayList<>();
 
@@ -194,16 +191,16 @@ public class Process {
             if (isArgumentValid(line)) {
                 arguments.add(line);
             }
-            if (!sendRequest(command, arguments, Connection.get_channel()))
+            if (!sendRequest(command, arguments, channel))
                 System.exit(84);
         } catch (IOException e) {
-            if (!sendRequest("NONE", new ArrayList<String>(), Connection.get_channel()))
+            if (!sendRequest("NONE", new ArrayList<String>(), channel))
                 System.exit(84);
             System.err.println("Could not get the user's input.");
         }
     }
 
-    public void playCard(String command, BufferedReader in) {
+    public void playCard(String command, BufferedReader in, Channel channel) {
         String cardValue = "", cardSuit = "";
         List<String> arguments = new ArrayList<>();
 
@@ -228,22 +225,21 @@ public class Process {
                     cardSuit = cardSuit.toUpperCase();
                 }
                 if (isCardSuitValid(cardSuit)) {
-                    if (!sendRequestWithCard(command, arguments, setCard(cardValue, cardSuit), Connection.get_channel()))
+                    if (!sendRequestWithCard(command, arguments, setCard(cardValue, cardSuit), channel))
                         System.exit(84);
                     return;
                 }
             }
-            if (!sendRequestWithCard(command, new ArrayList<String>(), setCard(cardValue, cardSuit), Connection.get_channel()))
+            if (!sendRequestWithCard(command, new ArrayList<String>(), setCard(cardValue, cardSuit), channel))
                 System.exit(84);
         } catch (IOException e) {
-            if (!sendRequest("NONE", new ArrayList<String>(), Connection.get_channel()))
+            if (!sendRequest("NONE", new ArrayList<String>(), channel))
                 System.exit(84);
             System.err.println("Could not get the user's input.");
         }
     }
 
-    public void request() {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    public void request(BufferedReader in, Channel channel) {
         String command;
         int index;
 
@@ -256,15 +252,17 @@ public class Process {
             command = command.replaceAll("\\s", "");
             command = command.toUpperCase();
             if (!isCommandValid(command) && containsCommandsWithArgs(command.toUpperCase()) == -1) {
-                if (!sendRequest(command, new ArrayList<String>(), Connection.get_channel()))
+                if (!sendRequest(command, new ArrayList<String>(), channel))
                     System.exit(84);
             } else if ((index = containsCommandsWithArgs(command.toUpperCase())) != -1) {
-                play(index, command);
+                play(index, command, in, channel);
             } else {
-                if (!sendRequest(command.toUpperCase(), new ArrayList<String>(), Connection.get_channel()))
+                if (!sendRequest(command.toUpperCase(), new ArrayList<String>(), channel))
                     System.exit(84);
             }
         } catch (IOException e) {
+            if (!sendRequest("NONE", new ArrayList<String>(), channel))
+                System.exit(84);
             System.err.println("Could not get the input.");
         }
     }

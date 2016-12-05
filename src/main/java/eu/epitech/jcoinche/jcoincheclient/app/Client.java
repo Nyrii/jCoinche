@@ -51,6 +51,7 @@ public class Client {
             public void run() {
                 Game.Answer answer = SaveObject.get_answer();
                 if (answer != null) {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
                     Player player = new Player();
                     Bidding bidding = new Bidding();
                     Process process = new Process();
@@ -60,6 +61,7 @@ public class Client {
 
                             case PLAYER:
                                 while (!player.askInformations(in, Connection.get_channel()));
+                                System.out.println("\n");
                                 break;
 
                             case BIDDING:
@@ -81,11 +83,12 @@ public class Client {
                                     }
                                     errorOccured = !isBidEffective;
                                 }
+                                System.out.println("\n");
                                 break;
 
                             case GAME:
-                                System.out.println("You can use the following commands : NAME, MSG, PLAY, DECK, LAST and QUIT. Please check the documentation for more informations.");
-                                process.request();
+                                process.request(in, connection.get_channel());
+                                System.out.println("\n");
                                 break;
                         }
                     } catch (Exception e) {
@@ -98,6 +101,6 @@ public class Client {
                     SaveObject.set_answer(null);
                 }
             }
-        }, 500, 500);
+        }, 1000, 1000);
     }
 }
