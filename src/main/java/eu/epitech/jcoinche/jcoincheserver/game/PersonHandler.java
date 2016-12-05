@@ -143,6 +143,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
             case LEAVE:
                 //deal with game
                 gm.deleteClient(gm.getClientPosition(arg0));
+                arg0.close();
         }
     }
 

@@ -2,3 +2,6 @@ Saursinet:
     -check when all persons play non atout who can win (first colour played only)
     -check if atout is always good
     -deal with the score too!
+    -check if player four win if it's really him
+    -when there is non atout jack win
+    -when player cut he doesn't have the cards

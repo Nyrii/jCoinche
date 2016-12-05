@@ -159,11 +159,10 @@ public class GameManager {
                         .build();
         } else if (game.getCommand() == PLAY) {
             Game.Answer.Type type = GAME;
-            String msg;
             int code = 400;
             if (turn != clientPosition) {
                 System.out.println("turn = " + turn);
-                msg = "Not your turn to play";
+                message = "Not your turn to play";
                 type = Game.Answer.Type.NONE;
             } else {
                 Game.DistributionCard deck = getDeck(clientPosition);
@@ -174,23 +173,23 @@ public class GameManager {
                         found = true;
                 }
                 if (game.getCard().getCardType() == Game.Card.CardType.INVALID_TYPE)
-                    msg = "Wrong Card that type doesn't exist.";
+                    message = "Wrong Card that type doesn't exist.";
                 else if (game.getCard().getCardValue() == Game.Card.CardValue.INVALID_VALUE)
-                    msg = "Wrong Card that value doesn't exist.";
+                    message = "Wrong Card that value doesn't exist.";
                 else if (!found)
-                    msg = "This Card doesn't belong to you.";
+                    message = "This Card doesn't belong to you.";
                 else if (!checkValidityOfMovement(clientPosition, game.getCard()))
-                    msg = "Invalid movement";
+                    ;
                 else {
                     currentTrick.add(game.getCard());
                     deleteCardFromDeck(game.getCard(), deck, clientPosition);
-                    msg = "Turn okay";
+                    message = "Turn okay";
                     code = 200;
                     type = Game.Answer.Type.NONE;
                 }
             }
             answer = Game.Answer.newBuilder()
-                    .setRequest(msg)
+                    .setRequest(message)
                     .setCode(code)
                     .setCards(getDeck(clientPosition))
                     .setType(type)
@@ -253,16 +252,28 @@ public class GameManager {
         if (isAtout((Game.Card) currentTrick.get(0))) {
             if (isAtout(card)) {
                 if (!isBiggerValueAtout(card.getCardValue(), biggestCardInTrickAtout(currentTrick).getCardValue()))
-                    if (!checkIfPlayerCannotGoUp(biggestCardInTrickAtout(currentTrick), getDeck(clientPosition)))
+                    if (!checkIfPlayerCannotGoUp(biggestCardInTrickAtout(currentTrick), getDeck(clientPosition))) {
+                        System.err.println("player can put atout bigger than others");
+                        message = "player can put atout bigger than others";
                         return false;
-            } else if (hasOneTypeOfCard(clientPosition, Game.Card.CardType.valueOf(atout.toString())))
+                    }
+            } else if (hasOneTypeOfCard(clientPosition, Game.Card.CardType.valueOf(atout.toString()))) {
+                System.err.println("player has atout but put other colour");
+                message = "player has atout but put other colour";
                 return false;
+            }
         } else {
             if (((Game.Card) currentTrick.get(0)).getCardType() != card.getCardType()) {
-                if (hasOneTypeOfCard(clientPosition, ((Game.Card) currentTrick.get(0)).getCardType()))
+                if (hasOneTypeOfCard(clientPosition, ((Game.Card) currentTrick.get(0)).getCardType())) {
+                    System.err.println("player don't put good colour");
+                    message = "player don't put good colour";
                     return false;
-                else if (isAtout(card) && isAtout(biggestCardInTrickAtout(currentTrick)) && !checkIfPlayerCannotGoUp(biggestCardInTrickAtout(currentTrick), getDeck(clientPosition)))
+                }
+                else if (isAtout(card) && isAtout(biggestCardInTrickAtout(currentTrick)) && !checkIfPlayerCannotGoUp(biggestCardInTrickAtout(currentTrick), getDeck(clientPosition))) {
+                    System.err.println("colour isn't atout but player can cut with biggest card");
+                    message = "colour isn't atout but player can cut with biggest card";
                     return false;
+                }
             }
         }
         return true;
@@ -427,6 +438,7 @@ public class GameManager {
         if (getDeck(0).getCardList().size() == 0) {
             game = false;
             bidding = true;
+            giveCardToAllPlayers();
         }
     }
 

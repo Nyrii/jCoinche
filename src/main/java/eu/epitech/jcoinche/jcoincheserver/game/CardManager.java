@@ -51,12 +51,13 @@ public class CardManager {
             cardGames.clear();
             deckObjects.clear();
         }
+        ArrayList tmpCardList = (ArrayList) cardList.clone();
         for (int j = 0; j < 4; j++) {
             ArrayList tmp = new ArrayList();
             for (int i = 0; i < 8; i++) {
-                index = rand.nextInt(cardList.size());
-                tmp.add(cardList.get(index));
-                cardList.remove(index);
+                index = rand.nextInt(tmpCardList.size());
+                tmp.add(tmpCardList.get(index));
+                tmpCardList.remove(index);
             }
             cardGames.add(tmp);
         }
