@@ -61,7 +61,6 @@ public class Client {
 
                             case PLAYER:
                                 while (!player.askInformations(in, Connection.get_channel()));
-                                System.out.println("\n");
                                 break;
 
                             case BIDDING:
@@ -83,12 +82,10 @@ public class Client {
                                     }
                                     errorOccured = !isBidEffective;
                                 }
-                                System.out.println("\n");
                                 break;
 
                             case GAME:
                                 process.request(in, connection.get_channel());
-                                System.out.println("\n");
                                 break;
                         }
                     } catch (Exception e) {
