@@ -6,10 +6,13 @@ import io.netty.channel.ChannelHandlerContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.NONE;
+import static eu.epitech.jcoinche.protobuf.Game.Bidding.Options.SA;
+import static eu.epitech.jcoinche.protobuf.Game.Bidding.Options.TA;
 import static eu.epitech.jcoinche.protobuf.Game.Card.CardValue.*;
 import static eu.epitech.jcoinche.protobuf.Game.GameProgress.Command.*;
 
@@ -30,16 +33,24 @@ public class GameManager {
     private int personWhoCoinche = -1;
     private int personWhoSurCoinche = -1;
     private int personWhoCapot = -1;
+    private int personWhoGenerale = -1;
     private int contract = -1;
     private boolean coinche = false;
     private boolean surCoinche = false;
     private boolean capot = false;
+    private boolean generale = false;
     private boolean bidding = false;
     private boolean game = false;
     Game.Bidding.Options atout = Game.Bidding.Options.UNKNOWNOPTION;
     private int nbTurnInactive = 0;
     private int scoreTeam1 = 0;
     private int scoreTeam2 = 0;
+    private int scoreTeamParty1 = 0;
+    private int scoreTeamParty2 = 0;
+    private int nbTrick1 = 0;
+    private int nbTrick2 = 0;
+    private int nbTrick3 = 0;
+    private int nbTrick4 = 0;
     CardManager cm = new CardManager();
     private String message = "";
     ChannelHandlerContext ctxTmp;
@@ -265,6 +276,10 @@ public class GameManager {
     private boolean checkValidityOfMovement(int clientPosition, Game.Card card) {
         if (currentTrick.size() == 0)
             return true;
+        if (atout == Game.Bidding.Options.TA)
+            return checkToutAtout(clientPosition, card);
+        if (atout == SA)
+            return checkWhithoutAtout(clientPosition, card);
         if (isAtout((Game.Card) currentTrick.get(0))) {
             if (isAtout(card)) {
                 if (!isBiggerValueAtout(card.getCardValue(), biggestCardInTrickAtout(currentTrick).getCardValue()))
@@ -295,9 +310,47 @@ public class GameManager {
         return true;
     }
 
+    private boolean checkToutAtout(int clientPosition, Game.Card card) {
+        if (((Game.Card) currentTrick.get(0)).getCardType() != card.getCardType() &&
+                hasOneTypeOfCard(clientPosition, ((Game.Card) currentTrick.get(0)).getCardType())) {
+                System.err.println("player don't put good colour");
+                message = "player don't put good colour";
+                return false;
+        }
+        if (!isBiggerValueAtout(card.getCardValue(), biggestCardInTrickToutAtout(currentTrick).getCardValue()) &&
+                !checkIfPlayerCannotGoUpToutAtout(biggestCardInTrickToutAtout(currentTrick), getDeck(clientPosition))) {
+            System.err.println("With tout atout you have to play biggest card than the other" + biggestCardInTrickToutAtout(currentTrick));
+            message = "With tout atout you have to play biggest card than the other";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkWhithoutAtout(int clientPosition, Game.Card card) {
+        if (((Game.Card) currentTrick.get(0)).getCardType() != card.getCardType()) {
+            if (hasOneTypeOfCard(clientPosition, ((Game.Card) currentTrick.get(0)).getCardType())) {
+                System.err.println("player don't put good colour");
+                message = "player don't put good colour";
+                return false;
+            }
+        }
+        return true;
+    }
+
     private boolean checkIfPlayerCannotGoUp(Game.Card card, Game.DistributionCard deck) {
         for (Object cardPlayer : deck.getCardList()) {
-            if (isAtout((Game.Card) cardPlayer) && isBiggerValueAtout(((Game.Card) cardPlayer).getCardValue(), card.getCardValue()))
+            if (isBiggerValueAtout(((Game.Card) cardPlayer).getCardValue(), card.getCardValue()))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean checkIfPlayerCannotGoUpToutAtout(Game.Card card, Game.DistributionCard deck) {
+        System.err.println("check if player cannot go up tout atout " + card);
+        for (Object cardPlayer : deck.getCardList()) {
+            System.err.println("check if player cannot go up tout atout other card " + cardPlayer);
+            if (((Game.Card) cardPlayer).getCardType() == card.getCardType() &&
+                    isBiggerValueAtout(((Game.Card) cardPlayer).getCardValue(), card.getCardValue()))
                 return false;
         }
         return true;
@@ -323,6 +376,28 @@ public class GameManager {
         for (Object card : currentTrick) {
             if (isAtout((Game.Card) card) && (!isAtout(firstCard) ||
                     isBiggerValueAtout(((Game.Card) card).getCardValue(), firstCard.getCardValue())))
+                firstCard = (Game.Card) card;
+        }
+        return firstCard;
+    }
+
+    private Game.Card biggestCardInTrickToutAtout(ArrayList currentTrick) {
+        Game.Card firstCard = ((Game.Card) currentTrick.get(0));
+
+        for (Object card : currentTrick) {
+            if (((Game.Card) card).getCardType() == firstCard.getCardType() &&
+                    isBiggerValueAtout(((Game.Card) card).getCardValue(), firstCard.getCardValue()))
+                firstCard = (Game.Card) card;
+        }
+        return firstCard;
+    }
+
+    private Object biggestCardInTrickSansAtout(ArrayList currentTrick) {
+        Game.Card firstCard = ((Game.Card) currentTrick.get(0));
+
+        for (Object card : currentTrick) {
+            if (((Game.Card) card).getCardType() == firstCard.getCardType() &&
+                    isBiggerValue(((Game.Card) card).getCardValue(), firstCard.getCardValue()))
                 firstCard = (Game.Card) card;
         }
         return firstCard;
@@ -393,8 +468,9 @@ public class GameManager {
 
     public void askPlayerOneToPlay() {
         int i = 0;
-        System.out.println("send invite to play");
+        System.out.println("send invite to play to " + turnPersonToPlay);
         turnPersonToPlay = turnPersonToPlay == 3 ? 0 : turnPersonToPlay + 1;
+        turn = turnPersonToPlay;
         for (Object c : clientSocket) {
             if (i == turnPersonToPlay)
                 ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("Your turn, you have to play.").setCode(200).setType(NONE)
@@ -423,7 +499,9 @@ public class GameManager {
 
     private void endLastTrick() {
         int index;
-        if (isAtout((Game.Card) currentTrick.get(0))) {
+        if (atout == Game.Bidding.Options.TA || atout == SA)
+            index = takeIndexFromTrick();
+        else if (isAtout((Game.Card) currentTrick.get(0))) {
             index = currentTrick.indexOf(biggestCardInTrickAtout(currentTrick));
         } else {
             index = currentTrick.indexOf(biggestCardInTrick(currentTrick));
@@ -451,17 +529,7 @@ public class GameManager {
         sendMessageToAllPersonInGame(nameClient.get(posPlayer) + ": won the last trick");
         turn = posPlayer;
         turnPos = turn;
-        if (posPlayer == 0 || posPlayer == 3)
-            scoreTeam1 += numberPointOfTrick(currentTrick);
-        else
-            scoreTeam2 += numberPointOfTrick(currentTrick);
-        if (scoreTeam1 == 700) {
-            sendMessageToAllPersonInGame(nameClient.get(0) + " et " + nameClient.get(2) + " won the game with " + scoreTeam1);
-            end = true;
-        } else if (scoreTeam2 == 700) {
-            sendMessageToAllPersonInGame(nameClient.get(1) + " et " + nameClient.get(3) + " won the game with " + scoreTeam2);
-            end = true;
-        }
+        updateScore(posPlayer);
         lastTrick = currentTrick;
         currentTrick = new ArrayList();
         if (end) {
@@ -471,10 +539,113 @@ public class GameManager {
             }
         }
         if (getDeck(0).getCardList().size() == 0) {
+            scoreTeam1 = checkIfConctractIsRespectedTeam1();
+            scoreTeam2 = checkIfConctractIsRespectedTeam2();
             game = false;
             bidding = true;
             giveCardToAllPlayers();
         }
+    }
+
+    private int checkIfConctractIsRespectedTeam1() {
+        if (((personWhoCapot == 0 || personWhoCapot == 2) && nbTrick2 + nbTrick4 == 0) ||
+                ((personWhoCapot == 1 || personWhoCapot == 3) && nbTrick1 + nbTrick3 != 0))
+            return 250;
+        if ((personWhoGenerale == 0 && nbTrick1 == 8) || (personWhoGenerale == 2 && nbTrick3 == 8) ||
+                (personWhoGenerale == 1 && nbTrick2 != 8) || (personWhoGenerale == 3 && nbTrick4 != 8))
+            return 500;
+        if ((personWhoBet == 0 || personWhoBet == 2) && scoreTeamParty1 >= contract) {
+            if (personWhoCoinche != -1 && personWhoSurCoinche != -1)
+                return contract * 4 + scoreTeam1;
+            else if (personWhoCoinche != -1)
+                return contract * 2 + scoreTeam1;
+            return contract + scoreTeam1;
+        }
+        if ((personWhoBet == 1 || personWhoBet == 3) && scoreTeamParty2 < contract) {
+            if (personWhoCoinche != -1 && personWhoSurCoinche != -1)
+                return (162 + contract) * 4;
+            else if (personWhoCoinche != -1)
+                return (162 + contract) * 2;
+            return 162 + contract;
+        }
+        return 0;
+    }
+
+    private int checkIfConctractIsRespectedTeam2() {
+        if (((personWhoCapot == 0 || personWhoCapot == 2) && nbTrick2 + nbTrick4 != 0) ||
+                ((personWhoCapot == 1 || personWhoCapot == 3) && nbTrick1 + nbTrick3 == 0))
+            return 250;
+        if ((personWhoGenerale == 0 && nbTrick1 != 8) || (personWhoGenerale == 2 && nbTrick3 != 8) ||
+                (personWhoGenerale == 1 && nbTrick2 == 8) || (personWhoGenerale == 3 && nbTrick4 == 8))
+            return 500;
+        if ((personWhoBet == 1 || personWhoBet == 3) && scoreTeamParty2 >= contract) {
+            if (personWhoCoinche != -1 && personWhoSurCoinche != -1)
+                return contract * 4 + scoreTeam2;
+            else if (personWhoCoinche != -1)
+                return contract * 2 + scoreTeam2;
+            return contract + scoreTeam2;
+        }
+        if ((personWhoBet == 0 || personWhoBet == 2) && scoreTeamParty1 < contract) {
+            if (personWhoCoinche != -1 && personWhoSurCoinche != -1)
+                return (162 + contract) * 4;
+            else if (personWhoCoinche != -1)
+                return (162 + contract) * 2;
+            return 162 + contract;
+        }
+        return 0;
+    }
+
+    private void updateScore(int posPlayer) {
+        int count = atout == TA ? numberPointOfTrickToutAtout() : atout == SA ? numberPointOfTrickSansAtout() : numberPointOfTrick(currentTrick);
+
+        if (posPlayer == 0 || posPlayer == 2) {
+            scoreTeamParty1 += count;
+            if (posPlayer == 0)
+                nbTrick1 += 1;
+            else
+                nbTrick3 += 1;
+        }
+        else {
+            scoreTeamParty2 += count;
+            if (posPlayer == 1)
+                nbTrick2 += 1;
+            else
+                nbTrick4 += 1;
+        }
+        if (scoreTeam1 == 700) {
+            sendMessageToAllPersonInGame(nameClient.get(0) + " et " + nameClient.get(2) + " won the game with " + scoreTeam1);
+            end = true;
+        } else if (scoreTeam2 == 700) {
+            sendMessageToAllPersonInGame(nameClient.get(1) + " et " + nameClient.get(3) + " won the game with " + scoreTeam2);
+            end = true;
+        }
+    }
+
+    private int numberPointOfTrickToutAtout() {
+        int score = 0;
+        for (Object card : currentTrick) {
+            System.out.println(valueCardsAtout.get(((Game.Card) card).getCardType()));
+            if (valueCardsAtout.get(((Game.Card) card).getCardType()) != null)
+                score += (int) valueCardsAtout.get(((Game.Card) card).getCardType());
+        }
+        return score;
+    }
+
+    private int numberPointOfTrickSansAtout() {
+        int score = 0;
+        for (Object card : currentTrick) {
+            System.out.println(valueCardsAtout.get(((Game.Card) card).getCardType()));
+            if (valueCards.get(((Game.Card) card).getCardType()) != null)
+                score += (int) valueCardsAtout.get(((Game.Card) card).getCardType());
+        }
+        return score;
+    }
+
+    private int takeIndexFromTrick() {
+        if (atout == Game.Bidding.Options.TA)
+            return currentTrick.indexOf(biggestCardInTrickToutAtout(currentTrick));
+        else
+            return currentTrick.indexOf(biggestCardInTrickSansAtout(currentTrick));
     }
 
     private int numberPointOfTrick(ArrayList currentTrick) {
@@ -540,6 +711,11 @@ public class GameManager {
 
     public void setCapot(boolean capot, ChannelHandlerContext ctx) { this.capot= capot; personWhoCapot = getClientPosition(ctx); bidding = false; }
 
+    public void setGenerale(boolean generale, ChannelHandlerContext ctx) {
+        this.generale = generale;
+        personWhoGenerale = getClientPosition(ctx);
+    }
+
     public boolean getCoinche() { return this.coinche; }
 
     public boolean getSurCoinche() { return this.surCoinche; }
@@ -582,6 +758,12 @@ public class GameManager {
             else
                 turn = 0;
             turnPos = turn;
+            nbTrick1 = 0;
+            nbTrick2 = 0;
+            nbTrick3 = 0;
+            nbTrick4 = 0;
+            scoreTeamParty1 = 0;
+            scoreTeamParty2 = 0;
             System.out.println("just put game to true");
         } else if (contract == -1 && nbTurnInactive == 4) {
             bidding = true;

@@ -79,6 +79,13 @@ public class AnswerToClient {
             gm.setCapot(true, ctx);
             typeAnswer = GAME;
             gm.setMessage(gm.getNameFromClient(ctx) + " announced capot at " + bidding.getOption());
+        } else if (bidding.getContract() == Game.Bidding.Contract.GENERALE) {
+            code = 204;
+            gm.setAtout(bidding.getOption());
+            str = "Just annonced generale";
+            gm.setGenerale(true, ctx);
+            typeAnswer = GAME;
+            gm.setMessage(gm.getNameFromClient(ctx) + " announced capot at " + bidding.getOption());
         } else if (bidding.getAmount() < 80) {
             code = 400;
             str = "Bidding to low, minimum is 80";
