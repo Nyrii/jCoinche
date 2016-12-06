@@ -75,8 +75,6 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
     public void channelRead0(ChannelHandlerContext arg0, Game.Answer answer) throws Exception {
         GameManager gm = getGameFromChannel(arg0);
 
-        System.err.println("Begin " + arg0);
-
         if (gm == null)
             return ;
         if (answer.getCode() == -1) {
@@ -142,14 +140,15 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
 
             case NONE:
                 arg0.writeAndFlush(Game.Answer.newBuilder().setType(Game.Answer.Type.GAME).setCode(-1).setRequest(""));
+                break;
 
 
             case LEAVE:
                 //deal with game
                 gm.deleteClient(gm.getClientPosition(arg0));
                 arg0.close();
+                break;
         }
-        System.err.println("end " + arg0);
     }
 
     @Override

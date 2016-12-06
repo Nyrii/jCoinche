@@ -2,7 +2,6 @@ package eu.epitech.jcoinche.jcoincheserver.game;
 
 import eu.epitech.jcoinche.protobuf.Game;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
 
 import java.util.ArrayList;
 import java.util.Random;

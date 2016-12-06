@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
 import static eu.epitech.jcoinche.protobuf.Game.Bidding.Options.SA;
 import static eu.epitech.jcoinche.protobuf.Game.Bidding.Options.TA;
-import static eu.epitech.jcoinche.protobuf.Game.GameProgress.Command.*;
 
 /**
  * Created by Saursinet on 06/12/2016.
@@ -26,6 +25,7 @@ public class PartyManager {
                 .build();
 
         switch (game.getCommand()) {
+
             case MSG:
                 answer = gm.sendMessageToAllPersonInGame(clientPosition, game.getArguments(0));
                 break;
