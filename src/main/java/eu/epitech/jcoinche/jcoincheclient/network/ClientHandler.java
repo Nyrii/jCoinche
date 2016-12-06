@@ -37,7 +37,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
             }
             if (answer != null && answer.getType() != Game.Answer.Type.NONE) {
                 SaveObject.set_answer(answer);
-                System.out.println("\n");
+                if (answer.getType().equals(Game.Answer.Type.GAME) && !answer.getRequest().isEmpty())
+                    System.out.println("\n");
             }
         }
 //                // The connection is closed automatically on shutdown.
