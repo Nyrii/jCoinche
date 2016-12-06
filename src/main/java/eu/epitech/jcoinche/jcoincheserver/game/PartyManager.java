@@ -19,73 +19,96 @@ public class PartyManager {
 
     static public Game.Answer interpreteGaming(int clientPosition, Game.GameProgress game, GameManager gm) {
         PartyManager.gm = gm;
+        Game.Answer answer = Game.Answer.newBuilder()
+                .setRequest("")
+                .setCode(0)
+                .setType(GAME)
+                .build();
+
+        switch (game.getCommand()) {
+            case MSG:
+                answer = gm.sendMessageToAllPersonInGame(clientPosition, game.getArguments(0));
+                break;
+
+            case NAME:
+                answer = gm.setName(game.getArguments(0));
+                answer = Game.Answer.newBuilder()
+                        .setRequest(answer.getRequest())
+                        .setCode(answer.getCode())
+                        .setType(GAME)
+                        .build();
+                break;
+
+            case PLAY:
+                answer = manageGame(clientPosition, game);
+                break;
+
+            case HAND:
+                answer = sendHandToPlayer(clientPosition);
+                break;
+
+            case LAST_TRICK:
+                answer = showLastTrick();
+                break;
+
+            case INVALID_COMMAND:
+                answer = sendInvalidCommand();
+                break;
+
+            case QUIT:
+                System.out.println("User quit");
+                answer = Game.Answer.newBuilder()
+                        .setRequest("for now not implemented")
+                        .setCode(200)
+                        .setType(GAME)
+                        .build();
+                break;
+        }
+        return answer;
+    }
+
+    private static Game.Answer manageGame(int clientPosition, Game.GameProgress game) {
         Game.Answer answer;
 
-        if (game.getCommand() == Game.GameProgress.Command.MSG) {
-            answer = gm.sendMessageToAllPersonInGame(clientPosition, game.getArguments(0));
-        } else if (game.getCommand() == Game.GameProgress.Command.NAME) {
-            answer = gm.setName(game.getArguments(0));
-            answer = Game.Answer.newBuilder()
-                    .setRequest(answer.getRequest())
-                    .setCode(answer.getCode())
-                    .setCards(gm.getDeck(clientPosition))
-                    .setType(GAME)
-                    .build();
-        } else if (game.getCommand() == PLAY) {
-            Game.Answer.Type type = GAME;
-            int code = 400;
-            if (gm.getTurn() != clientPosition) {
-                System.out.println("turn = " + gm.getTurn());
-                gm.setMessage("Not your turn to play");
-                type = Game.Answer.Type.NONE;
-            } else {
-                Game.DistributionCard deck = gm.getDeck(clientPosition);
-                boolean found = false;
-                for (Game.Card card : deck.getCardList()) {
-                    if (card.getCardType() == game.getCard().getCardType() &&
-                            card.getCardValue() == game.getCard().getCardValue())
-                        found = true;
-                }
-                if (game.getCard().getCardType() == Game.Card.CardType.INVALID_TYPE)
-                    gm.setMessage("Wrong Card that type doesn't exist.");
-                else if (game.getCard().getCardValue() == Game.Card.CardValue.INVALID_VALUE)
-                    gm.setMessage("Wrong Card that value doesn't exist.");
-                else if (!found)
-                    gm.setMessage("This Card doesn't belong to you.");
-                else if (!checkValidityOfMovement(clientPosition, game.getCard()))
-                    ;
-                else {
-                    gm.getCurrentTrick().add(game.getCard());
-                    deleteCardFromDeck(game.getCard(), deck, clientPosition);
-                    gm.setMessage("Turn okay");
-                    code = 200;
-                    type = Game.Answer.Type.NONE;
-                }
-            }
-            answer = Game.Answer.newBuilder()
-                    .setRequest(gm.getMessage())
-                    .setCode(code)
-                    .setType(type)
-                    .build();
-            if (code < 300)
-                ((Channel) gm.getClientSocket().get(clientPosition)).writeAndFlush(answer);
-            if (code == 200)
-                gm.sendMessageToAllPersonInGame(clientPosition, "played " + game.getCard());
-        } else if (game.getCommand() == HAND) {
-            answer = sendHandToPlayer(clientPosition);
-        } else if (game.getCommand() == LAST_TRICK) {
-            answer = showLastTrick();
-        } else if (game.getCommand() == INVALID_COMMAND) {
-            answer = sendInvalidCommand();
+        Game.Answer.Type type = GAME;
+        int code = 400;
+        if (gm.getTurn() != clientPosition) {
+            System.out.println("turn = " + gm.getTurn());
+            gm.setMessage("Not your turn to play");
+            type = Game.Answer.Type.NONE;
         } else {
-            //user just quit
-            System.out.println("User quit");
-            answer = Game.Answer.newBuilder()
-                    .setRequest("for now not implemented")
-                    .setCode(200)
-                    .setType(GAME)
-                    .build();
+            Game.DistributionCard deck = gm.getDeck(clientPosition);
+            boolean found = false;
+            for (Game.Card card : deck.getCardList()) {
+                if (card.getCardType() == game.getCard().getCardType() &&
+                        card.getCardValue() == game.getCard().getCardValue())
+                    found = true;
+            }
+            if (game.getCard().getCardType() == Game.Card.CardType.INVALID_TYPE)
+                gm.setMessage("Wrong Card that type doesn't exist.");
+            else if (game.getCard().getCardValue() == Game.Card.CardValue.INVALID_VALUE)
+                gm.setMessage("Wrong Card that value doesn't exist.");
+            else if (!found)
+                gm.setMessage("This Card doesn't belong to you.");
+            else if (!checkValidityOfMovement(clientPosition, game.getCard()))
+                ;
+            else {
+                gm.getCurrentTrick().add(game.getCard());
+                deleteCardFromDeck(game.getCard(), deck, clientPosition);
+                gm.setMessage("Turn okay");
+                code = 200;
+                type = Game.Answer.Type.NONE;
+            }
         }
+        answer = Game.Answer.newBuilder()
+                .setRequest(gm.getMessage())
+                .setCode(code)
+                .setType(type)
+                .build();
+        if (code < 300)
+            ((Channel) gm.getClientSocket().get(clientPosition)).writeAndFlush(answer);
+        if (code == 200)
+            gm.sendMessageToAllPersonInGame(clientPosition, "played " + game.getCard());
         return answer;
     }
 
@@ -106,18 +129,7 @@ public class PartyManager {
             if (isAtout)
                 index = gm.getCurrentTrick().indexOf(biggestCardInTrickAtout(gm.getCurrentTrick()));
         }
-        System.err.println("");
-        System.err.println(gm.getCurrentTrick());
-        System.err.println("");
-        System.err.println("");
-        System.err.println("index of win card is " + index);
-        System.err.println("");
-        System.err.println("");
-        System.err.println("");
-        System.err.println("");
-        System.err.println("");
         int posPlayer = (index + gm.getTurn()) % 4;
-        System.out.println("pos player after calcul = " + posPlayer);
         gm.sendMessageToAllPersonInGame(gm.getNameClient().get(posPlayer) + ": won the last trick");
         gm.setTurn(posPlayer);
         gm.setTurnPos(gm.getTurn());
