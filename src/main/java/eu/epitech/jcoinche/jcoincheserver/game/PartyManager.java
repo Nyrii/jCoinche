@@ -105,8 +105,9 @@ public class PartyManager {
                 .setCode(code)
                 .setType(type)
                 .build();
+        System.out.println("client position = " + clientPosition);
         if (code < 300)
-            ((Channel) gm.getClientSocket().get(clientPosition)).writeAndFlush(answer);
+            ((Person) gm.getClient().get(clientPosition)).getCtx().writeAndFlush(answer);
         if (code == 200)
             gm.sendMessageToAllPersonInGame(clientPosition, "played " + game.getCard());
         return answer;
@@ -130,7 +131,7 @@ public class PartyManager {
                 index = gm.getCurrentTrick().indexOf(biggestCardInTrickAtout(gm.getCurrentTrick()));
         }
         int posPlayer = (index + gm.getTurn()) % 4;
-        gm.sendMessageToAllPersonInGame(gm.getNameClient().get(posPlayer) + ": won the last trick");
+        gm.sendMessageToAllPersonInGame(((Person) gm.getClient().get(posPlayer)).getName() + ": won the last trick");
         gm.setTurn(posPlayer);
         gm.setTurnPos(gm.getTurn());
         updateScore(posPlayer);
@@ -138,8 +139,8 @@ public class PartyManager {
         gm.setCurrentTrick(new ArrayList());
         if (gm.getEnd()) {
             gm.sendMessageToAllPersonInGame("I delete the room for now because game is over");
-            for (Object channel : gm.clientSocket) {
-                ((ChannelHandlerContext) channel).close();
+            for (Object person : gm.client) {
+                ((Person) person).getCtx().close();
             }
         }
         if (gm.getDeck(0).getCardList().size() == 0) {
@@ -224,10 +225,10 @@ public class PartyManager {
                 gm.setNbTrick4(gm.getNbTrick4() + 1);
         }
         if (gm.getScoreTeam1() == 700) {
-            gm.sendMessageToAllPersonInGame(gm.getNameClient().get(0) + " et " + gm.getNameClient().get(2) + " won the game with " + gm.getScoreTeam1());
+            gm.sendMessageToAllPersonInGame(((Person) gm.getClient().get(0)).getName() + " et " + ((Person) gm.getClient().get(2)).getName() + " won the game with " + gm.getScoreTeam1());
             gm.setEnd(true);
         } else if (gm.getScoreTeam2() == 700) {
-            gm.sendMessageToAllPersonInGame(gm.getNameClient().get(1) + " et " + gm.getNameClient().get(3) + " won the game with " + gm.getScoreTeam2());
+            gm.sendMessageToAllPersonInGame(((Person) gm.getClient().get(1)).getName() + " et " + ((Person) gm.getClient().get(3)).getName() + " won the game with " + gm.getScoreTeam2());
             gm.setEnd(true);
         }
     }

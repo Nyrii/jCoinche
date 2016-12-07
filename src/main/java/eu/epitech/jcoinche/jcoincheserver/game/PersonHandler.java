@@ -84,12 +84,9 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
             arg0.close();
             return ;
         }
-        System.out.println(answer.getAllFields());
         switch (answer.getType()) {
 
             case PLAYER:
-                System.out.println("player: ");
-                System.out.println(answer.getPlayer());
                 gm.setChannelHandlerContext(arg0);
                 arg0.writeAndFlush(gm.setName(answer.getPlayer().getName()));
                 gm.setPlay(gm.partyCanBegin());
@@ -100,11 +97,9 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 break;
 
             case BIDDING:
-                System.out.println("biding: ");
-                System.out.println(answer.getBidding());
                 if (gm.getPlay()) {
-                    Game.Answer ans = gm.interpreteBidding(arg0, answer.getBidding());
-                    System.out.println(ans);
+                    Game.Answer ans = gm.interpreteBidding(gm.getPersonByChannel(arg0), answer.getBidding());
+                    arg0.writeAndFlush(ans);
                     if (gm.getBid() && ans.getCode() < 400 && ans.getCode() != 203 && ans.getCode() != 202 && ans.getCode() != 204)
                         gm.getNextPlayerChannel(Game.Answer.Type.BIDDING, "you are allowed to bid.");
                 }
@@ -115,13 +110,9 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 break;
 
             case GAME:
-                System.out.println("game: ");
-                System.out.println(answer.getGame());
                 if (gm.getGame()) {
                     gm.setChannelHandlerContext(arg0);
                     Game.Answer ans = gm.interpreteGaming(gm.getClientPosition(arg0), answer.getGame());
-                    System.out.println("end of interprete Gaming with");
-                    System.out.println(ans);
                     if (gm.getEnd()) {
                         gameRunning.remove(gm);
                         break;
@@ -144,7 +135,6 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
 
 
             case LEAVE:
-                //deal with game
                 gm.deleteClient(gm.getClientPosition(arg0));
                 arg0.close();
                 break;
@@ -164,9 +154,4 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
         }
         return null;
     }
-
-    public GameManager getGm() {
-        return (GameManager) gameRunning.get(0);
-    }
-
 }

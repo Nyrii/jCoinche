@@ -12,47 +12,46 @@ import java.util.ArrayList;
  */
 public class NameManager {
 
-    public static boolean partyCanBegin(ArrayList nameClient) {
-        if (nameClient == null || nameClient.size() != 4)
+    public static boolean partyCanBegin(ArrayList client) {
+        if (client == null || client.size() != 4)
             return false;
-        for (Object tmp : nameClient) {
-            if (((String) tmp).charAt(0) == '0' && ((String) tmp).charAt(1) == 'x')
+        for (Object tmp : client) {
+            if (((Person) tmp).getName().charAt(0) == '0' && ((String) tmp).charAt(1) == 'x')
                 return false;
         }
         return true;
     }
 
-    protected static boolean nameAlreadyInUse(ArrayList nameClient, String name) {
-        if (nameClient == null)
+    protected static boolean nameAlreadyInUse(ArrayList client, String name) {
+        if (client == null)
             return false;
-        for (int i = 0; i < nameClient.size(); i++) {
-            if (name.toLowerCase().equals(((String) nameClient.get(i)).toLowerCase()))
+        for (int i = 0; i < client.size(); i++) {
+            if (name.toLowerCase().equals(((Person) client.get(i)).getName().toLowerCase()))
                 return true;
         }
         return false;
     }
 
-    private static boolean addName(ArrayList nameClient, String id, String name) {
+    private static boolean addName(ArrayList client, String id, String name) {
         if (name.length() < 4 || !StringUtils.isAlphanumeric(name))
             return false;
-        for (int i = 0; i < nameClient.size(); i++) {
-            if (id.contains((String) nameClient.get(i))) {
-                System.out.println("replace " + nameClient.get(i) + " by " + name);
-                nameClient.set(i, name);
+        for (int i = 0; i < client.size(); i++) {
+            if (id.contains(((Person) client.get(i)).getName())) {
+                client.set(i, name);
             }
         }
         return true;
     }
 
-    public static Game.Answer setName(GameManager answerClient, ArrayList nameClient, ChannelHandlerContext ctx, String msg) {
-        if (nameAlreadyInUse(nameClient, msg)) {
+    public static Game.Answer setName(GameManager answerClient, ArrayList client, ChannelHandlerContext ctx, String msg) {
+        if (nameAlreadyInUse(client, msg)) {
             return Game.Answer.newBuilder()
                     .setRequest("nickname is already in use")
                     .setCode(403)
                     .setType(PLAYER)
                     .build();
-        } else if (addName(nameClient, ctx.toString(), msg)) {
-            answerClient.setNameClient(nameClient);
+        } else if (addName(client, ctx.toString(), msg)) {
+            answerClient.setClient(client);
             return Game.Answer.newBuilder()
                     .setRequest("Nickname changed")
                     .setCode(200)

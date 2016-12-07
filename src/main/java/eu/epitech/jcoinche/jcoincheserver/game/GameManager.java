@@ -1,7 +1,6 @@
 package eu.epitech.jcoinche.jcoincheserver.game;
 
 import eu.epitech.jcoinche.protobuf.Game;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.ArrayList;
@@ -15,10 +14,12 @@ import static eu.epitech.jcoinche.protobuf.Game.Card.CardValue.*;
  */
 public class GameManager {
 
-    ArrayList clientSocket = new ArrayList();
-    ArrayList nameClient = new ArrayList();
+    ArrayList client = new ArrayList();
+
     ArrayList lastTrick = new ArrayList();
     ArrayList currentTrick = new ArrayList();
+
+    public boolean testMode = false;
 
     private boolean play = false;
     private int turn = -1;
@@ -76,23 +77,40 @@ public class GameManager {
     }
 
     public void addClient(String name, ChannelHandlerContext ctx) {
-        clientSocket.add(ctx.channel());
-        nameClient.add(name);
+        client.add(new Person(ctx, name, client.size()));
     }
 
     public boolean isInGame(ChannelHandlerContext ctx) {
-        for (Object c : clientSocket) {
-            if (c == ctx.channel())
+        for (Object c : client) {
+            if (((Person) c).getCtx() == ctx.channel())
                 return true;
         }
         return false;
     }
 
+    public Person getPersonByChannel(ChannelHandlerContext ctx) {
+        for (Object c : client) {
+            if (((Person) c).getCtx() == ctx)
+                return (Person) c;
+        }
+        return null;
+    }
+
+    public Person getPersonByName(String name) {
+        for (Object c : client) {
+            if (((Person) c).getName().contains(name))
+                return (Person) c;
+        }
+        return null;
+    }
+
     public Game.Answer sendMessageToAllPersonInGame(int clientPosition, String msg) {
         int i = 0;
-        for (Object c: clientSocket) {
+        for (Object c: client) {
             if (i != clientPosition)
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("[" + nameClient.get(clientPosition) + "] " +msg).setType(Game.Answer.Type.NONE).setCode(300).build());
+                ((Person) c).getCtx().writeAndFlush(Game.Answer.newBuilder()
+                        .setRequest("[" + ((Person) c).getName() + "] " + msg)
+                        .setType(Game.Answer.Type.NONE).setCode(300).build());
             ++i;
         }
         return Game.Answer.newBuilder()
@@ -105,9 +123,10 @@ public class GameManager {
 
     public Game.Answer sendMessageToAllPersonToInteract(int clientPosition, String msg) {
         int i = 0;
-        for (Object c: clientSocket) {
+        for (Object c: client) {
             if (i != clientPosition)
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(Game.Answer.Type.GAME).setCode(0).build());
+                (((Person) c)).getCtx().writeAndFlush(Game.Answer.newBuilder().setRequest(msg)
+                        .setType(Game.Answer.Type.GAME).setCode(0).build());
             ++i;
         }
         return Game.Answer.newBuilder()
@@ -119,37 +138,38 @@ public class GameManager {
     }
 
     public void sendMessageToAllPersonInGame(String msg) {
-        for (Object c: clientSocket) {
-            ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest(msg).setType(Game.Answer.Type.NONE).setCode(300).build());
+        for (Object c: client) {
+            (((Person) c)).getCtx().writeAndFlush(Game.Answer.newBuilder().setRequest(msg)
+                    .setType(Game.Answer.Type.NONE).setCode(300).build());
         }
     }
 
-    public Game.Answer interpreteBidding(ChannelHandlerContext ctx, Game.Bidding bidding) {
+    public Game.Answer interpreteBidding(Person person, Game.Bidding bidding) {
         Game.Answer answer;
 
-        if (getClientPosition(ctx) == turn) {
-            answer = BiddingManager.interpreteBidding(this, ctx, bidding, contract);
+        if (person.getPos() == turn) {
+            answer = BiddingManager.interpreteBidding(this, person, bidding, contract);
             if (answer.getCode() == 200)
-                personWhoBet = getClientPosition(ctx);
+                personWhoBet = person.getPos();
             else if (answer.getCode() == 201)
-                personWhoCoinche = getClientPosition(ctx);
+                personWhoCoinche = person.getPos();
             else if (answer.getCode() == 202) {
-                personWhoSurCoinche = getClientPosition(ctx);
+                personWhoSurCoinche = person.getPos();
                 this.bidding = false;
             } else if (answer.getCode() == 203) {
-                personWhoCapot = getClientPosition(ctx);
+                personWhoCapot = person.getPos();
                 this.bidding = false;
             }
         } else {
             answer = Game.Answer.newBuilder()
                     .setRequest("It's not your turn")
                     .setCode(400)
-                    .setCards(getDeck(getClientPosition(ctx)))
+                    .setCards(getDeck(person.getPos()))
                     .setType(Game.Answer.Type.NONE)
                     .build();
         }
-        ctx.writeAndFlush(answer);
-        sendMessageToAllPersonInGame(getClientPosition(ctx), message);
+        if (!testMode)
+            sendMessageToAllPersonInGame(person.getPos(), message);
         return answer;
     }
 
@@ -158,25 +178,25 @@ public class GameManager {
     }
 
     public boolean isFullGame() {
-        return nameClient.size() == 4 ? true : false;
+        return client.size() == 4 ? true : false;
     }
 
     public boolean partyCanBegin() {
-        return NameManager.partyCanBegin(nameClient);
+        return NameManager.partyCanBegin(client);
     }
 
     public void giveCardToAllPlayers() {
         cm.generateCardForAllPlayer();
-        cm.giveCardToAllPlayers(clientSocket);
+        cm.giveCardToAllPlayers(client);
         turn = 0;
         bidding = true;
     }
 
     public void askPlayerOneToBid() {
         int i = 0;
-        for (Object c : clientSocket) {
+        for (Object c : client) {
             if (i == 0)
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder()
+                ((Person) c).getCtx().writeAndFlush(Game.Answer.newBuilder()
                         .setRequest("Your turn, you are allowed to bid.")
                         .setCode(200).setType(BIDDING)
                         .setCards(getDeck(i))
@@ -190,9 +210,10 @@ public class GameManager {
         System.out.println("send invite to play to " + turnPersonToPlay);
         turnPersonToPlay = turnPersonToPlay == 3 ? 0 : turnPersonToPlay + 1;
         turn = turnPersonToPlay;
-        for (Object c : clientSocket) {
+        for (Object c : client) {
             if (i == turnPersonToPlay)
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("Your turn, you have to play.").setCode(200).setType(NONE)
+                ((Person) c).getCtx().writeAndFlush(Game.Answer.newBuilder()
+                        .setRequest("Your turn, you have to play.").setCode(200).setType(NONE)
                         .setCards(getDeck(i)).build());
             ++i;
         }
@@ -209,17 +230,18 @@ public class GameManager {
             return ;
         }
         int i = 0;
-        for (Object c : clientSocket) {
+        for (Object c : client) {
             if (i == turn)
-                ((Channel) c).writeAndFlush(Game.Answer.newBuilder().setRequest("Your turn, " + msg).setCode(200).setType(type).setCards(getDeck(i)).build());
+                ((Person) c).getCtx().writeAndFlush(Game.Answer.newBuilder().setRequest("Your turn, " + msg)
+                        .setCode(200).setType(type).setCards(getDeck(i)).build());
             ++i;
         }
     }
 
     public int getClientPosition(ChannelHandlerContext ctx) {
         int i = 0;
-        for (Object c : clientSocket) {
-            if (c == ctx.channel()) {
+        for (Object c : client) {
+            if (((Person) c).getCtx() == ctx.channel()) {
                 break;
             }
             ++i;
@@ -239,19 +261,19 @@ public class GameManager {
     }
 
     public void checkIfPartyCanRun() {
-        System.out.println("enter checkif party can run");
         if ((contract != -1 && nbTurnInactive == 3) ||
                 capot || surCoinche) {
             bidding = false;
             game = true;
             while (turn < 4) {
-                ((Channel) clientSocket.get(turn)).writeAndFlush(
-                Game.Answer.newBuilder()
-                        .setRequest("You may change your or send message or do what you want! Enjoy!")
-                        .setCode(200)
-                        .setCards(getDeck(turn))
-                        .setType(GAME)
-                        .build());
+                if (!testMode)
+                    ((Person) client.get(turn)).getCtx().writeAndFlush(
+                    Game.Answer.newBuilder()
+                            .setRequest("You may change your or send message or do what you want! Enjoy!")
+                            .setCode(200)
+                            .setCards(getDeck(turn))
+                            .setType(GAME)
+                            .build());
                 ++turn;
             }
             if (turnPersonToPlay != -1)
@@ -265,13 +287,12 @@ public class GameManager {
             nbTrick4 = 0;
             scoreTeamParty1 = 0;
             scoreTeamParty2 = 0;
-            System.out.println("just put game to true");
         } else if (contract == -1 && nbTurnInactive == 4) {
             bidding = true;
             cm = new CardManager();
             turn = 3;
             cm.generateCardForAllPlayer();
-            cm.giveCardToAllPlayers(clientSocket);
+            cm.giveCardToAllPlayers(client);
             sendMessageToAllPersonInGame("Nobody put a contract we will give new cards.");
         }
     }
@@ -279,8 +300,7 @@ public class GameManager {
     public void deleteClient(int clientPosition) {
         bidding = false;
         game = false;
-        clientSocket.remove(clientPosition);
-        nameClient.remove(clientPosition);
+        client.remove(clientPosition);
     }
 
     public int getNbTurnInactive() {
@@ -293,10 +313,6 @@ public class GameManager {
 
     public void setDeck(int pos, Game.DistributionCard deck) {
         cm.setDeckWithPosition(pos, deck);
-    }
-
-    public String getNameFromClient(ChannelHandlerContext ctx) {
-        return (String) nameClient.get(getClientPosition(ctx));
     }
 
     public void setAtout(Game.Bidding.Options atout) {
@@ -463,20 +479,8 @@ public class GameManager {
         this.turnPos = turnPos;
     }
 
-    public ArrayList getClientSocket() {
-        return clientSocket;
-    }
-
-    public ArrayList getNameClient() {
-        return nameClient;
-    }
-
     public Game.Answer setName(String name) {
-        return NameManager.setName(this, nameClient, ctxTmp, name);
-    }
-
-    public void setNameClient(ArrayList nameClient) {
-        this.nameClient = nameClient;
+        return NameManager.setName(this, client, ctxTmp, name);
     }
 
     public void setPlay(boolean play) {
@@ -491,17 +495,17 @@ public class GameManager {
 
     public boolean getGame() { return game; }
 
-    public void setContract(int contract, ChannelHandlerContext ctx) { this.contract = contract; personWhoBet = getClientPosition(ctx); }
+    public void setContract(int contract, int pos) { this.contract = contract; personWhoBet = pos; }
 
-    public void setCoinche(boolean coinche, ChannelHandlerContext ctx) { this.coinche = coinche; this.personWhoCoinche = getClientPosition(ctx); }
+    public void setCoinche(boolean coinche, int pos) { this.coinche = coinche; this.personWhoCoinche = pos; }
 
-    public void setSurCoinche(boolean surCoinche, ChannelHandlerContext ctx) { this.surCoinche = surCoinche; this.personWhoSurCoinche = getClientPosition(ctx); bidding = false; }
+    public void setSurCoinche(boolean surCoinche, int pos) { this.surCoinche = surCoinche; this.personWhoSurCoinche = pos; bidding = false; }
 
-    public void setCapot(boolean capot, ChannelHandlerContext ctx) { this.capot= capot; personWhoCapot = getClientPosition(ctx); bidding = false; }
+    public void setCapot(boolean capot, int pos) { this.capot= capot; personWhoCapot = pos; bidding = false; }
 
-    public void setGenerale(boolean generale, ChannelHandlerContext ctx) {
+    public void setGenerale(boolean generale, int pos) {
         this.generale = generale;
-        personWhoGenerale = getClientPosition(ctx);
+        personWhoGenerale = pos;
     }
 
     public boolean getCoinche() { return this.coinche; }
@@ -512,5 +516,13 @@ public class GameManager {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public void setClient(ArrayList client) {
+        this.client = client;
+    }
+
+    public ArrayList getClient() {
+        return client;
     }
 }

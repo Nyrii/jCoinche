@@ -1,7 +1,6 @@
 package eu.epitech.jcoinche.jcoincheserver.game;
 
 import eu.epitech.jcoinche.protobuf.Game;
-import io.netty.channel.Channel;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -192,7 +191,7 @@ public class CardManager {
                     .setCode(200)
                     .setRequest("Cards have been distributed!")
                     .build();
-            ((Channel) c).writeAndFlush(answer);
+            ((Person) c).getCtx().writeAndFlush(answer);
             ++i;
         }
     }

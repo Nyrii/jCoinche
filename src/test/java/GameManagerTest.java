@@ -1,5 +1,6 @@
 import eu.epitech.jcoinche.jcoincheserver.game.CardManager;
 import eu.epitech.jcoinche.jcoincheserver.game.GameManager;
+import eu.epitech.jcoinche.jcoincheserver.game.Person;
 import eu.epitech.jcoinche.protobuf.Game;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -25,38 +26,102 @@ public class GameManagerTest {
     Game.DistributionCard deck;
     Game.GameProgress gameProgress;
     Game.Answer answer;
+    static ArrayList client;
 
     @BeforeClass
     public static void initGameManager() throws Exception {
         gm = new GameManager();
-        gm.setAtout(HEARTS);
-        cm = gm.getCardManager();
-        gm.setTurn(0);
-        cm.generateCardTest1();
+        gm.testMode = true;
+//        gm.setAtout(HEARTS);
+//        cm = gm.getCardManager();
+//        gm.setTurn(0);
+//        cm.generateCardTest1();
         System.out.println("beforeClass");
+        client = new ArrayList();
     }
 
     @Test
     public void testFirstTurnAtoutOffAllPlayer() {
-//        //play atout
-//        testIfPlayerOneCanPlayCard(0);
-//        //play atout less important but has a biggest one
-//        testIfPlayerTwoCannotPlayCard(0);
-//        //play biggest atout
-//        testIfPlayerTwoCanPlayCard(1);
-//        //play biggest atout
-//        testIfPlayerThreeCanPlayCard(0);
-//        //play atout less important than prev but doesn't have better
-//        testIfPlayerFourCanPlayCard(0);
-//        gm.setAtout(SPADES);
-//        cm.generateCardTest2();
-//        gm.setCurrentTrick(new ArrayList());
-//        //play non atout
-//        testIfPlayerOneCanPlayCard(0);
-//        //play atout but has colour so it's not okay
-//        testIfPlayerTwoCannotPlayCard(2);
-//        //prev player didn't play so he cannot play
-//        testIfPlayerThreeCannotPlayCard(0);
+
+        initFourPlayers();
+
+        biddingPart();
+
+        //play atout
+        testIfPlayerOneCanPlayCard(0);
+        //play atout less important but has a biggest one
+        testIfPlayerTwoCannotPlayCard(0);
+        //play biggest atout
+        testIfPlayerTwoCanPlayCard(1);
+        //play biggest atout
+        testIfPlayerThreeCanPlayCard(0);
+        //play atout less important than prev but doesn't have better
+        testIfPlayerFourCanPlayCard(0);
+        gm.setAtout(SPADES);
+        cm.generateCardTest2();
+        gm.setCurrentTrick(new ArrayList());
+        //play non atout
+        testIfPlayerOneCanPlayCard(0);
+        //play atout but has colour so it's not okay
+        testIfPlayerTwoCannotPlayCard(2);
+        //prev player didn't play so he cannot play
+        testIfPlayerThreeCannotPlayCard(0);
+    }
+
+    private void biddingPart() {
+
+        gm.setTurn(0);
+        answer = bid((Person) client.get(0), true, 85, HEARTS);
+        assertTrue("Error bidding didn't pass for player one", answer.getCode() == 200);
+
+        gm.setTurn(1);
+        answer = bid((Person) client.get(1), false, true);
+        assertTrue("Error bidding didn't pass for player two", answer.getCode() < 300);
+
+        gm.setTurn(2);
+        answer = bid((Person) client.get(2), true, 100, HEARTS);
+        assertTrue("Error bidding didn't pass for player three", answer.getCode() == 200);
+
+        gm.setTurn(3);
+        answer = bid((Person) client.get(3), false, true);
+        assertTrue("Error bidding didn't pass for player four", answer.getCode() < 300);
+
+        gm.setTurn(0);
+        answer = bid((Person) client.get(0), false, true);
+        System.out.println(answer);
+        assertTrue("Error bidding didn't pass for player one again", answer.getCode() < 300);
+
+        gm.setTurn(1);
+        answer = bid((Person) client.get(1), false, true);
+        assertTrue("Error bidding didn't pass for player two again", answer.getCode() < 300);
+
+
+    }
+
+    private Game.Answer bid(Person person, boolean bid, int amount, Game.Bidding.Options option) {
+        return gm.interpreteBidding(person, Game.Bidding.newBuilder()
+                .setBid(bid)
+                .setAmount(amount)
+                .setOption(option)
+                .build());
+    }
+
+    private Game.Answer bid(Person person, boolean bid, boolean pass) {
+        return gm.interpreteBidding(person, Game.Bidding.newBuilder()
+                .setBid(bid)
+                .setPass(pass)
+                .build());
+    }
+
+    public void initFourPlayers() {
+        gm.addClient("toto", null);
+        gm.addClient("tata", null);
+        gm.addClient("titi", null);
+        gm.addClient("tutu", null);
+        client.add(gm.getPersonByName("toto"));
+        client.add(gm.getPersonByName("tata"));
+        client.add(gm.getPersonByName("titi"));
+        client.add(gm.getPersonByName("tutu"));
     }
 
     public void testIfPlayerOneCanPlayCard(int index) {
@@ -64,13 +129,13 @@ public class GameManagerTest {
         deck = cm.getDeckFromPosition(0);
         gameProgress = Game.GameProgress.newBuilder()
                 .setCommand(PLAY)
-                .setCard(deck.getCard(index))
+//                .setCard(deck.getCard(index))
                 .build();
         answer = gm.interpreteGaming(0, gameProgress);
-        System.out.println(deck.getCard(0));
-        assertTrue("Error first card of first player isn't accepted for first trick", answer.getCode() == 200);
+//        System.out.println(deck.getCard(0));
+//        assertTrue("Error first card of first player isn't accepted for first trick", answer.getCode() == 200);
         answer = gm.interpreteGaming(1, gameProgress);
-        assertTrue("Error first card of first player is accepted when second player use it", answer.getCode() == 400);
+//        assertTrue("Error first card of first player is accepted when second player use it", answer.getCode() == 400);
         gm.setTurn(gm.getTurn() == 3 ? 0 : gm.getTurn() + 1);
     }
 
@@ -79,11 +144,11 @@ public class GameManagerTest {
         deck = cm.getDeckFromPosition(1);
         gameProgress = Game.GameProgress.newBuilder()
                 .setCommand(PLAY)
-                .setCard(deck.getCard(index))
+//                .setCard(deck.getCard(index))
                 .build();
-        System.out.println(deck.getCard(0));
+//        System.out.println(deck.getCard(0));
         answer = gm.interpreteGaming(1, gameProgress);
-        assertTrue("Error first card of second player greater than first card of first player isn't accepted", answer.getCode() == 200);
+//        assertTrue("Error first card of second player greater than first card of first player isn't accepted", answer.getCode() == 200);
         gm.setTurn(gm.getTurn() == 3 ? 0 : gm.getTurn() + 1);
     }
 
@@ -92,11 +157,11 @@ public class GameManagerTest {
         deck = cm.getDeckFromPosition(2);
         gameProgress = Game.GameProgress.newBuilder()
                 .setCommand(PLAY)
-                .setCard(deck.getCard(index))
+//                .setCard(deck.getCard(index))
                 .build();
-        System.out.println(deck.getCard(0));
+//        System.out.println(deck.getCard(0));
         answer = gm.interpreteGaming(2, gameProgress);
-        assertTrue("Error first card of third player greater than first card of second player isn't accepted", answer.getCode() == 200);
+//        assertTrue("Error first card of third player greater than first card of second player isn't accepted", answer.getCode() == 200);
         gm.setTurn(gm.getTurn() == 3 ? 0 : gm.getTurn() + 1);
     }
 
@@ -105,11 +170,11 @@ public class GameManagerTest {
         deck = cm.getDeckFromPosition(1);
         gameProgress = Game.GameProgress.newBuilder()
                 .setCommand(PLAY)
-                .setCard(deck.getCard(index))
+//                .setCard(deck.getCard(index))
                 .build();
-        System.out.println(deck.getCard(0));
+//        System.out.println(deck.getCard(0));
         answer = gm.interpreteGaming(1, gameProgress);
-        assertTrue("Error first card of second player greater than first card of first player is accepted", answer.getCode() == 400);
+//        assertTrue("Error first card of second player greater than first card of first player is accepted", answer.getCode() == 400);
     }
 
     public void testIfPlayerThreeCannotPlayCard(int index) {
@@ -117,11 +182,11 @@ public class GameManagerTest {
         deck = cm.getDeckFromPosition(2);
         gameProgress = Game.GameProgress.newBuilder()
                 .setCommand(PLAY)
-                .setCard(deck.getCard(index))
+//                .setCard(deck.getCard(index))
                 .build();
-        System.out.println(deck.getCard(0));
+//        System.out.println(deck.getCard(0));
         answer = gm.interpreteGaming(2, gameProgress);
-        assertTrue("Error first card of third player greater than first card of second player is accepted", answer.getCode() == 400);
+//        assertTrue("Error first card of third player greater than first card of second player is accepted", answer.getCode() == 400);
     }
 
     public void testIfPlayerFourCanPlayCard(int index) {
@@ -129,12 +194,12 @@ public class GameManagerTest {
         deck = cm.getDeckFromPosition(3);
         gameProgress = Game.GameProgress.newBuilder()
                 .setCommand(PLAY)
-                .setCard(deck.getCard(index))
+//                .setCard(deck.getCard(index))
                 .build();
         //first time he will play king atout after Jack which is the biggest so he cannot go up but the card has to be accept
-        System.out.println(deck.getCard(0));
+//        System.out.println(deck.getCard(0));
         answer = gm.interpreteGaming(3, gameProgress);
-        assertTrue("Error first card of fourth player greater than first card of third player isn't accepted", answer.getCode() == 200);
+//        assertTrue("Error first card of fourth player greater than first card of third player isn't accepted", answer.getCode() == 200);
         gm.setTurn(gm.getTurn() == 3 ? 0 : gm.getTurn() + 1);
     }
 }

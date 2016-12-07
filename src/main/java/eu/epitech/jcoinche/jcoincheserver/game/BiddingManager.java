@@ -1,7 +1,6 @@
 package eu.epitech.jcoinche.jcoincheserver.game;
 
 import eu.epitech.jcoinche.protobuf.Game;
-import io.netty.channel.ChannelHandlerContext;
 
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.BIDDING;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
@@ -10,7 +9,7 @@ import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
  * Created by Saursinet on 06/12/2016.
  */
 public class BiddingManager {
-    private static Game.Answer setResponseifBid(GameManager gm, ChannelHandlerContext ctx, Game.Bidding bidding, int contract) {
+    private static Game.Answer setResponseifBid(GameManager gm, Person person, Game.Bidding bidding, int contract) {
         int code;
         String str;
         Game.Answer.Type typeAnswer = BIDDING;
@@ -19,16 +18,16 @@ public class BiddingManager {
             code = 203;
             gm.setAtout(bidding.getOption());
             str = "Just annonced capot";
-            gm.setCapot(true, ctx);
+            gm.setCapot(true, person.getPos());
             typeAnswer = GAME;
-            gm.setMessage(gm.getNameFromClient(ctx) + " announced capot at " + bidding.getOption());
+            gm.setMessage(person.getName() + " announced capot at " + bidding.getOption());
         } else if (bidding.getContract() == Game.Bidding.Contract.GENERALE) {
             code = 204;
             gm.setAtout(bidding.getOption());
             str = "Just annonced generale";
-            gm.setGenerale(true, ctx);
+            gm.setGenerale(true, person.getPos());
             typeAnswer = GAME;
-            gm.setMessage(gm.getNameFromClient(ctx) + " announced capot at " + bidding.getOption());
+            gm.setMessage(person.getName() + " announced capot at " + bidding.getOption());
         } else if (bidding.getAmount() < 80) {
             code = 400;
             str = "Bidding to low, minimum is 80";
@@ -41,20 +40,20 @@ public class BiddingManager {
         } else {
             code = 200;
             str = "Bidding okay";
-            gm.setMessage(gm.getNameFromClient(ctx) + " announced a bidding with " + bidding.getAmount() + " at " + bidding.getOption());
-            gm.setContract(bidding.getAmount(), ctx);
+            gm.setMessage(person.getName() + " announced a bidding with " + bidding.getAmount() + " at " + bidding.getOption());
+            gm.setContract(bidding.getAmount(), person.getPos());
             gm.setAtout(bidding.getOption());
             typeAnswer = GAME;
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)
                 .setCode(code)
-                .setCards(gm.getDeck(gm.getClientPosition(ctx)))
+                .setCards(gm.getDeck(person.getPos()))
                 .setType(typeAnswer)
                 .build();
     }
 
-    private static Game.Answer setResponseIfCoinche(GameManager gm, int contract, ChannelHandlerContext ctx) {
+    private static Game.Answer setResponseIfCoinche(GameManager gm, int contract, Person person) {
         int code;
         String str;
         Game.Answer.Type typeAnswer = BIDDING;
@@ -65,28 +64,28 @@ public class BiddingManager {
         } else if (contract == -1) {
             code = 400;
             str = "There is no contract to coinche";
-        } else if (gm.getPersonWhoBet() == gm.getClientPosition(ctx)) {
+        } else if (gm.getPersonWhoBet() == person.getPos()) {
             code = 400;
             str = "You cannot coinche yourself";
-        } else if (gm.arePartner(gm.getPersonWhoBet(), gm.getClientPosition(ctx))) {
+        } else if (gm.arePartner(gm.getPersonWhoBet(), person.getPos())) {
             code = 400;
             str = "You cannot coinche your partner";
         } else {
-            gm.setCoinche(true, ctx);
+            gm.setCoinche(true, person.getPos());
             code = 201;
             str = "You just coinched the other player";
-            gm.setMessage(gm.getNameFromClient(ctx) + " coinched the other team");
+            gm.setMessage(person.getName() + " coinched the other team");
             typeAnswer = GAME;
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)
                 .setCode(code)
-                .setCards(gm.getDeck(gm.getClientPosition(ctx)))
+                .setCards(gm.getDeck(person.getPos()))
                 .setType(typeAnswer)
                 .build();
     }
 
-    private static Game.Answer setResponseIfSurCoinche(GameManager gm, ChannelHandlerContext ctx) {
+    private static Game.Answer setResponseIfSurCoinche(GameManager gm, Person person) {
         int code;
         String str;
         Game.Answer.Type typeAnswer = BIDDING;
@@ -94,41 +93,41 @@ public class BiddingManager {
         if (gm.getSurCoinche()) {
             code = 400;
             str = "A person has already surcoinche";
-        } else if (gm.getPersonWhoBet() != gm.getClientPosition(ctx)) {
+        } else if (gm.getPersonWhoBet() != person.getPos()) {
             code = 400;
-            System.out.println("person who bet = " + gm.getPersonWhoBet() + "  et pos = " + gm.getClientPosition(ctx) + " name :" + gm.getNameFromClient(ctx));
+            System.out.println("person who bet = " + gm.getPersonWhoBet() + "  et pos = " + person.getPos() + " name :" + person.getName());
             str = "You cannot surcoinche if you didn't bet at first";
         } else {
-            gm.setSurCoinche(true, ctx);
+            gm.setSurCoinche(true, person.getPos());
             code = 202;
             str = "You just surcoinched the other player";
-            gm.setMessage(gm.getNameFromClient(ctx) + " surcoinched");
+            gm.setMessage(person.getName() + " surcoinched");
             typeAnswer = GAME;
         }
         return Game.Answer.newBuilder()
                 .setRequest(str)
                 .setCode(code)
-                .setCards(gm.getDeck(gm.getClientPosition(ctx)))
+                .setCards(gm.getDeck(person.getPos()))
                 .setType(typeAnswer)
                 .build();
     }
 
-    public static Game.Answer interpreteBidding(GameManager gm, ChannelHandlerContext ctx, Game.Bidding bidding, int contract) {
+    public static Game.Answer interpreteBidding(GameManager gm, Person person, Game.Bidding bidding, int contract) {
         Game.Answer answer;
         boolean pastInElse = false;
 
         if (bidding.getBid()) {
-            answer = setResponseifBid(gm, ctx, bidding, contract);
+            answer = setResponseifBid(gm, person, bidding, contract);
         } else if (bidding.getCoinche()) {
-            answer = setResponseIfCoinche(gm, contract, ctx);
+            answer = setResponseIfCoinche(gm, contract, person);
         } else if (bidding.getSurcoinche()) {
-            answer = setResponseIfSurCoinche(gm, ctx);
+            answer = setResponseIfSurCoinche(gm, person);
         } else {
             answer = Game.Answer.newBuilder()
                     .setRequest("You just pass your turn!")
                     .setCode(205)
                     .setType(GAME)
-                    .setCards(gm.getDeck(gm.getClientPosition(ctx)))
+                    .setCards(gm.getDeck(person.getPos()))
                     .build();
             gm.addInactiveTurn(gm.getNbTurnInactive() + 1);
             pastInElse = true;
