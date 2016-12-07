@@ -74,7 +74,7 @@ public class PartyManager {
         int code = 400;
         if (gm.getTurn() != clientPosition) {
             System.out.println("turn = " + gm.getTurn());
-            gm.setMessage("Not your turn to play");
+            gm.setMessage("Please, wait for your turn.");
             type = Game.Answer.Type.NONE;
         } else {
             Game.DistributionCard deck = gm.getDeck(clientPosition);
@@ -84,18 +84,20 @@ public class PartyManager {
                         card.getCardValue() == game.getCard().getCardValue())
                     found = true;
             }
-            if (game.getCard().getCardType() == Game.Card.CardType.INVALID_TYPE)
-                gm.setMessage("Wrong Card that type doesn't exist.");
-            else if (game.getCard().getCardValue() == Game.Card.CardValue.INVALID_VALUE)
-                gm.setMessage("Wrong Card that value doesn't exist.");
-            else if (!found)
-                gm.setMessage("This Card doesn't belong to you.");
+            if (game.getCard().getCardType() == Game.Card.CardType.INVALID_TYPE || game.getCard().getCardValue() == Game.Card.CardValue.INVALID_VALUE) {
+                code = 421;
+                gm.setMessage("This card is not in your deck.");
+            }
+            else if (!found) {
+                code = 422;
+                gm.setMessage("This card doesn't belong to you.");
+            }
             else if (!checkValidityOfMovement(clientPosition, game.getCard()))
                 ;
             else {
                 gm.getCurrentTrick().add(game.getCard());
                 deleteCardFromDeck(game.getCard(), deck, clientPosition);
-                gm.setMessage("Turn okay");
+                gm.setMessage("Your turn has been taken into account.");
                 code = 200;
                 type = Game.Answer.Type.NONE;
             }
@@ -138,7 +140,7 @@ public class PartyManager {
         gm.setLastTrick(gm.getCurrentTrick());
         gm.setCurrentTrick(new ArrayList());
         if (gm.getEnd()) {
-            gm.sendMessageToAllPersonInGame("I delete the room for now because game is over");
+            gm.sendMessageToAllPersonInGame("I delete the room for now because game is over"); // ?
             for (Object person : gm.client) {
                 ((Person) person).getCtx().close();
             }
@@ -299,8 +301,8 @@ public class PartyManager {
         } else {
             if (((Game.Card) gm.getCurrentTrick().get(0)).getCardType() != card.getCardType()) {
                 if (hasOneTypeOfCard(clientPosition, ((Game.Card) gm.getCurrentTrick().get(0)).getCardType())) {
-                    System.err.println("player don't put good colour");
-                    gm.setMessage("player don't put good colour");
+                    System.err.println("player did not put good colour");
+                    gm.setMessage("player did not put good colour");
                     return false;
                 }
                 else if (isAtout(card) && isAtout(biggestCardInTrickAtout(gm.getCurrentTrick())) && !checkIfPlayerCannotGoUp(biggestCardInTrickAtout(gm.getCurrentTrick()), gm.getDeck(clientPosition))) {
@@ -316,8 +318,8 @@ public class PartyManager {
     private static boolean checkToutAtout(int clientPosition, Game.Card card) {
         if (((Game.Card) gm.getCurrentTrick().get(0)).getCardType() != card.getCardType() &&
                 hasOneTypeOfCard(clientPosition, ((Game.Card) gm.getCurrentTrick().get(0)).getCardType())) {
-            System.err.println("player don't put good colour");
-            gm.setMessage("player don't put good colour");
+            System.err.println("player did not put good colour");
+            gm.setMessage("player did not put good colour");
             return false;
         }
         if (!isBiggerValueAtout(card.getCardValue(), biggestCardInTrickToutAtout(gm.getCurrentTrick()).getCardValue()) &&
@@ -332,8 +334,8 @@ public class PartyManager {
     private static boolean checkWhithoutAtout(int clientPosition, Game.Card card) {
         if (((Game.Card) gm.getCurrentTrick().get(0)).getCardType() != card.getCardType()) {
             if (hasOneTypeOfCard(clientPosition, ((Game.Card) gm.getCurrentTrick().get(0)).getCardType())) {
-                System.err.println("player don't put good colour");
-                gm.setMessage("player don't put good colour");
+                System.err.println("player did not put good colour");
+                gm.setMessage("player did not put good colour");
                 return false;
             }
         }
@@ -445,7 +447,7 @@ public class PartyManager {
 
     private static Game.Answer sendInvalidCommand() {
         return Game.Answer.newBuilder()
-                .setRequest("The command is invalid")
+                .setRequest("Invalid command")
                 .setCode(400)
                 .setType(GAME)
                 .build();
@@ -454,15 +456,15 @@ public class PartyManager {
     private static Game.Answer showLastTrick() {
         return Game.Answer.newBuilder()
                 .setRequest("There is the last trick played :" + gm.getLastTrick().toString())
-                .setCode(301)
+                .setCode(200)
                 .setType(GAME)
                 .build();
     }
 
     private static Game.Answer sendHandToPlayer(int clientPosition) {
         return Game.Answer.newBuilder()
-                .setRequest("There is your hand" + gm.getDeck(clientPosition).toString())
-                .setCode(300)
+                .setRequest("There is your hand :\n" + gm.getDeck(clientPosition).toString())
+                .setCode(200)
                 .setType(GAME)
                 .build();
     }

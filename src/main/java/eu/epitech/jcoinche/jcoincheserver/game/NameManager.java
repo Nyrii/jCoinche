@@ -46,7 +46,7 @@ public class NameManager {
     public static Game.Answer setName(GameManager answerClient, ArrayList client, ChannelHandlerContext ctx, String msg) {
         if (nameAlreadyInUse(client, msg)) {
             return Game.Answer.newBuilder()
-                    .setRequest("nickname is already in use")
+                    .setRequest("Nickname is already in use")
                     .setCode(403)
                     .setType(PLAYER)
                     .build();

@@ -79,8 +79,8 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
             return ;
         if (answer.getCode() == -1) {
             if (gm != null)
-                 gm.sendMessageToAllPersonInGame(gm.getClientPosition(arg0), " just quit the game");
-            System.out.println(arg0.channel().remoteAddress() + " just quit the game");
+                 gm.sendMessageToAllPersonInGame(gm.getClientPosition(arg0), " left the game");
+            System.out.println(arg0.channel().remoteAddress() + " left the game");
             arg0.close();
             return ;
         }

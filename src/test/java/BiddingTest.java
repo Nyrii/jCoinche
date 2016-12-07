@@ -27,7 +27,7 @@ public class BiddingTest {
     private static Connection connection = null;
     private static Thread one;
     private static Server server = null;
-    private Bidding bidding = new Bidding();
+    private static Bidding bidding = new Bidding();
     private Game.Bidding.Builder bidBuilder = Game.Bidding.newBuilder();
 
     @BeforeClass
@@ -62,6 +62,10 @@ public class BiddingTest {
         connection.requestPort("4242");
         try {
             connection.connect();
+
+            BufferedReader bufferedReader = Mockito.mock(BufferedReader.class);
+            Mockito.when(bufferedReader.readLine()).thenReturn("90", "ta");
+            assertEquals(true, bidding.bid(bufferedReader, connection.get_channel()));
         } catch (Exception e) {
             System.err.println(e.getMessage());
             connection = null;
@@ -316,6 +320,7 @@ public class BiddingTest {
         }
     }
 
+    @Ignore
     @Test
     public void testLeaveGame() {
         LeaveGame.leave();

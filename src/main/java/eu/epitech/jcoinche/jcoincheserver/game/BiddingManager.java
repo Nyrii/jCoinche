@@ -29,14 +29,14 @@ public class BiddingManager {
             typeAnswer = GAME;
             gm.setMessage(person.getName() + " announced capot at " + bidding.getOption());
         } else if (bidding.getAmount() < 80) {
-            code = 400;
-            str = "Bidding to low, minimum is 80";
+            code = 432;
+            str = "The minimum bidding value is 80.";
         } else if (bidding.getAmount() > 160) {
-            code = 400;
-            str = "Bidding to high, maximum is 160 or capot";
+            code = 433;
+            str = "The maximum bidding value is 160.";
         } else if (bidding.getAmount() <= contract) {
-            code = 400;
-            str = "Bidding to low, a previous bidding was " + contract;
+            code = 434;
+            str = "A player already bidded " + contract;
         } else {
             code = 200;
             str = "Bidding okay";
@@ -59,21 +59,18 @@ public class BiddingManager {
         Game.Answer.Type typeAnswer = BIDDING;
 
         if (gm.getCoinche()) {
-            code = 400;
-            str = "A person has already coinche";
+            code = 442;
+            str = "A player already coinched";
         } else if (contract == -1) {
-            code = 400;
-            str = "There is no contract to coinche";
-        } else if (gm.getPersonWhoBet() == person.getPos()) {
-            code = 400;
-            str = "You cannot coinche yourself";
-        } else if (gm.arePartner(gm.getPersonWhoBet(), person.getPos())) {
-            code = 400;
-            str = "You cannot coinche your partner";
+            code = 443;
+            str = "Coinche cannot be announced until a contract is made";
+        } else if (gm.getPersonWhoBet() == person.getPos() || gm.arePartner(gm.getPersonWhoBet(), person.getPos())) {
+            code = 444;
+            str = "you cannot coinche a contract that you or your partner already coinched";
         } else {
             gm.setCoinche(true, person.getPos());
-            code = 201;
-            str = "You just coinched the other player";
+            code = 200;
+            str = "Coinche has been counted";
             gm.setMessage(person.getName() + " coinched the other team");
             typeAnswer = GAME;
         }
@@ -91,12 +88,12 @@ public class BiddingManager {
         Game.Answer.Type typeAnswer = BIDDING;
 
         if (gm.getSurCoinche()) {
-            code = 400;
-            str = "A person has already surcoinche";
+            code = 452;
+            str = "A player already surcoinched";
         } else if (gm.getPersonWhoBet() != person.getPos()) {
-            code = 400;
+            code = 453;
             System.out.println("person who bet = " + gm.getPersonWhoBet() + "  et pos = " + person.getPos() + " name :" + person.getName());
-            str = "You cannot surcoinche if you didn't bet at first";
+            str = "Surcoinche cannot be announced until coinche is.";
         } else {
             gm.setSurCoinche(true, person.getPos());
             code = 202;
@@ -124,14 +121,14 @@ public class BiddingManager {
             answer = setResponseIfSurCoinche(gm, person);
         } else {
             answer = Game.Answer.newBuilder()
-                    .setRequest("You just pass your turn!")
-                    .setCode(205)
+                    .setRequest("You passed your turn.")
+                    .setCode(200)
                     .setType(GAME)
                     .setCards(gm.getDeck(person.getPos()))
                     .build();
             gm.addInactiveTurn(gm.getNbTurnInactive() + 1);
             pastInElse = true;
-            gm.setMessage("just pass it's turn.");
+            gm.setMessage("just pass his/her turn."); // nom ?
         }
         if (!pastInElse)
             gm.addInactiveTurn(0);

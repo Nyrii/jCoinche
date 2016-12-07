@@ -15,6 +15,9 @@ import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
  */
 public class Process {
 
+    private enum Commands {MSG, NAME, PLAY, HAND, LAST_TRICK, QUIT}
+    private enum CommandsWithArgs {MSG, NAME, PLAY}
+
     interface PlayAction {
         void play(String command, BufferedReader in, Channel channel);
     }
@@ -84,13 +87,11 @@ public class Process {
     }
 
     public boolean isCommandValid(String command) {
-        String[] commandArray = {"MSG", "NAME", "PLAY", "HAND", "LAST_TRICK", "QUIT"};
-
         if (command == null || command.isEmpty()) {
             return false;
         }
-        for (String tmpCommand : commandArray) {
-            if (command.equals(tmpCommand)) {
+        for (Commands tmpCommand : Commands.values()) {
+            if (tmpCommand.name().equals(command)) {
                 return true;
             }
         }
@@ -159,14 +160,13 @@ public class Process {
     }
 
     public int containsCommandsWithArgs(String command) {
-        String[] commands = {"MSG", "NAME", "PLAY"};
         int i = 0;
 
         if (command == null || command.isEmpty()) {
             return -1;
         }
-        for (String tmpCommand : commands) {
-            if (command.equals(tmpCommand)) {
+        for (CommandsWithArgs tmpCommand : CommandsWithArgs.values()) {
+            if (tmpCommand.name().equals(command)) {
                 return i;
             }
             ++i;
@@ -208,7 +208,7 @@ public class Process {
             if (SaveObject.get_answer().getType() != Game.Answer.Type.GAME) {
                 return;
             }
-            System.out.println("Choose a card you want to play [SEVEN, EIGHT, NINE, TEN, JACK...] or any key if you've been notified of the game's end or the bidding's end :");
+            System.out.println("Type SEVEN, EIGHT, NINE, TEN, JACK... or any key if you've been notified of the game's end or the bidding's end :");
             cardValue = in.readLine();
             if (cardValue != null) {
                 cardValue = cardValue.replaceAll("\\s", "");
@@ -218,7 +218,7 @@ public class Process {
                 if (SaveObject.get_answer().getType() != Game.Answer.Type.GAME) {
                     return;
                 }
-                System.out.println("Precise the card suit of your card [HEARTS, SPADES, CLUBS, DIAMONDS] or any key if you've been notified of the game's end or the bidding's end :");
+                System.out.println("Type HEARTS, SPADES, CLUBS, DIAMONDS or any key if you've been notified of the game's end or the bidding's end :");
                 cardSuit = in.readLine();
                 if (cardSuit != null) {
                     cardSuit = cardSuit.replaceAll("\\s", "");
@@ -247,7 +247,7 @@ public class Process {
             if (SaveObject.get_answer().getType() != Game.Answer.Type.GAME) {
                 return;
             }
-            System.out.println("What do you want to do ? [MSG, NAME, PLAY, HAND, LAST_TRICK, QUIT] or any key if you've been notified of the game's end or the bidding's end :");
+            System.out.println("Type your COMMAND or any key if you've been notified of the game's end or the bidding's end :");
             command = in.readLine();
             command = command.replaceAll("\\s", "");
             command = command.toUpperCase();
