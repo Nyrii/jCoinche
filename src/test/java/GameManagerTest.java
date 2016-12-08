@@ -43,16 +43,13 @@ public class GameManagerTest {
 
         initFourPlayers();
 
-        biddingPart();
+        gm.setTurn(0);
+        playOneParty(0);
+        gm.reinitValues();
+        playOneParty(1);
+        gm.reinitValues();
+        playOneParty(2);
 
-        int i = 0;
-        while (i < 8) {
-            allPlayerPlayTheirCards();
-            PartyManager.endLastTrick();
-            ++i;
-        }
-
-        System.out.println("team 1 = " + gm.getScoreTeam1() + " team 2 = " + gm.getScoreTeam2());
 //        //play atout
 //        testIfPlayerOneCanPlayCard(0);
 //        //play atout less important but has a biggest one
@@ -74,9 +71,21 @@ public class GameManagerTest {
 //        testIfPlayerThreeCannotPlayCard(0);
     }
 
-    private void allPlayerPlayTheirCards() {
-        int index = 0;
-        while (index < 4) {
+    private void playOneParty(int index) {
+        biddingPart(index);
+
+        int i = 0;
+        while (i < 8) {
+            gm.setTurn(index);
+            allPlayerPlayTheirCards(index);
+            PartyManager.endLastTrick();
+            ++i;
+        }
+    }
+
+    private void allPlayerPlayTheirCards(int index) {
+        int tmp = 0;
+        while (tmp < 4) {
             deck = cm.getDeckFromPosition(index);
             gameProgress = Game.GameProgress.newBuilder()
                     .setCommand(PLAY)
@@ -85,35 +94,36 @@ public class GameManagerTest {
             answer = gm.interpreteGaming(index, gameProgress);
             assertTrue("Error card of player number " + index + " isn't accepted!", answer.getCode() < 300);
             gm.setTurn(gm.getTurn() == 3 ? 0 : gm.getTurn() + 1);
+            ++tmp;
             ++index;
+            index %= 4;
         }
     }
 
-    private void biddingPart() {
+    private void biddingPart(int index) {
+        gm.setTurn(index);
 
-        gm.setTurn(0);
-        answer = bid((Person) client.get(0), true, 85, HEARTS);
+        answer = bid((Person) client.get(index), true, 85, HEARTS);
         assertTrue("Error bidding didn't pass for player one", answer.getCode() == 200);
 
-        gm.setTurn(1);
-        answer = bid((Person) client.get(1), false, true);
+        gm.setTurn(gm.getTurn() == 3 ? 0 : gm.getTurn() + 1);
+        answer = bid((Person) client.get((index + 1) % 4), false, true);
         assertTrue("Error bidding didn't pass for player two", answer.getCode() < 300);
 
-        gm.setTurn(2);
-        answer = bid((Person) client.get(2), true, 100, SA);
+        gm.setTurn(gm.getTurn() == 3 ? 0 : gm.getTurn() + 1);
+        answer = bid((Person) client.get((index + 2) % 4), true, 100, SA);
         assertTrue("Error bidding didn't pass for player three", answer.getCode() == 200);
 
-        gm.setTurn(3);
-        answer = bid((Person) client.get(3), false, true);
+        gm.setTurn(gm.getTurn() == 3 ? 0 : gm.getTurn() + 1);
+        answer = bid((Person) client.get((index + 3) % 4), false, true);
         assertTrue("Error bidding didn't pass for player four", answer.getCode() < 300);
 
-        gm.setTurn(0);
-        answer = bid((Person) client.get(0), false, true);
-        System.out.println(answer);
+        gm.setTurn(gm.getTurn() == 3 ? 0 : gm.getTurn() + 1);
+        answer = bid((Person) client.get(index), false, true);
         assertTrue("Error bidding didn't pass for player one again", answer.getCode() < 300);
 
-        gm.setTurn(1);
-        answer = bid((Person) client.get(1), false, true);
+        gm.setTurn(gm.getTurn() == 3 ? 0 : gm.getTurn() + 1);
+        answer = bid((Person) client.get((index + 1) % 4), false, true);
         assertTrue("Error bidding didn't pass for player two again", answer.getCode() < 300);
 
         cm = gm.getCardManager();

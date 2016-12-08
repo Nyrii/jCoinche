@@ -132,7 +132,6 @@ public class BiddingManager {
         }
         if (!pastInElse)
             gm.addInactiveTurn(0);
-        System.out.println(gm.getNbTurnInactive());
         gm.checkIfPartyCanRun();
         return answer;
     }

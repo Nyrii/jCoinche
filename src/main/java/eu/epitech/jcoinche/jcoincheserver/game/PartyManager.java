@@ -72,8 +72,8 @@ public class PartyManager {
 
         Game.Answer.Type type = GAME;
         int code = 400;
+        System.out.println("gm.get turn = " + gm.getTurn() + " client position = " + clientPosition);
         if (gm.getTurn() != clientPosition) {
-            System.out.println("turn = " + gm.getTurn());
             gm.setMessage("Please, wait for your turn.");
             type = Game.Answer.Type.NONE;
         } else {
@@ -107,7 +107,6 @@ public class PartyManager {
                 .setCode(code)
                 .setType(type)
                 .build();
-        System.out.println("client position = " + clientPosition);
         if (code < 300 && !gm.isTestMode())
             ((Person) gm.getClient().get(clientPosition)).getCtx().writeAndFlush(answer);
         if (code == 200 && !gm.isTestMode())
@@ -148,13 +147,29 @@ public class PartyManager {
         if (gm.getDeck(0).getCardList().size() == 0) {
             int amount1;
             int amount2;
-            if ((amount1 = checkIfConctractIsRespectedTeam1()) != 0)
+            if ((amount1 = checkIfConctractIsRespectedTeam1()) != 0) {
                 gm.sendMessageToAllPersonInGame("Team one won the party with " + amount1);
-            if ((amount2 = checkIfConctractIsRespectedTeam2()) != 0)
-                gm.sendMessageToAllPersonInGame("Team one won the party with " + amount1);
+                System.out.println("Team one won the party with " + amount1);
+            }
+            if ((amount2 = checkIfConctractIsRespectedTeam2()) != 0) {
+                gm.sendMessageToAllPersonInGame("Team two won the party with " + amount1);
+                System.out.println("Team two won the party with " + amount2);
+            }
             gm.setScoreTeam1(amount1 + gm.getScoreTeam1());
             gm.setScoreTeam2(amount2 + gm.getScoreTeam2());
+            System.out.println("The score is now team 1 = " + gm.getScoreTeam1() + " , team 2 = " + gm.getScoreTeam2());
             gm.sendMessageToAllPersonInGame("The score is now team 1 = " + gm.getScoreTeam1() + " , team 2 = " + gm.getScoreTeam2());
+
+            if (gm.getScoreTeam1() >= 700) {
+                gm.sendMessageToAllPersonInGame(((Person) gm.getClient().get(0)).getName() + " et " + ((Person) gm.getClient().get(2)).getName() + " won the game with " + gm.getScoreTeam1() + " points");
+                System.out.println(((Person) gm.getClient().get(0)).getName() + " et " + ((Person) gm.getClient().get(2)).getName() + " won the game with " + gm.getScoreTeam1() + " points");
+                gm.setEnd(true);
+            } else if (gm.getScoreTeam2() >= 700) {
+                gm.sendMessageToAllPersonInGame(((Person) gm.getClient().get(1)).getName() + " et " + ((Person) gm.getClient().get(3)).getName() + " won the game with " + gm.getScoreTeam2() + " points");
+                System.out.println(((Person) gm.getClient().get(1)).getName() + " et " + ((Person) gm.getClient().get(3)).getName() + " won the game with " + gm.getScoreTeam2() + " points");
+                gm.setEnd(true);
+            }
+
             gm.setGame(false);
             gm.setBidding(true);
             gm.giveCardToAllPlayers();
@@ -170,10 +185,10 @@ public class PartyManager {
             return 500;
         if ((gm.getPersonWhoBet() == 0 || gm.getPersonWhoBet() == 2) && gm.getScoreTeamParty1() >= gm.getContract()) {
             if (gm.getPersonWhoCoinche() != -1 && gm.getPersonWhoSurCoinche() != -1)
-                return gm.getContract() * 4 + gm.getScoreTeam1();
+                return gm.getContract() * 4 + gm.getScoreTeamParty1();
             else if (gm.getPersonWhoCoinche() != -1)
-                return gm.getContract() * 2 + gm.getScoreTeam1();
-            return gm.getContract() + gm.getScoreTeam1();
+                return gm.getContract() * 2 + gm.getScoreTeamParty1();
+            return gm.getContract() + gm.getScoreTeamParty1();
         }
         if ((gm.getPersonWhoBet() == 1 || gm.getPersonWhoBet() == 3) && gm.getScoreTeamParty2() < gm.getContract()) {
             if (gm.getPersonWhoCoinche() != -1 && gm.getPersonWhoSurCoinche() != -1)
@@ -194,10 +209,10 @@ public class PartyManager {
             return 500;
         if ((gm.getPersonWhoBet() == 1 || gm.getPersonWhoBet() == 3) && gm.getScoreTeamParty2() >= gm.getContract()) {
             if (gm.getPersonWhoCoinche() != -1 && gm.getPersonWhoSurCoinche() != -1)
-                return gm.getContract() * 4 + gm.getScoreTeam2();
+                return gm.getContract() * 4 + gm.getScoreTeamParty2();
             else if (gm.getPersonWhoCoinche() != -1)
-                return gm.getContract() * 2 + gm.getScoreTeam2();
-            return gm.getContract() + gm.getScoreTeam2();
+                return gm.getContract() * 2 + gm.getScoreTeamParty2();
+            return gm.getContract() + gm.getScoreTeamParty2();
         }
         if ((gm.getPersonWhoBet() == 0 || gm.getPersonWhoBet() == 2) && gm.getScoreTeamParty1() < gm.getContract()) {
             if (gm.getPersonWhoCoinche() != -1 && gm.getPersonWhoSurCoinche() != -1)
@@ -218,6 +233,8 @@ public class PartyManager {
                 gm.setNbTrick1(gm.getNbTrick1() + 1);
             else
                 gm.setNbTrick3(gm.getNbTrick3() + 1);
+            if (gm.getDeck(0).getCardList().size() == 0)
+                gm.setScoreTeamParty1(10 + gm.getScoreTeamParty1());
         }
         else {
             gm.setScoreTeamParty2(gm.getScoreTeamParty2() + count);
@@ -225,22 +242,15 @@ public class PartyManager {
                 gm.setNbTrick2(gm.getNbTrick2() + 1);
             else
                 gm.setNbTrick4(gm.getNbTrick4() + 1);
-        }
-        if (gm.getScoreTeam1() == 700) {
-            gm.sendMessageToAllPersonInGame(((Person) gm.getClient().get(0)).getName() + " et " + ((Person) gm.getClient().get(2)).getName() + " won the game with " + gm.getScoreTeam1());
-            gm.setEnd(true);
-        } else if (gm.getScoreTeam2() == 700) {
-            gm.sendMessageToAllPersonInGame(((Person) gm.getClient().get(1)).getName() + " et " + ((Person) gm.getClient().get(3)).getName() + " won the game with " + gm.getScoreTeam2());
-            gm.setEnd(true);
+            if (gm.getDeck(0).getCardList().size() == 0)
+                gm.setScoreTeamParty2(10 + gm.getScoreTeamParty2());
         }
     }
 
     private static int numberPointOfTrickToutAtout() {
         int score = 0;
         for (Object card : gm.getCurrentTrick()) {
-            System.out.println(gm.getValueCardsAtout().get(((Game.Card) card).getCardType()));
-            if (gm.getValueCardsAtout().get(((Game.Card) card).getCardType()) != null)
-                score += (int) gm.getValueCardsAtout().get(((Game.Card) card).getCardType());
+            score += (int) gm.getValueCardsAtout().get(((Game.Card) card).getCardValue());
         }
         return score;
     }
@@ -248,9 +258,7 @@ public class PartyManager {
     private static int numberPointOfTrickSansAtout() {
         int score = 0;
         for (Object card : gm.getCurrentTrick()) {
-            System.out.println(gm.getValueCards().get(((Game.Card) card).getCardType()));
-            if (gm.getValueCards().get(((Game.Card) card).getCardType()) != null)
-                score += (int) gm.getValueCards().get(((Game.Card) card).getCardType());
+            score += (int) gm.getValueCards().get(((Game.Card) card).getCardValue());
         }
         return score;
     }
@@ -266,13 +274,9 @@ public class PartyManager {
         int score = 0;
         for (Object card : currentTrick) {
             if (isAtout((Game.Card) card)) {
-                System.out.println(gm.getValueCardsAtout().get(((Game.Card) card).getCardType()));
-                if (gm.getValueCardsAtout().get(((Game.Card) card).getCardType()) != null)
-                    score += (int) gm.getValueCardsAtout().get(((Game.Card) card).getCardType());
+                score += (int) gm.getValueCardsAtout().get(((Game.Card) card).getCardType());
             } else {
-                System.out.println(gm.getValueCards().get(((Game.Card) card).getCardType()));
-                if (gm.getValueCards().get(((Game.Card) card).getCardType()) != null)
-                    score += (int) gm.getValueCards().get(((Game.Card) card).getCardType());
+                score += (int) gm.getValueCards().get(((Game.Card) card).getCardType());
             }
         }
         return score;
@@ -351,9 +355,7 @@ public class PartyManager {
     }
 
     private static boolean checkIfPlayerCannotGoUpToutAtout(Game.Card card, Game.DistributionCard deck) {
-        System.err.println("check if player cannot go up tout atout " + card);
         for (Object cardPlayer : deck.getCardList()) {
-            System.err.println("check if player cannot go up tout atout other card " + cardPlayer);
             if (((Game.Card) cardPlayer).getCardType() == card.getCardType() &&
                     isBiggerValueAtout(((Game.Card) cardPlayer).getCardValue(), card.getCardValue()))
                 return false;
@@ -364,14 +366,12 @@ public class PartyManager {
     private static Game.Card biggestCardInTrick(ArrayList currentTrick) {
         Game.Card firstCard = ((Game.Card) currentTrick.get(0));
 
-        System.err.println("first card = " + firstCard);
         for (Object card : currentTrick) {
             if (((Game.Card) card).getCardType() == firstCard.getCardType() &&
                     (isBiggerValue(((Game.Card) card).getCardValue(), firstCard.getCardValue()) ||
                             isAtout((Game.Card) card)))
                 firstCard = (Game.Card) card;
         }
-        System.err.println("--------------->now first card = " + firstCard);
         return firstCard;
     }
 

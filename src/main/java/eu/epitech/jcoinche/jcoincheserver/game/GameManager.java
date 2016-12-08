@@ -76,6 +76,23 @@ public class GameManager {
         valueCardsAtout.put(JACK, 14);
     }
 
+    public void reinitValues() {
+        contract = -1;
+        personWhoCoinche = -1;
+        personWhoSurCoinche = -1;
+        personWhoBet = -1;
+        personWhoCapot = -1;
+        personWhoGenerale = -1;
+        capot = false;
+        generale = false;
+        coinche = false;
+        surCoinche = false;
+        currentTrick = new ArrayList();
+        lastTrick = new ArrayList();
+        scoreTeamParty1 = 0;
+        scoreTeamParty2 = 0;
+    }
+
     public void addClient(String name, ChannelHandlerContext ctx) {
         client.add(new Person(ctx, name, client.size()));
     }
@@ -163,6 +180,7 @@ public class GameManager {
                 this.bidding = false;
             }
         } else {
+            System.out.println("get pos " + person.getPos() + " + turn = " + turn);
             answer = Game.Answer.newBuilder()
                     .setRequest("It's not your turn")
                     .setCode(400)
