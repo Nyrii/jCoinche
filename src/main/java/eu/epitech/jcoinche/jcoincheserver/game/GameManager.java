@@ -138,6 +138,8 @@ public class GameManager {
     }
 
     public void sendMessageToAllPersonInGame(String msg) {
+        if (isTestMode())
+            return ;
         for (Object c: client) {
             (((Person) c)).getCtx().writeAndFlush(Game.Answer.newBuilder().setRequest(msg)
                     .setType(Game.Answer.Type.NONE).setCode(300).build());
@@ -187,7 +189,8 @@ public class GameManager {
 
     public void giveCardToAllPlayers() {
         cm.generateCardForAllPlayer();
-        cm.giveCardToAllPlayers(client);
+        if (!isTestMode())
+            cm.giveCardToAllPlayers(client);
         turn = 0;
         bidding = true;
     }
@@ -524,5 +527,9 @@ public class GameManager {
 
     public ArrayList getClient() {
         return client;
+    }
+
+    public boolean isTestMode() {
+        return testMode;
     }
 }

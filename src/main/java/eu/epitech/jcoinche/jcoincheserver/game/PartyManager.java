@@ -108,9 +108,9 @@ public class PartyManager {
                 .setType(type)
                 .build();
         System.out.println("client position = " + clientPosition);
-        if (code < 300)
+        if (code < 300 && !gm.isTestMode())
             ((Person) gm.getClient().get(clientPosition)).getCtx().writeAndFlush(answer);
-        if (code == 200)
+        if (code == 200 && !gm.isTestMode())
             gm.sendMessageToAllPersonInGame(clientPosition, "played " + game.getCard());
         return answer;
     }
@@ -139,7 +139,7 @@ public class PartyManager {
         updateScore(posPlayer);
         gm.setLastTrick(gm.getCurrentTrick());
         gm.setCurrentTrick(new ArrayList());
-        if (gm.getEnd()) {
+        if (gm.getEnd() && !gm.isTestMode()) {
             gm.sendMessageToAllPersonInGame("I delete the room for now because game is over"); // ?
             for (Object person : gm.client) {
                 ((Person) person).getCtx().close();
