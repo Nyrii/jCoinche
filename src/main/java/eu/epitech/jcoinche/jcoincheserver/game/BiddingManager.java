@@ -9,7 +9,7 @@ import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
  * Created by Saursinet on 06/12/2016.
  */
 public class BiddingManager {
-    private static Game.Answer setResponseifBid(GameManager gm, Person person, Game.Bidding bidding, int contract) {
+    private static Game.Answer setResponseifBid(GameManager gm, Person person, Game.Bidding bidding) {
         int code;
         String str;
         Game.Answer.Type typeAnswer = BIDDING;
@@ -34,9 +34,9 @@ public class BiddingManager {
         } else if (bidding.getAmount() > 160) {
             code = 433;
             str = "The maximum bidding value is 160.";
-        } else if (bidding.getAmount() <= contract) {
+        } else if (bidding.getAmount() <= gm.getContract()) {
             code = 434;
-            str = "A player already bidded " + contract;
+            str = "A player already bidded " + gm.getContract();
         } else {
             code = 200;
             str = "Bidding okay";
@@ -53,7 +53,7 @@ public class BiddingManager {
                 .build();
     }
 
-    private static Game.Answer setResponseIfCoinche(GameManager gm, int contract, Person person) {
+    private static Game.Answer setResponseIfCoinche(GameManager gm, Person person) {
         int code;
         String str;
         Game.Answer.Type typeAnswer = BIDDING;
@@ -61,7 +61,7 @@ public class BiddingManager {
         if (gm.getCoinche()) {
             code = 442;
             str = "A player already coinched";
-        } else if (contract == -1) {
+        } else if (gm.getContract() == -1) {
             code = 443;
             str = "Coinche cannot be announced until a contract is made";
         } else if (gm.getPersonWhoBet() == person.getPos() || gm.arePartner(gm.getPersonWhoBet(), person.getPos())) {
@@ -92,7 +92,6 @@ public class BiddingManager {
             str = "A player already surcoinched";
         } else if (gm.getPersonWhoBet() != person.getPos()) {
             code = 453;
-            System.out.println("person who bet = " + gm.getPersonWhoBet() + "  et pos = " + person.getPos() + " name :" + person.getName());
             str = "Surcoinche cannot be announced until coinche is.";
         } else {
             gm.setSurCoinche(true, person.getPos());
@@ -109,14 +108,14 @@ public class BiddingManager {
                 .build();
     }
 
-    public static Game.Answer interpreteBidding(GameManager gm, Person person, Game.Bidding bidding, int contract) {
+    public static Game.Answer interpreteBidding(GameManager gm, Person person, Game.Bidding bidding) {
         Game.Answer answer;
         boolean pastInElse = false;
 
         if (bidding.getBid()) {
-            answer = setResponseifBid(gm, person, bidding, contract);
+            answer = setResponseifBid(gm, person, bidding);
         } else if (bidding.getCoinche()) {
-            answer = setResponseIfCoinche(gm, contract, person);
+            answer = setResponseIfCoinche(gm, person);
         } else if (bidding.getSurcoinche()) {
             answer = setResponseIfSurCoinche(gm, person);
         } else {

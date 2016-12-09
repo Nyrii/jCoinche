@@ -93,6 +93,12 @@ public class GameManager {
         scoreTeamParty2 = 0;
     }
 
+    public void reinitAllValues() {
+        reinitValues();
+        scoreTeam1 = 0;
+        scoreTeam2 = 0;
+    }
+
     public void addClient(String name, ChannelHandlerContext ctx) {
         client.add(new Person(ctx, name, client.size()));
     }
@@ -124,7 +130,7 @@ public class GameManager {
     public Game.Answer sendMessageToAllPersonInGame(int clientPosition, String msg) {
         int i = 0;
         for (Object c: client) {
-            if (i != clientPosition)
+            if (i != clientPosition && !isTestMode())
                 ((Person) c).getCtx().writeAndFlush(Game.Answer.newBuilder()
                         .setRequest("[" + ((Person) c).getName() + "] " + msg)
                         .setType(Game.Answer.Type.NONE).setCode(300).build());
@@ -167,7 +173,7 @@ public class GameManager {
         Game.Answer answer;
 
         if (person.getPos() == turn) {
-            answer = BiddingManager.interpreteBidding(this, person, bidding, contract);
+            answer = BiddingManager.interpreteBidding(this, person, bidding);
             if (answer.getCode() == 200)
                 personWhoBet = person.getPos();
             else if (answer.getCode() == 201)
@@ -501,7 +507,11 @@ public class GameManager {
     }
 
     public Game.Answer setName(String name) {
-        return NameManager.setName(this, client, ctxTmp, name);
+        return NameManager.setName(this, client, ctxTmp.toString(), name);
+    }
+
+    public Game.Answer changeName(String name, int pos) {
+        return NameManager.changeName(this, client, name, pos);
     }
 
     public void setPlay(boolean play) {
@@ -550,4 +560,25 @@ public class GameManager {
     public boolean isTestMode() {
         return testMode;
     }
+
+    public void setPersonWhoBet(int personWhoBet) {
+        this.personWhoBet = personWhoBet;
+    }
+
+    public void setPersonWhoCoinche(int personWhoCoinche) {
+        this.personWhoCoinche = personWhoCoinche;
+    }
+
+    public void setPersonWhoSurCoinche(int personWhoSurCoinche) {
+        this.personWhoSurCoinche = personWhoSurCoinche;
+    }
+
+    public void setPersonWhoCapot(int personWhoCapot) {
+        this.personWhoCapot = personWhoCapot;
+    }
+
+    public void setPersonWhoGenerale(int personWhoGenerale) {
+        this.personWhoGenerale = personWhoGenerale;
+    }
+
 }

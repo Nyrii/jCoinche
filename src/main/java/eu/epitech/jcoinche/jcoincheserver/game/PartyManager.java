@@ -14,6 +14,10 @@ import static eu.epitech.jcoinche.protobuf.Game.Bidding.Options.TA;
  * Created by Saursinet on 06/12/2016.
  */
 public class PartyManager {
+    public static void setGm(GameManager gm) {
+        PartyManager.gm = gm;
+    }
+
     static private GameManager gm = null;
 
     static public Game.Answer interpreteGaming(int clientPosition, Game.GameProgress game, GameManager gm) {
@@ -31,7 +35,7 @@ public class PartyManager {
                 break;
 
             case NAME:
-                answer = gm.setName(game.getArguments(0));
+                answer = gm.changeName(game.getArguments(0), clientPosition);
                 answer = Game.Answer.newBuilder()
                         .setRequest(answer.getRequest())
                         .setCode(answer.getCode())
@@ -72,7 +76,6 @@ public class PartyManager {
 
         Game.Answer.Type type = GAME;
         int code = 400;
-        System.out.println("gm.get turn = " + gm.getTurn() + " client position = " + clientPosition);
         if (gm.getTurn() != clientPosition) {
             gm.setMessage("Please, wait for your turn.");
             type = Game.Answer.Type.NONE;
@@ -109,12 +112,12 @@ public class PartyManager {
                 .build();
         if (code < 300 && !gm.isTestMode())
             ((Person) gm.getClient().get(clientPosition)).getCtx().writeAndFlush(answer);
-        if (code == 200 && !gm.isTestMode())
+        if (code == 200)
             gm.sendMessageToAllPersonInGame(clientPosition, "played " + game.getCard());
         return answer;
     }
 
-    public static void endLastTrick() {
+    public static int getIndex() {
         int index;
         if (gm.getAtout() == Game.Bidding.Options.TA || gm.getAtout() == SA)
             index = takeIndexFromTrick();
@@ -131,19 +134,10 @@ public class PartyManager {
             if (isAtout)
                 index = gm.getCurrentTrick().indexOf(biggestCardInTrickAtout(gm.getCurrentTrick()));
         }
-        int posPlayer = (index + gm.getTurn()) % 4;
-        gm.sendMessageToAllPersonInGame(((Person) gm.getClient().get(posPlayer)).getName() + ": won the last trick");
-        gm.setTurn(posPlayer);
-        gm.setTurnPos(gm.getTurn());
-        updateScore(posPlayer);
-        gm.setLastTrick(gm.getCurrentTrick());
-        gm.setCurrentTrick(new ArrayList());
-        if (gm.getEnd() && !gm.isTestMode()) {
-            gm.sendMessageToAllPersonInGame("I delete the room for now because game is over"); // ?
-            for (Object person : gm.client) {
-                ((Person) person).getCtx().close();
-            }
-        }
+        return index;
+    }
+
+    private static void checkEndOfGameOrParty() {
         if (gm.getDeck(0).getCardList().size() == 0) {
             int amount1;
             int amount2;
@@ -176,7 +170,25 @@ public class PartyManager {
         }
     }
 
-    private static int checkIfConctractIsRespectedTeam1() {
+    public static void endLastTrick() {
+        int index = getIndex();
+        int posPlayer = (index + gm.getTurn()) % 4;
+        gm.sendMessageToAllPersonInGame(((Person) gm.getClient().get(posPlayer)).getName() + ": won the last trick");
+        gm.setTurn(posPlayer);
+        gm.setTurnPos(gm.getTurn());
+        updateScore(posPlayer);
+        gm.setLastTrick(gm.getCurrentTrick());
+        gm.setCurrentTrick(new ArrayList());
+        if (gm.getEnd() && !gm.isTestMode()) {
+            gm.sendMessageToAllPersonInGame("I delete the room for now because game is over"); // ?
+            for (Object person : gm.client) {
+                ((Person) person).getCtx().close();
+            }
+        }
+        checkEndOfGameOrParty();
+    }
+
+    public static int checkIfConctractIsRespectedTeam1() {
         if (((gm.getPersonWhoCapot() == 0 || gm.getPersonWhoCapot() == 2) && gm.getNbTrick2() + gm.getNbTrick4() == 0) ||
                 ((gm.getPersonWhoCapot() == 1 || gm.getPersonWhoCapot() == 3) && gm.getNbTrick1() + gm.getNbTrick3() != 0))
             return 250;
@@ -200,7 +212,7 @@ public class PartyManager {
         return 0;
     }
 
-    private static int checkIfConctractIsRespectedTeam2() {
+    public static int checkIfConctractIsRespectedTeam2() {
         if (((gm.getPersonWhoCapot() == 0 || gm.getPersonWhoCapot() == 2) && gm.getNbTrick2() + gm.getNbTrick4() != 0) ||
                 ((gm.getPersonWhoCapot() == 1 || gm.getPersonWhoCapot() == 3) && gm.getNbTrick1() + gm.getNbTrick3() == 0))
             return 250;
@@ -224,7 +236,7 @@ public class PartyManager {
         return 0;
     }
 
-    private static void updateScore(int posPlayer) {
+    public static void updateScore(int posPlayer) {
         int count = gm.getAtout() == TA ? numberPointOfTrickToutAtout() : gm.getAtout() == SA ? numberPointOfTrickSansAtout() : numberPointOfTrick(gm.getCurrentTrick());
 
         if (posPlayer == 0 || posPlayer == 2) {
@@ -247,7 +259,7 @@ public class PartyManager {
         }
     }
 
-    private static int numberPointOfTrickToutAtout() {
+    public static int numberPointOfTrickToutAtout() {
         int score = 0;
         for (Object card : gm.getCurrentTrick()) {
             score += (int) gm.getValueCardsAtout().get(((Game.Card) card).getCardValue());
@@ -263,26 +275,26 @@ public class PartyManager {
         return score;
     }
 
-    private static int takeIndexFromTrick() {
+    public static int takeIndexFromTrick() {
         if (gm.getAtout() == Game.Bidding.Options.TA)
             return gm.getCurrentTrick().indexOf(biggestCardInTrickToutAtout(gm.getCurrentTrick()));
         else
             return gm.getCurrentTrick().indexOf(biggestCardInTrickSansAtout(gm.getCurrentTrick()));
     }
 
-    private static int numberPointOfTrick(ArrayList currentTrick) {
+    public static int numberPointOfTrick(ArrayList currentTrick) {
         int score = 0;
         for (Object card : currentTrick) {
             if (isAtout((Game.Card) card)) {
-                score += (int) gm.getValueCardsAtout().get(((Game.Card) card).getCardType());
+                score += (int) gm.getValueCardsAtout().get(((Game.Card) card).getCardValue());
             } else {
-                score += (int) gm.getValueCards().get(((Game.Card) card).getCardType());
+                score += (int) gm.getValueCards().get(((Game.Card) card).getCardValue());
             }
         }
         return score;
     }
 
-    private static boolean checkValidityOfMovement(int clientPosition, Game.Card card) {
+    public static boolean checkValidityOfMovement(int clientPosition, Game.Card card) {
         if (gm.getCurrentTrick().size() == 0)
             return true;
         if (gm.getAtout() == Game.Bidding.Options.TA)
@@ -319,7 +331,7 @@ public class PartyManager {
         return true;
     }
 
-    private static boolean checkToutAtout(int clientPosition, Game.Card card) {
+    public static boolean checkToutAtout(int clientPosition, Game.Card card) {
         if (((Game.Card) gm.getCurrentTrick().get(0)).getCardType() != card.getCardType() &&
                 hasOneTypeOfCard(clientPosition, ((Game.Card) gm.getCurrentTrick().get(0)).getCardType())) {
             System.err.println("player did not put good colour");
@@ -335,7 +347,7 @@ public class PartyManager {
         return true;
     }
 
-    private static boolean checkWhithoutAtout(int clientPosition, Game.Card card) {
+    public static boolean checkWhithoutAtout(int clientPosition, Game.Card card) {
         if (((Game.Card) gm.getCurrentTrick().get(0)).getCardType() != card.getCardType()) {
             if (hasOneTypeOfCard(clientPosition, ((Game.Card) gm.getCurrentTrick().get(0)).getCardType())) {
                 System.err.println("player did not put good colour");

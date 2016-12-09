@@ -16,13 +16,13 @@ public class NameManager {
         if (client == null || client.size() != 4)
             return false;
         for (Object tmp : client) {
-            if (((Person) tmp).getName().charAt(0) == '0' && ((String) tmp).charAt(1) == 'x')
+            if (((Person) tmp).getName().charAt(0) == '0' && ((Person) tmp).getName().charAt(1) == 'x')
                 return false;
         }
         return true;
     }
 
-    protected static boolean nameAlreadyInUse(ArrayList client, String name) {
+    public static boolean nameAlreadyInUse(ArrayList client, String name) {
         if (client == null)
             return false;
         for (int i = 0; i < client.size(); i++) {
@@ -32,7 +32,7 @@ public class NameManager {
         return false;
     }
 
-    private static boolean addName(ArrayList client, String id, String name) {
+    public static boolean addName(ArrayList client, String id, String name) {
         if (name.length() < 4 || !StringUtils.isAlphanumeric(name))
             return false;
         for (int i = 0; i < client.size(); i++) {
@@ -43,14 +43,38 @@ public class NameManager {
         return true;
     }
 
-    public static Game.Answer setName(GameManager answerClient, ArrayList client, ChannelHandlerContext ctx, String msg) {
+    public static Game.Answer setName(GameManager answerClient, ArrayList client, String ctx, String msg) {
         if (nameAlreadyInUse(client, msg)) {
             return Game.Answer.newBuilder()
                     .setRequest("Nickname is already in use")
                     .setCode(403)
                     .setType(PLAYER)
                     .build();
-        } else if (addName(client, ctx.toString(), msg)) {
+        } else if (addName(client, ctx, msg)) {
+            answerClient.setClient(client);
+            return Game.Answer.newBuilder()
+                    .setRequest("Nickname changed")
+                    .setCode(200)
+                    .setType(NONE)
+                    .build();
+        } else {
+            return Game.Answer.newBuilder()
+                    .setRequest("Nickname contains invalid characters or is too short.")
+                    .setCode(402)
+                    .setType(PLAYER)
+                    .build();
+        }
+    }
+
+    public static Game.Answer changeName(GameManager answerClient, ArrayList client, String msg, int pos) {
+        if (nameAlreadyInUse(client, msg)) {
+            return Game.Answer.newBuilder()
+                    .setRequest("Nickname is already in use")
+                    .setCode(403)
+                    .setType(PLAYER)
+                    .build();
+        } else if (msg.length() > 4 && StringUtils.isAlphanumeric(msg)) {
+            ((Person) client.get(pos)).setName(msg);
             answerClient.setClient(client);
             return Game.Answer.newBuilder()
                     .setRequest("Nickname changed")

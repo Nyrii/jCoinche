@@ -176,6 +176,60 @@ public class CardManager {
         }
     }
 
+    public static void generateCardTest3() {
+        if (cardGames.size() != 0) {
+            cardGames.clear();
+            deckObjects.clear();
+        }
+        ArrayList tmp = new ArrayList();
+        tmp.add(cardList.get(1));
+        tmp.add(cardList.get(2));
+        tmp.add(cardList.get(8));
+        tmp.add(cardList.get(9));
+        tmp.add(cardList.get(16));
+        tmp.add(cardList.get(17));
+        tmp.add(cardList.get(24));
+        tmp.add(cardList.get(25));
+        cardGames.add(tmp);
+        tmp = new ArrayList();
+        tmp.add(cardList.get(0));
+        tmp.add(cardList.get(6));
+        tmp.add(cardList.get(10));
+        tmp.add(cardList.get(11));
+        tmp.add(cardList.get(18));
+        tmp.add(cardList.get(19));
+        tmp.add(cardList.get(26));
+        tmp.add(cardList.get(27));
+        cardGames.add(tmp);
+        tmp = new ArrayList();
+        tmp.add(cardList.get(7));
+        tmp.add(cardList.get(5));
+        tmp.add(cardList.get(12));
+        tmp.add(cardList.get(13));
+        tmp.add(cardList.get(20));
+        tmp.add(cardList.get(21));
+        tmp.add(cardList.get(28));
+        tmp.add(cardList.get(29));
+        cardGames.add(tmp);
+        tmp = new ArrayList();
+        tmp.add(cardList.get(3));
+        tmp.add(cardList.get(4));
+        tmp.add(cardList.get(14));
+        tmp.add(cardList.get(15));
+        tmp.add(cardList.get(22));
+        tmp.add(cardList.get(23));
+        tmp.add(cardList.get(30));
+        tmp.add(cardList.get(31));
+        cardGames.add(tmp);
+        for (int j = 0; j < 4; j++) {
+            Game.DistributionCard cards = Game.DistributionCard
+                    .newBuilder()
+                    .addAllCard((ArrayList) cardGames.get(j))
+                    .build();
+            deckObjects.add(cards);
+        }
+    }
+
     public static void giveCardToAllPlayers(ArrayList clients) {
         int i = 0;
         deckObjects.clear();
