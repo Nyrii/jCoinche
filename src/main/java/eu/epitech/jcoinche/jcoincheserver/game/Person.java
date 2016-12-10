@@ -20,10 +20,6 @@ public class Person {
         return ctx;
     }
 
-    public void setCtx(ChannelHandlerContext ctx) {
-        this.ctx = ctx;
-    }
-
     public String getName() {
         return name;
     }
@@ -35,9 +31,4 @@ public class Person {
     public int getPos() {
         return pos;
     }
-
-    public void setPos(int pos) {
-        this.pos = pos;
-    }
-
 }

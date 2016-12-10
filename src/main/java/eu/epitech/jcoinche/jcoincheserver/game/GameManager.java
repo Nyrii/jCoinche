@@ -14,7 +14,7 @@ import static eu.epitech.jcoinche.protobuf.Game.Card.CardValue.*;
  */
 public class GameManager {
 
-    ArrayList client = new ArrayList();
+    ArrayList<Person> client = new ArrayList();
 
     ArrayList lastTrick = new ArrayList();
     ArrayList currentTrick = new ArrayList();
@@ -99,13 +99,22 @@ public class GameManager {
         scoreTeam2 = 0;
     }
 
+    public void quitGame() {
+        sendMessageToAllPersonInGame("Someone interrupted the game");
+        for (Person c : client) {
+            c.getCtx().close();
+        }
+    }
+
     public void addClient(String name, ChannelHandlerContext ctx) {
-        client.add(new Person(ctx, name, client.size()));
+        System.out.println("add clinet");
+        Person toto = new Person(ctx, name, client.size());
+        client.add(toto);
     }
 
     public boolean isInGame(ChannelHandlerContext ctx) {
-        for (Object c : client) {
-            if (((Person) c).getCtx() == ctx.channel())
+        for (Person c : client) {
+            if (c.getCtx() == ctx)
                 return true;
         }
         return false;

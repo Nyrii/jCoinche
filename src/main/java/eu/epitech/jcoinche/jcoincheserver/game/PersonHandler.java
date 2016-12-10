@@ -75,13 +75,15 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
     public void channelRead0(ChannelHandlerContext arg0, Game.Answer answer) throws Exception {
         GameManager gm = getGameFromChannel(arg0);
 
-        if (gm == null)
-            return ;
+        if (gm == null) {
+            return;
+        }
         if (answer.getCode() == -1) {
-            if (gm != null)
-                 gm.sendMessageToAllPersonInGame(gm.getClientPosition(arg0), " left the game");
+            if (gm != null) {
+                gm.sendMessageToAllPersonInGame(gm.getClientPosition(arg0), " left the game");
+                gm.quitGame();
+            }
             System.out.println(arg0.channel().remoteAddress() + " left the game");
-            arg0.close();
             return ;
         }
         switch (answer.getType()) {
