@@ -7,6 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.ArrayList;
 
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
+import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.LEAVE;
 import static eu.epitech.jcoinche.protobuf.Game.Bidding.Options.SA;
 import static eu.epitech.jcoinche.protobuf.Game.Bidding.Options.TA;
 
@@ -49,6 +50,7 @@ public class PartyManager {
 
             case HAND:
                 answer = sendHandToPlayer(clientPosition);
+                System.out.println(answer);
                 break;
 
             case LAST_TRICK:
@@ -62,9 +64,9 @@ public class PartyManager {
             case QUIT:
                 System.out.println("User quit");
                 answer = Game.Answer.newBuilder()
-                        .setRequest("for now not implemented")
+                        .setRequest("user quit the game")
                         .setCode(200)
-                        .setType(GAME)
+                        .setType(LEAVE)
                         .build();
                 break;
         }
@@ -474,6 +476,7 @@ public class PartyManager {
     }
 
     private static Game.Answer sendHandToPlayer(int clientPosition) {
+        System.out.println("client positioon = " + clientPosition);
         return Game.Answer.newBuilder()
                 .setRequest("There is your hand :\n" + gm.getDeck(clientPosition).toString())
                 .setCode(200)

@@ -241,8 +241,8 @@ public class GameManager {
 
     public void askPlayerOneToPlay() {
         int i = 0;
-        System.out.println("send invite to play to " + turnPersonToPlay);
         turnPersonToPlay = turnPersonToPlay == 3 ? 0 : turnPersonToPlay + 1;
+        System.out.println("send invite to play to " + turnPersonToPlay);
         turn = turnPersonToPlay;
         for (Object c : client) {
             if (i == turnPersonToPlay)
@@ -275,7 +275,7 @@ public class GameManager {
     public int getClientPosition(ChannelHandlerContext ctx) {
         int i = 0;
         for (Object c : client) {
-            if (((Person) c).getCtx() == ctx.channel()) {
+            if (((Person) c).getCtx() == ctx) {
                 break;
             }
             ++i;

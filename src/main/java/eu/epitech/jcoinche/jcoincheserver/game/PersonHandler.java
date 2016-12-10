@@ -115,7 +115,9 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 if (gm.getGame()) {
                     gm.setChannelHandlerContext(arg0);
                     Game.Answer ans = gm.interpreteGaming(gm.getClientPosition(arg0), answer.getGame());
-                    if (gm.getEnd()) {
+                    if (gm.getEnd() || ans.getType() == Game.Answer.Type.LEAVE) {
+                        gm.sendMessageToAllPersonInGame(gm.getClientPosition(arg0), " left the game");
+                        gm.quitGame();
                         gameRunning.remove(gm);
                         break;
                     }
