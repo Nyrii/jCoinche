@@ -44,6 +44,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
         boolean isId = false;
         boolean putInGame = false;
         String tmp = "";
+
         for (String t : tokens) {
             if (isId) {
                 tmp = t;
