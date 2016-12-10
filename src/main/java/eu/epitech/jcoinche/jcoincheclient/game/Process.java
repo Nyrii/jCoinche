@@ -52,7 +52,7 @@ public class Process {
             channel.writeAndFlush(futureAnswer);
         } catch (Exception e) {
             System.err.println("Error : " + e.getMessage());
-            LeaveGame.leave();
+            LeaveGame.leave(channel);
             return false;
         }
         return true;
@@ -80,7 +80,7 @@ public class Process {
             channel.writeAndFlush(futureAnswer);
         } catch (Exception e) {
             System.err.println("Error : " + e.getMessage());
-            LeaveGame.leave();
+            LeaveGame.leave(channel);
             return false;
         }
         return true;

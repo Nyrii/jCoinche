@@ -47,7 +47,7 @@ public class BiddingTest {
         };
 
         one.start();
-        LeaveGame.leave();
+        LeaveGame.leave(null);
         try {
             sleep(1000);
         } catch (InterruptedException e) {
@@ -320,10 +320,11 @@ public class BiddingTest {
         }
     }
 
-    @Ignore
     @Test
     public void testLeaveGame() {
-        LeaveGame.leave();
+        if (connection == null)
+            return;
+        LeaveGame.leave(connection.get_channel());
     }
 
     @AfterClass

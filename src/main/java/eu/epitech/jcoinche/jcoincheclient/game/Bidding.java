@@ -129,7 +129,7 @@ public class Bidding {
             System.err.println("Cannot get the player's input.");
             return false;
         } catch (Exception e) {
-            LeaveGame.leave();
+            LeaveGame.leave(channel);
             System.err.println(e.getMessage());
             System.exit(84);
         }

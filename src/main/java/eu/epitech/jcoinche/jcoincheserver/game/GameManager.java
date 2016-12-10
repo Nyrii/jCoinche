@@ -133,12 +133,12 @@ public class GameManager {
             if (i != clientPosition && !isTestMode())
                 ((Person) c).getCtx().writeAndFlush(Game.Answer.newBuilder()
                         .setRequest("[" + ((Person) c).getName() + "] " + msg)
-                        .setType(Game.Answer.Type.NONE).setCode(300).build());
+                        .setType(Game.Answer.Type.NONE).setCode(200).build());
             ++i;
         }
         return Game.Answer.newBuilder()
-                .setRequest("Message send")
-                .setCode(300)
+                .setRequest("Message sent")
+                .setCode(200)
                 .setCards(getDeck(clientPosition))
                 .setType(GAME)
                 .build();
@@ -153,8 +153,8 @@ public class GameManager {
             ++i;
         }
         return Game.Answer.newBuilder()
-                .setRequest("Message send")
-                .setCode(300)
+                .setRequest("Message sent")
+                .setCode(200)
                 .setCards(getDeck(clientPosition))
                 .setType(GAME)
                 .build();
@@ -165,7 +165,7 @@ public class GameManager {
             return ;
         for (Object c: client) {
             (((Person) c)).getCtx().writeAndFlush(Game.Answer.newBuilder().setRequest(msg)
-                    .setType(Game.Answer.Type.NONE).setCode(300).build());
+                    .setType(Game.Answer.Type.NONE).setCode(200).build());
         }
     }
 
@@ -188,7 +188,7 @@ public class GameManager {
         } else {
             System.out.println("get pos " + person.getPos() + " + turn = " + turn);
             answer = Game.Answer.newBuilder()
-                    .setRequest("It's not your turn")
+                    .setRequest("Please wait for your turn.")
                     .setCode(400)
                     .setCards(getDeck(person.getPos()))
                     .setType(Game.Answer.Type.NONE)

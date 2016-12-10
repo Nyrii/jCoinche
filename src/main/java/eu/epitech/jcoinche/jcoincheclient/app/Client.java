@@ -90,7 +90,7 @@ public class Client {
                         }
                     } catch (Exception e) {
                         System.err.println(e.getMessage());
-                        LeaveGame.leave();
+                        LeaveGame.leave(connection.get_channel());
                         System.exit(84);
                     }
                 }

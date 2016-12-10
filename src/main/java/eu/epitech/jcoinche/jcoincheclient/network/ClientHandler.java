@@ -30,9 +30,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
                         .append(answer.getRequest())
                         .toString();
                 if (answer.getCode() >= 200 && answer.getCode() <= 300) {
-                    System.out.println(message);
+                    System.out.println("\033[32m" + message + "\033[0m");
                 } else {
-                    System.err.println(message);
+                    System.err.println("\033[31m" + message + "\033[0m");
                 }
             }
             if (answer != null && answer.getType() != Game.Answer.Type.NONE) {
@@ -41,6 +41,4 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
                     System.out.println("\n");
             }
         }
-//                // The connection is closed automatically on shutdown.
-//                Connection.get_group().shutdownGracefully();
 }
