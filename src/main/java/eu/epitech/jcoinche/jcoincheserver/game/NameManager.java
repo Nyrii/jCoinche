@@ -37,7 +37,7 @@ public class NameManager {
             return false;
         for (int i = 0; i < client.size(); i++) {
             if (id.contains(((Person) client.get(i)).getName())) {
-                client.set(i, name);
+                ((Person) client.get(i)).setName(name);
             }
         }
         return true;

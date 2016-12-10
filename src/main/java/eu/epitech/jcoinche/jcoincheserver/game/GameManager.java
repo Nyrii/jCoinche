@@ -107,9 +107,7 @@ public class GameManager {
     }
 
     public void addClient(String name, ChannelHandlerContext ctx) {
-        System.out.println("add clinet");
-        Person toto = new Person(ctx, name, client.size());
-        client.add(toto);
+        client.add(new Person(ctx, name, client.size()));
     }
 
     public boolean isInGame(ChannelHandlerContext ctx) {
