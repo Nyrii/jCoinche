@@ -145,7 +145,7 @@ public class GameManager {
         }
         return Game.Answer.newBuilder()
                 .setRequest("Message sent")
-                .setCode(200)
+                .setCode(300)
                 .setCards(getDeck(clientPosition))
                 .setType(GAME)
                 .build();

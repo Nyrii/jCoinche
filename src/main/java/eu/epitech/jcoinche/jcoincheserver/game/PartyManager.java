@@ -50,7 +50,6 @@ public class PartyManager {
 
             case HAND:
                 answer = sendHandToPlayer(clientPosition);
-                System.out.println(answer);
                 break;
 
             case LAST_TRICK:
@@ -65,7 +64,7 @@ public class PartyManager {
                 System.out.println("User quit");
                 answer = Game.Answer.newBuilder()
                         .setRequest("user quit the game")
-                        .setCode(200)
+                        .setCode(300)
                         .setType(LEAVE)
                         .build();
                 break;
@@ -462,7 +461,7 @@ public class PartyManager {
     private static Game.Answer sendInvalidCommand() {
         return Game.Answer.newBuilder()
                 .setRequest("Invalid command")
-                .setCode(400)
+                .setCode(300)
                 .setType(GAME)
                 .build();
     }
@@ -470,7 +469,7 @@ public class PartyManager {
     private static Game.Answer showLastTrick() {
         return Game.Answer.newBuilder()
                 .setRequest("There is the last trick played :" + gm.getLastTrick().toString())
-                .setCode(200)
+                .setCode(300)
                 .setType(GAME)
                 .build();
     }
@@ -479,7 +478,7 @@ public class PartyManager {
         System.out.println("client positioon = " + clientPosition);
         return Game.Answer.newBuilder()
                 .setRequest("There is your hand :\n" + gm.getDeck(clientPosition).toString())
-                .setCode(200)
+                .setCode(300)
                 .setType(GAME)
                 .build();
     }
