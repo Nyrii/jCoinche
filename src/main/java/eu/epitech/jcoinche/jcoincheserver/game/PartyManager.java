@@ -5,6 +5,9 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.GAME;
 import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.LEAVE;
@@ -475,11 +478,41 @@ public class PartyManager {
     }
 
     private static Game.Answer sendHandToPlayer(int clientPosition) {
-        System.out.println("client positioon = " + clientPosition);
-        return Game.Answer.newBuilder()
-                .setRequest("There is your hand :\n" + gm.getDeck(clientPosition).toString())
-                .setCode(300)
-                .setType(GAME)
-                .build();
+        if (gm.getDeck(clientPosition) != null) {
+            List<Game.Card> deck = new ArrayList<Game.Card>(gm.getDeck(clientPosition).getCardList());
+            Collections.sort(deck, new Comparator<Game.Card>() {
+                @Override
+                public int compare(Game.Card left, Game.Card right) {
+                    int stringComparison = left.getCardType().toString().compareTo(right.getCardType().toString());
+                    if (stringComparison == 0) {
+                        return (left.getCardValue().compareTo(right.getCardValue()));
+                    }
+                    return stringComparison;
+                }
+            });
+            String hand = "";
+            for (Object card : deck) {
+                String entireCard = new StringBuilder()
+                        .append(((Game.Card) card).getCardValue())
+                        .append(" OF ")
+                        .append(((Game.Card) card).getCardType())
+                        .toString();
+                hand += "\n" + entireCard;
+                System.out.println(entireCard);
+            }
+            System.out.println(hand);
+            return Game.Answer.newBuilder()
+                    .setRequest("Here are your cards :" + hand)
+                    .setCode(200)
+                    .setType(GAME)
+                    .build();
+        } else {
+            return Game.Answer.newBuilder()
+                    .setRequest("Your hand is currently empty.")
+                    .setCode(200)
+                    .setType(GAME)
+                    .build();
+        }
     }
 }
+

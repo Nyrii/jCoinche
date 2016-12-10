@@ -81,7 +81,7 @@ public class ProcessTest {
             process.request(bufferedReader, connection.get_channel());
             Mockito.when(bufferedReader.readLine()).thenReturn("", "qwerty");
             process.request(bufferedReader, connection.get_channel());
-            Mockito.when(bufferedReader.readLine()).thenReturn("", null);
+            Mockito.when(bufferedReader.readLine()).thenReturn("", "");
             process.request(bufferedReader, connection.get_channel());
         } catch (Exception e) {
             System.err.println(e.getMessage());

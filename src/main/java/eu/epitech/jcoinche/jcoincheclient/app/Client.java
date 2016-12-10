@@ -87,6 +87,11 @@ public class Client {
                             case GAME:
                                 process.request(in, connection.get_channel());
                                 break;
+
+                            case LEAVE:
+                                LeaveGame.leave(connection.get_channel());
+                                System.exit(0);
+                                break;
                         }
                     } catch (Exception e) {
                         System.err.println(e.getMessage());
