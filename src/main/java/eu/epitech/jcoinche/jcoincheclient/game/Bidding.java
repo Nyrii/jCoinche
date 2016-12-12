@@ -15,28 +15,6 @@ import static eu.epitech.jcoinche.protobuf.Game.Answer.Type.PLAYER;
  */
 public class Bidding {
 
-    public boolean printCards(Game.Answer answer) {
-        if (answer == null) {
-            System.err.println("Cannot get the informations contained in the answer.");
-            return false;
-        }
-        List<Game.Card> deck = Cards.sortCardsByTypeAndValue(answer.getCards());
-        if (deck == null || deck.isEmpty()) {
-            System.err.println("Your hand is empty");
-            return false;
-        }
-        System.out.println("Here are your cards : ");
-        for (Object card : deck) {
-            String entireCard = new StringBuilder()
-                            .append(((Game.Card) card).getCardValue())
-                            .append(" OF ")
-                            .append(((Game.Card) card).getCardType())
-                            .toString();
-            System.out.println(entireCard);
-        }
-        return true;
-    }
-
     public int doesUserWantToBet(String line) {
         if (line != null && !line.isEmpty()) {
             line = line.replaceAll("\\s+","");
@@ -51,7 +29,7 @@ public class Bidding {
 
     public void bidBeginning(boolean errorOccured, Game.Answer answer) {
         if (!errorOccured) {
-            printCards(answer);
+            Cards.printCards(answer);
             System.out.println("Would you like to bet ? (y/n)");
         } else if (errorOccured) {
             System.out.println("An error occured : you have to do something or at least PASS. Would you like to bet then ? (y/n)");

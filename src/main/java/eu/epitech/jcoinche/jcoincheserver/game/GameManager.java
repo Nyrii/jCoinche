@@ -102,8 +102,18 @@ public class GameManager {
     public void quitGame() {
         sendMessageToAllPersonInGame("Someone interrupted the game");
         for (Person c : client) {
+            c.getCtx().writeAndFlush(Game.Answer.newBuilder()
+                    .setRequest("user quit the game")
+                    .setCode(300)
+                    .setType(LEAVE)
+                    .build());
             c.getCtx().close();
         }
+    }
+
+    public void announcePartners() {
+        String msg = client.get(0).getName() + " is partner with " + client.get(2).getName() + " and " + client.get(1).getName() + " is partner with " + client.get(3).getName();
+        sendMessageToAllPersonInGame(msg);
     }
 
     public void addClient(String name, ChannelHandlerContext ctx) {
@@ -139,7 +149,7 @@ public class GameManager {
         for (Object c: client) {
             if (i != clientPosition && !isTestMode())
                 ((Person) c).getCtx().writeAndFlush(Game.Answer.newBuilder()
-                        .setRequest("[" + ((Person) c).getName() + "] " + msg)
+                        .setRequest("[" + client.get(clientPosition).getName() + "] " + msg)
                         .setType(Game.Answer.Type.NONE).setCode(200).build());
             ++i;
         }
@@ -242,7 +252,6 @@ public class GameManager {
     public void askPlayerOneToPlay() {
         int i = 0;
         turnPersonToPlay = turnPersonToPlay == 3 ? 0 : turnPersonToPlay + 1;
-        System.out.println("send invite to play to " + turnPersonToPlay);
         turn = turnPersonToPlay;
         for (Object c : client) {
             if (i == turnPersonToPlay)
@@ -296,12 +305,12 @@ public class GameManager {
 
     public void checkIfPartyCanRun() {
         if ((contract != -1 && nbTurnInactive == 3) ||
-                capot || surCoinche) {
+                capot || surCoinche || generale) {
             bidding = false;
             game = true;
             while (turn < 4) {
                 if (!testMode)
-                    ((Person) client.get(turn)).getCtx().writeAndFlush(
+                    client.get(turn).getCtx().writeAndFlush(
                     Game.Answer.newBuilder()
                             .setRequest("You may change your or send message or do what you want! Enjoy!")
                             .setCode(200)

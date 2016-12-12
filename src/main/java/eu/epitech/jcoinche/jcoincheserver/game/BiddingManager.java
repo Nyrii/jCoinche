@@ -27,7 +27,7 @@ public class BiddingManager {
             str = "Just annonced generale";
             gm.setGenerale(true, person.getPos());
             typeAnswer = GAME;
-            gm.setMessage(person.getName() + " announced capot at " + bidding.getOption());
+            gm.setMessage(person.getName() + " announced generale at " + bidding.getOption());
         } else if (bidding.getAmount() < 80) {
             code = 432;
             str = "The minimum bidding value is 80.";
@@ -68,8 +68,7 @@ public class BiddingManager {
             code = 444;
             str = "you cannot coinche a contract that you or your partner already coinched";
         } else {
-            gm.setCoinche(true, person.getPos());
-            code = 200;
+            code = 205;
             str = "Coinche has been counted";
             gm.setMessage(person.getName() + " coinched the other team");
             typeAnswer = GAME;
@@ -90,7 +89,7 @@ public class BiddingManager {
         if (gm.getSurCoinche()) {
             code = 452;
             str = "A player already surcoinched";
-        } else if (gm.getPersonWhoBet() != person.getPos()) {
+        } else if (gm.getPersonWhoBet() != person.getPos() && gm.getPersonWhoBet() != (person.getPos() + 2) % 4) {
             code = 453;
             str = "Surcoinche cannot be announced until coinche is.";
         } else {

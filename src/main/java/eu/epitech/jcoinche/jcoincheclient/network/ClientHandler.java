@@ -16,7 +16,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Game.Answer> {
 
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-            System.out.println(cause.getMessage());
+            System.err.println("Timeout.");
             ctx.close();
             System.exit(84);
         }

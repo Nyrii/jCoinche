@@ -114,10 +114,15 @@ public class PartyManager {
                 .setCode(code)
                 .setType(type)
                 .build();
-        if (code < 300 && !gm.isTestMode())
-            ((Person) gm.getClient().get(clientPosition)).getCtx().writeAndFlush(answer);
-        if (code == 200)
-            gm.sendMessageToAllPersonInGame(clientPosition, "played " + game.getCard());
+        if (code == 200) {
+            Game.Card card = game.getCard();
+
+            if (card != null) {
+                gm.sendMessageToAllPersonInGame(clientPosition, "played " + card.getCardValue() + " OF " + card.getCardType());
+            } else {
+                gm.sendMessageToAllPersonInGame(clientPosition, "An error occured during the turn.");
+            }
+        }
         return answer;
     }
 
@@ -498,18 +503,16 @@ public class PartyManager {
                         .append(((Game.Card) card).getCardType())
                         .toString();
                 hand += "\n" + entireCard;
-                System.out.println(entireCard);
             }
-            System.out.println(hand);
             return Game.Answer.newBuilder()
                     .setRequest("Here are your cards :" + hand)
-                    .setCode(200)
+                    .setCode(300)
                     .setType(GAME)
                     .build();
         } else {
             return Game.Answer.newBuilder()
                     .setRequest("Your hand is currently empty.")
-                    .setCode(200)
+                    .setCode(300)
                     .setType(GAME)
                     .build();
         }

@@ -28,4 +28,26 @@ public class Cards {
         });
         return deck;
     }
+
+    public static boolean printCards(Game.Answer answer) {
+        if (answer == null) {
+            System.err.println("Cannot get the informations contained in the answer.");
+            return false;
+        }
+        List<Game.Card> deck = Cards.sortCardsByTypeAndValue(answer.getCards());
+        if (deck == null || deck.isEmpty()) {
+            System.err.println("Your hand is empty");
+            return false;
+        }
+        System.out.println("\033[36m" + "Here are your cards :" + "\033[0m");
+        for (Object card : deck) {
+            String entireCard = new StringBuilder()
+                    .append(((Game.Card) card).getCardValue())
+                    .append(" OF ")
+                    .append(((Game.Card) card).getCardType())
+                    .toString();
+            System.out.println("\033[36m" + entireCard + "\033[0m");
+        }
+        return true;
+    }
 }

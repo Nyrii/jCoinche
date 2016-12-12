@@ -79,7 +79,7 @@ public class GameManagerTest {
                 .setCommand(INVALID_COMMAND)
                 .build();
         answer = gm.interpreteGaming(0, gameProgress);
-        assertTrue("Error cannot have invalid command", answer.getCode() == 400);
+        assertTrue("Error cannot have invalid command", answer.getCode() == 300);
         gameProgress = Game.GameProgress.newBuilder()
                 .setCommand(QUIT)
                 .build();
@@ -383,9 +383,9 @@ public class GameManagerTest {
         answer = BiddingManager.interpreteBidding(gm, (Person) client.get(0), Game.Bidding.newBuilder().setCoinche(true).build());
         assertTrue("Wrong code value in coinche error2", answer.getCode() == 444);
         answer = BiddingManager.interpreteBidding(gm, (Person) client.get(1), Game.Bidding.newBuilder().setCoinche(true).build());
-        assertTrue("Wrong code value in coinche validate", answer.getCode() == 200);
+        assertTrue("Wrong code value in coinche validate", answer.getCode() == 205);
         answer = BiddingManager.interpreteBidding(gm, (Person) client.get(0), Game.Bidding.newBuilder().setCoinche(true).build());
-        assertTrue("Wrong code value in coinche error3", answer.getCode() == 442);
+        assertTrue("Wrong code value in coinche error3", answer.getCode() == 444);
         gm.reinitAllValues();
         answer = BiddingManager.interpreteBidding(gm, (Person) client.get(0), Game.Bidding.newBuilder().setContract(Game.Bidding.Contract.CAPOT).setBid(true).setOption(TA).build());
         assertTrue("Wrong code value in capot validate ", answer.getCode() == 203);

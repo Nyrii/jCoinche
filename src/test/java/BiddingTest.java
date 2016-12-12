@@ -228,12 +228,12 @@ public class BiddingTest {
         bidding.bidBeginning(false, answer);
         bidding.bidBeginning(true, null);
         bidding.bidBeginning(false, answer);
-        assertEquals(false, bidding.printCards(null));
-        assertEquals(true, bidding.printCards(answer));
+        assertEquals(false, Cards.printCards(null));
+        assertEquals(true, Cards.printCards(answer));
         tmp.clear();
         cards = Game.DistributionCard.newBuilder().addAllCard(tmp).build();
         answer = Game.Answer.newBuilder().setCards(cards).build();
-        assertEquals(false, bidding.printCards(answer));
+        assertEquals(false, Cards.printCards(answer));
     }
 
     @Test

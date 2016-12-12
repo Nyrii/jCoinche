@@ -95,6 +95,7 @@ public class PersonHandler extends SimpleChannelInboundHandler<Game.Answer>{
                 gm.setPlay(gm.partyCanBegin());
                 if (gm.getPlay()) {
                     gm.giveCardToAllPlayers();
+                    gm.announcePartners();
                     gm.askPlayerOneToBid();
                 }
                 break;
