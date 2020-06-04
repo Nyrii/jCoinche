@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>eu.epitech.jcoinche</groupId>
     <artifactId>jcoinche</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.5</version>
 
     <scm>
         <connection>scm:git:git@github.com:Nyrii/jCoinche.git</connection>
         <developerConnection>scm:git:git@github.com:Nyrii/jCoinche.git</developerConnection>
         <url>https://github.com/Nyrii/jCoinche</url>
-    </scm>
+      <tag>0.0.5</tag>
+  </scm>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
