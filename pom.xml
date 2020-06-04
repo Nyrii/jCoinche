@@ -4,13 +4,13 @@
 
     <groupId>eu.epitech.jcoinche</groupId>
     <artifactId>jcoinche</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:git@github.com:Nyrii/jCoinche.git</connection>
         <developerConnection>scm:git:git@github.com:Nyrii/jCoinche.git</developerConnection>
         <url>https://github.com/Nyrii/jCoinche</url>
-      <tag>0.0.5</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <dependencies>
